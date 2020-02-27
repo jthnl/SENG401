@@ -1,11 +1,15 @@
+use std::net::SocketAddr;
+
+use tokio::sync::mpsc;
 use tonic::{Request, Response, Status, transport::Server};
 
-use proto_comments::AddCommentRequest;
+use proto_comments::AddCommentCommand;
 use proto_comments::command_handler_server::{CommandHandler, CommandHandlerServer};
 use proto_comments::Comment;
 use proto_comments::GetCommentsOnPostRequest;
 use proto_comments::query_server::{Query, QueryServer};
-use std::net::SocketAddr;
+use uuid::Uuid;
+use chrono::Utc;
 
 pub mod proto_comments {
     tonic::include_proto!("comments");
@@ -18,7 +22,7 @@ pub struct ProtoCommandHandler;
 impl CommandHandler for ProtoCommandHandler {
     async fn add_comment(
         &self,
-        request: Request<AddCommentRequest>,
+        request: Request<AddCommentCommand>,
     ) -> Result<Response<proto_comments::Empty>, Status> {
         println!("Got a request: {:?}", request);
 
@@ -33,15 +37,31 @@ pub struct ProtoQuery;
 
 #[tonic::async_trait]
 impl Query for ProtoQuery {
+    type GetCommentsOnPostStream = tokio::sync::mpsc::Receiver<Result<Comment, Status>>;
+
     async fn get_comments_on_post(
         &self,
         request: Request<GetCommentsOnPostRequest>,
-    ) -> Result<Response<proto_comments::Empty>, Status> {
+    ) -> Result<Response<Self::GetCommentsOnPostStream>, Status> {
         println!("Got a request: {:?}", request);
+        let (mut tx, rx) = tokio::sync::mpsc::channel(4);
+        let comments: Vec<Comment> = vec!{
+            Comment {
+                id: Uuid::new_v4().to_string(),
+                post_id: Uuid::new_v4().to_string(),
+                content: "Hello".into(),
+                timestamp: Utc::now().to_string()
+            }
+        };
 
-        let reply = proto_comments::Empty {};
+        tokio::spawn(async move {
 
-        Ok(Response::new(reply))
+            for comment in &comments[..] {
+                tx.send(Ok(comment.clone())).await.unwrap();
+            }
+        });
+
+        Ok(Response::new(rx))
     }
 }
 
