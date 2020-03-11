@@ -1,0 +1,15 @@
+[package]
+name = "comments-microservice"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+tonic = "0.1"
+prost = "0.6"
+tokio = { version = "0.2", features = ["full"] }
+uuid = { version = "0.8", features = ["v4"] }
+chrono = "0.4"
+itertools = "0.8"
+
+[build-dependencies]
+tonic-build = "0.1.0"

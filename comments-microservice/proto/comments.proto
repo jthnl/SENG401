@@ -1,0 +1,31 @@
+syntax = "proto3";
+package comments;
+
+service CommandHandler {
+    rpc AddComment (AddCommentCommand) returns (Empty);
+}
+
+// Todo: Add a "ExecuteCommandRequest" message with the "oneof" keyword for containing one of many possible commands
+
+message AddCommentCommand {
+    string post_id = 1;
+    string content = 2;
+}
+
+// Todo: Use google.protobuf.Empty instead
+message Empty {}
+
+service Query {
+    rpc GetCommentsOnPost(GetCommentsOnPostRequest) returns (stream Comment);
+}
+
+message GetCommentsOnPostRequest {
+    string post_id = 1;
+}
+
+message Comment {
+    string id = 1;
+    string post_id = 2;
+    string content = 3;
+    string timestamp = 4;
+}

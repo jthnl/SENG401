@@ -1,0 +1,5 @@
+# Ignore IntelliJ files in repository root
+/.idea/
+
+# Ignore Eclipse files in the repository root
+/.project
