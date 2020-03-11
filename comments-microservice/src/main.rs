@@ -88,29 +88,21 @@ impl proto_comments::query_server::Query for ProtoQuery {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let addr = "[::1]:50051".parse()?;
+
     let in_memory_comments = Arc::new(InMemoryComments::new());
 
-    let command_handler_addr = "[::1]:50051".parse()?;
-    let in_memory_comments_clone = in_memory_comments.clone();
-    let command_handler_task = tokio::spawn(async move {
-        let command_handler = ProtoCommandHandler::new(in_memory_comments_clone);
+    let command_handler = ProtoCommandHandler::new(in_memory_comments.clone());
+    let query = ProtoQuery::new(in_memory_comments.clone());
+
+    let server_task = tokio::spawn(async move {
         Server::builder()
             .add_service(CommandHandlerServer::new(command_handler))
-            .serve(command_handler_addr)
-            .await.unwrap();
-    });
-
-    let query_addr = "[::1]:50052".parse()?;
-    let in_memory_comments_clone = in_memory_comments.clone();
-    let query_task = tokio::spawn(async move {
-        let query = ProtoQuery::new(in_memory_comments_clone);
-        Server::builder()
             .add_service(QueryServer::new(query))
-            .serve(query_addr)
+            .serve(addr)
             .await.unwrap();
     });
 
-    command_handler_task.await.unwrap();
-    query_task.await.unwrap();
+    server_task.await.unwrap();
     Ok(())
 }
