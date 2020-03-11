@@ -18,7 +18,7 @@
 public class runNotifications {
 
 	public static void main(String[] args) {
-		
+		MyNotification test = new MyNotification(1, 1);
 
 	}
 
