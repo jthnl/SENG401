@@ -21,7 +21,7 @@ public class MongoDBHandler {
 		
 	}
 	
-	private void establishConnection() {
+	private void establishConnection() {	//this might break later have yet to test
 		mongoClient = MongoClients.create(
 				"mongodb+srv://SENG401:seng401@cluster0-hcvzz.mongodb.net/test?retryWrites=true&w=majority");
 		database = mongoClient.getDatabase("test");		
