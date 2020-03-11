@@ -1,5 +1,6 @@
 import java.util.Arrays;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
@@ -18,6 +19,12 @@ public class MongoDBHandler {
 	}
 	
 	public void addNotification(MyNotification notification) {
+		BasicDBObject toInsert = new BasicDBObject();
+		toInsert.put("User ID", notification.getUser_id());
+		toInsert.put("Forum ID", notification.getForum_id());
+		toInsert.put("Timestamp", notification.getTime());
+		toInsert.put("Seen", notification.getSeenFlag());
+		toInsert.put("Message", notification.getMessage());
 		
 	}
 	
