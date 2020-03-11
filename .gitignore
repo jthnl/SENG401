@@ -1,0 +1,2 @@
+# Do not include IntelliJ files in repository root
+.idea/
