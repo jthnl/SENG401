@@ -6,12 +6,11 @@
  * 
  * Given one user, find all the notifications and sort them in queued order using id
  * 
- * SECOND METHOD - retrieve all notifications in the database
+ * SECOND METHOD - retrieve all notifications in the database which are unread
  * 
  * When the user sees notifications, the flag on notifications must change
  * 
- * THIRD METHOD - 
- * 
+ * THIRD METHOD - change flag on notification when user says it's okay
  * 
  */
 
