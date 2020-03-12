@@ -1,6 +1,8 @@
+extern crate bson;
+extern crate mongodb;
+
 use std::sync::Arc;
 
-use mongodb::Client;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
@@ -11,10 +13,6 @@ use proto_comments::query_server::QueryServer;
 use crate::command::{AddCommentCommand, CommandHandler};
 use crate::comment::InMemoryComments;
 use crate::query::Query;
-
-#[macro_use(bson, doc)]
-extern crate bson;
-extern crate mongodb;
 
 pub mod comment;
 pub mod command;
@@ -98,17 +96,6 @@ impl proto_comments::query_server::Query for ProtoQuery {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = Client::with_uri_str("mongodb://localhost:27017/")?;
-    let db = client.database("local");
-    for coll_name in db.list_collection_names(None)? {
-        println!("collection: {}", coll_name);
-    }
-
-    let coll = db.collection("some-coll");
-    let result = coll.insert_one(doc! { "x": 1 }, None)?;
-    println!("{:#?}", result);
-
-
     let addr = "[::1]:50051".parse()?;
 
     let in_memory_comments = Arc::new(InMemoryComments::new());

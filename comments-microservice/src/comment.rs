@@ -4,7 +4,10 @@ use std::sync::RwLock;
 
 use chrono::{DateTime, Utc};
 use itertools::Itertools;
+use mongodb::Client;
 use uuid::Uuid;
+
+use bson::{bson, doc};
 
 use crate::command::{AddCommentCommand, CommandHandler};
 use crate::query::Query;
@@ -47,11 +50,35 @@ impl CommandHandler for InMemoryComments {
             id: Uuid::new_v4(),
             post_id: command.post_id,
             content: command.content,
-            timestamp: Utc::now()
+            timestamp: Utc::now(),
         };
+
+        add_to_db(&comment);
 
         // It is assumed that no comment already exists with the same random id
         self.comments.write().unwrap().insert(comment.id, comment);
         Ok(())
     }
+}
+
+fn add_to_db(comment: &Comment) -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::with_uri_str("mongodb://localhost:27017/")?;
+    let db = client.database("local");
+    let coll = db.collection("events");
+
+    let doc = doc! {
+        "timestamp": comment.timestamp.timestamp_millis(),
+        "id": Uuid::new_v4().to_string(),
+        "name": "CommentAdded",
+        "data": doc! {
+            "id": comment.id.to_string(),
+            "post_id": comment.post_id.to_string(),
+            "content": comment.content.clone()
+        }
+    };
+
+    let result = coll.insert_one(doc, None)?;
+    println!("{:#?}", result);
+
+    Ok(())
 }
