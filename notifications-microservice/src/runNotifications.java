@@ -18,8 +18,10 @@
 public class runNotifications {
 
 	public static void main(String[] args) {
-		MyNotification test = new MyNotification("1", "!");
-
+		MyNotification test = new MyNotification("1", "1");
+		MongoDBHandler dbConnect = new MongoDBHandler();
+		dbConnect.addNotification(test);
+		System.out.println("End of Main. ");
 	}
 
 }

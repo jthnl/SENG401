@@ -1,11 +1,14 @@
 import java.util.Arrays;
 
+import org.bson.Document;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoDBHandler {
@@ -15,17 +18,20 @@ public class MongoDBHandler {
 	
 	public MongoDBHandler() {
 		establishConnection();
-		database = null;
+		setDatabase("SENG401");
 	}
 	
 	public void addNotification(MyNotification notification) {
-		BasicDBObject toInsert = new BasicDBObject();
+		Document toInsert = new Document();
 		toInsert.put("User ID", notification.getUser_id());
 		toInsert.put("Forum ID", notification.getForum_id());
 		toInsert.put("Timestamp", notification.getTime());
 		toInsert.put("Seen", notification.getSeenFlag());
 		toInsert.put("Message", notification.getMessage());
 		
+		//should be able to get the collection here and attempt an insert
+		MongoCollection<Document> collection = database.getCollection("Notifications");
+		collection.insertOne(toInsert);
 	}
 	
 	private void establishConnection() {	//this might break later have yet to test
