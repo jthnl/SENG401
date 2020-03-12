@@ -1,14 +1,13 @@
-use uuid::Uuid;
-use crate::comments::query::Query;
-use std::error::Error;
-use crate::comments::command::{CommandHandler, AddCommentCommand};
 use std::collections::HashMap;
-use chrono::{DateTime, Utc};
+use std::error::Error;
 use std::sync::RwLock;
-use itertools::Itertools;
 
-pub mod command;
-pub mod query;
+use chrono::{DateTime, Utc};
+use itertools::Itertools;
+use uuid::Uuid;
+
+use crate::command::{AddCommentCommand, CommandHandler};
+use crate::query::Query;
 
 #[derive(Clone)]
 pub struct Comment {

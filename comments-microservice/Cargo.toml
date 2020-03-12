@@ -10,6 +10,8 @@ tokio = { version = "0.2", features = ["full"] }
 uuid = { version = "0.8", features = ["v4"] }
 chrono = "0.4"
 itertools = "0.8"
+mongodb = "0.9"
+bson="0.14"
 
 [build-dependencies]
 tonic-build = "0.1.0"
