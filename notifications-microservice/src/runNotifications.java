@@ -18,10 +18,12 @@
 public class runNotifications {
 
 	public static void main(String[] args) {
-		MyNotification test = new MyNotification("1", "1");
+		MyNotification test = new MyNotification("2", "2");
 		MongoDBHandler dbConnect = new MongoDBHandler();
 		//dbConnect.addNotification(test);
-		dbConnect.deleteNotification();
+		//dbConnect.deleteNotification();
+		dbConnect.getOneNotification("User ID", "2");
+		//dbConnect.getAllNotifications("Seen", "False");
 		System.out.println("End of Main. ");
 	}
 
