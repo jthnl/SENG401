@@ -19,8 +19,6 @@ public class Forum
 	private Date dateCreated;
 	private int id;
 
-	private static int count = 0;
-
 	public static void main( String args[] )
 	{
 		System.out.println( "forum" );
@@ -32,8 +30,5 @@ public class Forum
 		this.title = title;
 		this.desc = desc;
 		this.dateCreated = new Date();
-
-		count++;
-		this.id = count*100 + 1;
 	}
 }

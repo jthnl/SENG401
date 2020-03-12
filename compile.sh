@@ -1,1 +1,1 @@
-javac ./nhl/entities/*.java
+javac ./nhl/entities/*.java ./nhl/model/*.java

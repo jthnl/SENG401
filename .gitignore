@@ -3,3 +3,6 @@
 
 # Ignore Eclipse files in the repository root
 /.project
+
+# compiled class files
+*.class

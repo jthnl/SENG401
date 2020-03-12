@@ -21,8 +21,6 @@ public class Post
 	private Date dateCreated;
 	private int id;
 
-	private static int count = 0;
-
 	public static void main( String args[] )
 	{
 		System.out.println( "post" );
@@ -35,8 +33,5 @@ public class Post
 		this.title = title;
 		this.content = content;
 		this.dateCreated = new Date();
-
-		count++;
-		this.id = count*100 + 2;
 	}
 }
