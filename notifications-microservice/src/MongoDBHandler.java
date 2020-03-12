@@ -25,15 +25,15 @@ public class MongoDBHandler {
 	}
 	
 	public void addNotification(MyNotification notification) {
+		setCollection("Notifications");
+		
 		Document toInsert = new Document();
 		toInsert.put("User ID", notification.getUser_id());
 		toInsert.put("Forum ID", notification.getForum_id());
 		toInsert.put("Timestamp", notification.getTime());
 		toInsert.put("Seen", notification.getSeenFlag());
 		toInsert.put("Message", notification.getMessage());
-		
-		//should be able to get the collection here and attempt an insert
-		setCollection("Notifications");
+				
 		collection.insertOne(toInsert);
 	}
 	
