@@ -1,3 +1,6 @@
+import java.sql.Timestamp;
+import java.util.Date;
+
 /*
  * Store notifications in database
  * Every time someone makes a post on a forum, a notification will be added to the database
@@ -18,12 +21,15 @@
 public class runNotifications {
 
 	public static void main(String[] args) {
-		MyNotification test = new MyNotification("2", "2");
+		MyNotification test = new MyNotification("4", "4");
 		MongoDBHandler dbConnect = new MongoDBHandler();
 		//dbConnect.addNotification(test);
 		//dbConnect.deleteNotification();
 		dbConnect.getOneNotification("User ID", "2");
 		//dbConnect.getAllNotifications("Seen", "False");
+		//System.out.println(new Timestamp(new Date().getTime()));
+		//System.out.println(new Timestamp(new Date().getTime()).toString());
+		
 		System.out.println("End of Main. ");
 	}
 

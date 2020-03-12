@@ -65,8 +65,15 @@ public class MongoDBHandler {
 		query.put(key, value);
 		FindIterable<Document> cursor = collection.find(query);
 
-		System.out.println(cursor.first());
+		convertQueryToNotification(cursor.first());
+		//System.out.println(cursor.first());
 
+	}
+	
+	private MyNotification convertQueryToNotification(Document query) {
+		query.get("user");
+		System.out.println(query.get("User ID") + " / " + query.get("Forum ID") + " / " + query.get("Timestamp"));
+		return new MyNotification("1", "1");
 	}
 	
 	private void establishConnection() {	//this might break later have yet to test

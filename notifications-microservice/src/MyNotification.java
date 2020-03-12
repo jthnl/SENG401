@@ -2,7 +2,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class MyNotification {
-	private Timestamp time;
+	private String time;
 	private String user_id;
 	private String forum_id;
 	private String seenFlag;
@@ -11,13 +11,25 @@ public class MyNotification {
 	public MyNotification(String user_id, String forum_id) {
 		this.setUser_id(user_id);
 		this.setForum_id(forum_id);
-		setTime(new Timestamp(new Date().getTime()));
+		setTime(new Timestamp(new Date().getTime()).toString());
 		seenFlag = "False";
 		setMessage("There is a new post in " + forum_id + " from " + user_id + "! ");
 	}
 	
+	public MyNotification(String user_id, String forum_id, String timeStamp, String seen, String message) {
+		this.setUser_id(user_id);
+		this.setForum_id(forum_id);
+		this.setTime(timeStamp);
+		this.setSeenFlag(seen);
+		this.setMessage(message);
+	}
+	
 	public String getSeenFlag() {
 		return seenFlag;
+	}
+	
+	public void setSeenFlag(String flag) {
+		seenFlag = flag;
 	}
 	
 	public void setSeenFlagTrue() {
@@ -28,11 +40,11 @@ public class MyNotification {
 		seenFlag = "False";
 	}
 
-	public Timestamp getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Timestamp time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
