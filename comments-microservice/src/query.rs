@@ -1,5 +1,5 @@
 use uuid::Uuid;
-use crate::comments::Comment;
+use crate::comment::Comment;
 use std::error::Error;
 
 pub trait Query {
