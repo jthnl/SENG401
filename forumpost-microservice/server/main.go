@@ -75,7 +75,32 @@ func (s *ForumServiceServer) ReadForum(ctx context.Context, req *forumpb.ReadFor
 }
 
 func (s *ForumServiceServer) ListForums(req *forumpb.ListForumReq, stream forumpb.ForumService_ListForumsServer) error {
-	log.Fatal("Not implemented")
+	// get all forums 
+	data := &ForumItem{}
+	cursor, err := forumdb.Find(context.Background(), bson.M{})
+	if err != nil{
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
+	}
+	defer cursor.Close(context.Background())
+	// send forums as a gRPC stream
+	for cursor.Next(context.Background()) {
+		err := cursor.Decode(data)
+		if err != nil {
+			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
+		}
+		stream.Send(&forumpb.ListForumRes{
+			Forum: &forumpb.Forum{
+				Id: data.ID.Hex(),
+				AuthorId: data.AuthorID,
+				Title:    data.Title,
+				Content:  data.Content,
+			},
+		})
+	}
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unkown cursor error: %v", err))
+	}
+	// stop sending
 	return nil
 }
 
