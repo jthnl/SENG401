@@ -166,8 +166,34 @@ type PostItem struct {
 }
 
 func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePostReq) (*postpb.CreatePostRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read post to be added
+	post := req.GetPost()
+	// convert forum ID
+	forum_id, err := primitive.ObjectIDFromHex(post.GetForumId());
+	if(err != nil){
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	curr_time := time.Now().String()
+	// convert to local struct
+	data := PostItem{
+		ForumID: forum_id,
+		AuthorID: post.GetAuthorId(),
+		Title: post.GetTitle(),
+		Content: post.GetContent(),
+		Timestamp: curr_time,
+	}
+	// insert to mongodb
+	result, err := postdb.InsertOne(mongoCtx, data)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+	// get generated ID, and set timestamp
+	oid := result.InsertedID.(primitive.ObjectID)
+	post.Id = oid.Hex()
+	post.Timestamp = curr_time  
+	// return post back
+	return &postpb.CreatePostRes{Post: post}, nil
 }
 
 func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostReq) (*postpb.ReadPostRes, error) {
