@@ -14,7 +14,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
 	forumpb "../proto"
 )
 
@@ -104,23 +103,6 @@ func (s *ForumServiceServer) ListForums(req *forumpb.ListForumReq, stream forump
 	return nil
 }
 
-func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.DeleteForumReq) (*forumpb.DeleteForumRes, error) {
-	// read id of forum to be deleted
-	oid, err := primitive.ObjectIDFromHex(req.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
-	}
-	// delete forum
-	_, err = forumdb.DeleteOne(ctx, bson.M{"_id": oid})
-	if err != nil {
-		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Forum was not deleted. forum id requested = %s: %v", req.GetId(), err))
-	}
-	// return true if successful
-	return &forumpb.DeleteForumRes{
-		Success: true,
-	}, nil
-}
-
 func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.UpdateForumReq) (*forumpb.UpdateForumRes, error){
 	// read forum to be update
 	forum := req.GetForum()
@@ -140,7 +122,7 @@ func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.Upda
 	decoded := ForumItem{}
 	err = result.Decode(&decoded)
 	if err != nil {
-		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find blog with supplied ID: %v", err))
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Forum was not updated. forum id requested: %v", err))
 	}
 	// return updated forum
 	return &forumpb.UpdateForumRes{
@@ -150,6 +132,23 @@ func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.Upda
 			Title:    decoded.Title,
 			Content:  decoded.Content,
 		},
+	}, nil
+}
+
+func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.DeleteForumReq) (*forumpb.DeleteForumRes, error) {
+	// read id of forum to be deleted
+	oid, err := primitive.ObjectIDFromHex(req.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// delete forum
+	_, err = forumdb.DeleteOne(ctx, bson.M{"_id": oid})
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Forum was not deleted. forum id requested = %s: %v", req.GetId(), err))
+	}
+	// return true if successful
+	return &forumpb.DeleteForumRes{
+		Success: true,
 	}, nil
 }
 
