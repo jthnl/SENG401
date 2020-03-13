@@ -11,6 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	forumpb "../proto"
 )
@@ -25,8 +27,25 @@ type ForumItem struct {
 }
 
 func (s *ForumServiceServer) CreateForum(ctx context.Context, req *forumpb.CreateForumReq) (*forumpb.CreateForumRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read forum to be added
+	forum := req.GetForum()
+	// convert to local struct
+	data := ForumItem{
+		AuthorID: forum.GetAuthorId(),
+		Title:    forum.GetTitle(),
+		Content:  forum.GetContent(),
+	}
+	// insert to mongodb
+	result, err := forumdb.InsertOne(mongoCtx, data)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+	// get generated ID
+	oid := result.InsertedID.(primitive.ObjectID)
+  	forum.Id = oid.Hex()
+	// return forum back
+	return &forumpb.CreateForumRes{Forum: forum}, nil
 }
 
 func (s *ForumServiceServer) ReadForum(ctx context.Context, req *forumpb.ReadForumReq) (*forumpb.ReadForumRes, error) {
