@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"time"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,7 +15,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	forumpb "../proto"
+	forumpb "../proto/forum"
+	postpb "../proto/post"
 )
 
 type ForumServiceServer struct {}
@@ -152,8 +154,45 @@ func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.Delet
 	}, nil
 }
 
+type PostServiceServer struct{}
+
+type PostItem struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
+	ForumID	 primitive.ObjectID `bson:"_forum_id,omitempty"`
+	AuthorID string             `bson:"author_id"`
+	Title    string             `bson:"title"`
+	Content  string             `bson:"content"`
+	Timestamp string 			`bson:"timestamp"`
+}
+
+func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePostReq) (*postpb.CreatePostRes, error) {
+	log.Fatal("Not implemented")
+	return nil, nil
+}
+
+func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostReq) (*postpb.ReadPostRes, error) {
+	log.Fatal("Not implemented")
+	return nil, nil
+}
+
+func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.PostService_ListPostsServer) error {
+	log.Fatal("Not implemented")
+	return nil
+}
+
+func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdatePostReq) (*postpb.UpdatePostRes, error){
+	log.Fatal("Not implemented")
+	return nil, nil
+}
+
+func (s *PostServiceServer) DeletePost(ctx context.Context, req *postpb.DeletePostReq) (*postpb.DeletePostRes, error) {
+	log.Fatal("Not implemented")
+	return nil, nil
+}
+
 var db *mongo.Client
 var forumdb *mongo.Collection
+var postdb *mongo.Collection
 var mongoCtx context.Context
 
 func main() {
@@ -172,10 +211,12 @@ func main() {
 	opts := []grpc.ServerOption{}
 	s := grpc.NewServer(opts...)
 	forumsrv := &ForumServiceServer{}
+	postsrv := &PostServiceServer{}
 
 	// REGISTER GRPC SERVICES
 	forumpb.RegisterForumServiceServer(s, forumsrv)
-
+	postpb.RegisterPostServiceServer(s, postsrv)
+	
 	// SETUP MONGODB
 	fmt.Printf("Connecting to MongoDB at: %s\n", mongoURI)
 	mongoCtx = context.Background()
@@ -192,6 +233,7 @@ func main() {
 
 	// specify database collections
 	forumdb = db.Database("mydb").Collection("forum")
+	postdb = db.Database("mydb").Collection("post")
 
 	// START SERVER
 	go func() {
