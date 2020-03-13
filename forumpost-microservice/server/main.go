@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -49,8 +50,28 @@ func (s *ForumServiceServer) CreateForum(ctx context.Context, req *forumpb.Creat
 }
 
 func (s *ForumServiceServer) ReadForum(ctx context.Context, req *forumpb.ReadForumReq) (*forumpb.ReadForumRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read requested forum ID
+	oid, err := primitive.ObjectIDFromHex(req.GetId());
+	if(err != nil){
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// find forum on mongoDB
+	result := forumdb.FindOne(ctx, bson.M{"_id": oid})
+	data := ForumItem{}
+	if err := result.Decode(&data); err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Forum does not exist. id requested %s: %v", req.GetId(), err))
+	}
+	// setup response of forum found
+	response := &forumpb.ReadForumRes{
+		Forum: &forumpb.Forum{
+			Id: oid.Hex(),
+			AuthorId: data.AuthorID,
+			Title:    data.Title,
+			Content:  data.Content,
+		},
+	}
+	// return forum found
+	return response, nil
 }
 
 func (s *ForumServiceServer) ListForums(req *forumpb.ListForumReq, stream forumpb.ForumService_ListForumsServer) error {
