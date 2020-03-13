@@ -105,8 +105,20 @@ func (s *ForumServiceServer) ListForums(req *forumpb.ListForumReq, stream forump
 }
 
 func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.DeleteForumReq) (*forumpb.DeleteForumRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read id of forum to be deleted
+	oid, err := primitive.ObjectIDFromHex(req.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// delete forum
+	_, err = forumdb.DeleteOne(ctx, bson.M{"_id": oid})
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Forum was not deleted. forum id requested = %s: %v", req.GetId(), err))
+	}
+	// return true if successful
+	return &forumpb.DeleteForumRes{
+		Success: true,
+	}, nil
 }
 
 func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.UpdateForumReq) (*forumpb.UpdateForumRes, error){
