@@ -197,8 +197,30 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePo
 }
 
 func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostReq) (*postpb.ReadPostRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read requested post ID
+	oid, err := primitive.ObjectIDFromHex(req.GetId());
+	if(err != nil){
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// find post on mongoDB
+	result := postdb.FindOne(ctx, bson.M{"_id": oid})
+	data := PostItem{}
+	if err := result.Decode(&data); err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Post does not exist. id requested %s: %v", req.GetId(), err))
+	}
+	// setup response of post found
+	response := &postpb.ReadPostRes{
+		Post: &postpb.Post{
+			Id: oid.Hex(),
+			ForumId: data.ForumID.Hex(),
+			AuthorId: data.AuthorID,
+			Title: data.Title,
+			Content: data.Content,
+			Timestamp: data.Timestamp,
+		},
+	}
+	// return post found
+	return response, nil
 }
 
 func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.PostService_ListPostsServer) error {
