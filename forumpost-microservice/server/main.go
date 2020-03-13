@@ -261,8 +261,39 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 }
 
 func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdatePostReq) (*postpb.UpdatePostRes, error){
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read post to be update
+	post := req.GetPost()
+	oid, err := primitive.ObjectIDFromHex(post.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Forum id %v", err),)
+	}
+	curr_time := time.Now().String()
+	// convert values to be updated into local struct
+	update := bson.M{
+		"_forum_id":  post.GetForumId(),
+		"authord_id": post.GetAuthorId(),
+		"title":      post.GetTitle(),
+		"content":    post.GetContent(),
+		"timestamp":  curr_time,
+	}
+	postEditID := bson.M{"_id": oid}
+	// find and update based on post id
+	result := postdb.FindOneAndUpdate(ctx, postEditID, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+	decoded := PostItem{}
+	err = result.Decode(&decoded)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Post was not updated. post id requested: %v", err))
+	}
+	// return updated post
+	return &postpb.UpdatePostRes{
+		Post: &postpb.Post{
+			Id:       decoded.ID.Hex(),
+			AuthorId: decoded.AuthorID,
+			Title:    decoded.Title,
+			Content:  decoded.Content,
+			Timestamp: decoded.Timestamp,
+		},
+	}, nil
 }
 
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *postpb.DeletePostReq) (*postpb.DeletePostRes, error) {
