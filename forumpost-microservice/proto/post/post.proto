@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package post;
+
+option go_package = "postpb";
+
+message Post {
+    string id = 1;
+    string forum_id = 2;
+    string author_id = 3;
+    string title = 4;
+    string content = 5;
+    string timestamp = 6;
+}
+
+message CreatePostReq {
+    Post post = 1;
+}
+
+message CreatePostRes {
+    Post post = 1;
+}
+
+message ReadPostReq {
+    string id = 1;
+}
+
+message ReadPostRes {
+    Post post = 1;
+}
+
+message UpdatePostReq{
+    Post post = 1;
+}
+
+message UpdatePostRes{
+    Post post = 1;
+}
+
+message DeletePostReq {
+    string id = 1;
+}
+
+message DeletePostRes {
+    bool success = 1;
+}
+
+message ListPostReq {
+    string forum_id = 1;
+}
+
+message ListPostRes {
+    Post post = 1;
+}
+
+service PostService {
+    rpc CreatePost(CreatePostReq) returns (CreatePostRes);
+    rpc ReadPost(ReadPostReq) returns (ReadPostRes);
+    rpc UpdatePost(UpdatePostReq) returns (UpdatePostRes);
+    rpc DeletePost(DeletePostReq) returns (DeletePostRes);
+    rpc ListPosts(ListPostReq) returns (stream ListPostRes);
+}
