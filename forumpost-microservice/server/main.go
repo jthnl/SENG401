@@ -224,7 +224,39 @@ func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostRe
 }
 
 func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.PostService_ListPostsServer) error {
-	log.Fatal("Not implemented")
+	// read forum id reqeusted
+	forumIDHex, err := primitive.ObjectIDFromHex(req.GetForumId())
+	if(err != nil){
+		status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// get all posts with forum id 
+	data := &PostItem{}
+	cursor, err := postdb.Find(context.Background(), bson.M{"_forum_id": forumIDHex})
+	if err != nil{
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
+	}
+	defer cursor.Close(context.Background())
+	// send posts as a gRPC stream
+	for cursor.Next(context.Background()) {
+		err := cursor.Decode(data)
+		if err != nil {
+			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
+		}
+		stream.Send(&postpb.ListPostRes{
+			Post: &postpb.Post{
+				Id: data.ID.Hex(),
+				ForumId: data.ForumID.Hex(),
+				AuthorId: data.AuthorID,
+				Title:    data.Title,
+				Content:  data.Content,
+				Timestamp: data.Timestamp,
+			},
+		})
+	}
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unkown cursor error: %v", err))
+	}
+	// stop sending
 	return nil
 }
 
