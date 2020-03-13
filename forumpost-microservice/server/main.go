@@ -297,8 +297,20 @@ func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdateP
 }
 
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *postpb.DeletePostReq) (*postpb.DeletePostRes, error) {
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read id of post to be deleted
+	oid, err := primitive.ObjectIDFromHex(req.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
+	// delete post
+	_, err = postdb.DeleteOne(ctx, bson.M{"_id": oid})
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Post was not deleted. post id requested = %s: %v", req.GetId(), err))
+	}
+	// return true if successful
+	return &postpb.DeletePostRes{
+		Success: true,
+	}, nil
 }
 
 var db *mongo.Client
