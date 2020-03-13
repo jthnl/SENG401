@@ -122,8 +122,35 @@ func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.Delet
 }
 
 func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.UpdateForumReq) (*forumpb.UpdateForumRes, error){
-	log.Fatal("Not implemented")
-	return nil, nil
+	// read forum to be update
+	forum := req.GetForum()
+	oid, err := primitive.ObjectIDFromHex(forum.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Forum id %v", err),)
+	}
+	// convert values to be updated into local struct
+	update := bson.M{
+		"authord_id": forum.GetAuthorId(),
+		"title":      forum.GetTitle(),
+		"content":    forum.GetContent(),
+	}
+	forumEditID := bson.M{"_id": oid}
+	// find and update based on forum id
+	result := forumdb.FindOneAndUpdate(ctx, forumEditID, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+	decoded := ForumItem{}
+	err = result.Decode(&decoded)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Could not find blog with supplied ID: %v", err))
+	}
+	// return updated forum
+	return &forumpb.UpdateForumRes{
+		Forum: &forumpb.Forum{
+			Id:       decoded.ID.Hex(),
+			AuthorId: decoded.AuthorID,
+			Title:    decoded.Title,
+			Content:  decoded.Content,
+		},
+	}, nil
 }
 
 var db *mongo.Client
