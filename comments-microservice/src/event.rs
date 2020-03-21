@@ -1,5 +1,6 @@
 use std::error::Error;
 
+use bson::{doc, bson};
 use chrono::{DateTime, Utc};
 use chrono::serde::ts_milliseconds;
 use mongodb::Client;
@@ -32,6 +33,14 @@ impl EventStore for MongoDbEventStore {
 
         coll.insert_one(doc, None)?;
 
+        // Todo: Temp
+        let cursor = coll.find(doc! {"name": CommentAdded::name()}, None)?;
+
+        println!("In events coll:");
+        for doc in cursor {
+            println!("In Cursor: {:?}", doc);
+        }
+
         Ok(())
     }
 }
@@ -63,7 +72,7 @@ pub mod events {
     pub struct CommentAdded {
         pub comment_id: Uuid,
         pub post_id: Uuid,
-        pub content: String
+        pub content: String,
     }
 
     impl Named for CommentAdded {
