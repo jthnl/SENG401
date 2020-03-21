@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package post;
 
-option java_package = "java_postproto";
-option java_outer_classname = "PostProtos";
+option java_package = "com.nhl.nhlproto";
+option java_multiple_files = true;
 option go_package = "postpb";
 
 message Post {
