@@ -1,9 +1,10 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"fmt"
 	"log"
-	"context"
 	"net"
 	"os"
 	"os/signal"
@@ -319,9 +320,16 @@ var postdb *mongo.Collection
 var mongoCtx context.Context
 
 func main() {
+	// CLI - INPUTS
+	portNoPtr := flag.String("portnum", "50051", "port number to run forumpost server, default 50051")
+	mongoURIPtr := flag.String("mongo", "localhost:27017", "where mongodb is running, default mongodb://localhost:27017")
+	flag.Parse()
+
 	// SETUP VARIABLES
-	portNo := ":50051"
-	mongoURI := "mongodb://localhost:27017"
+	//portNo := ":50051"
+	//mongoURI := "mongodb://localhost:27017"
+	portNo := ":" + *portNoPtr
+	mongoURI := "mongodb://" + *mongoURIPtr
 
 	// SETUP LISTENER
 	fmt.Printf("Starting server on port %s\n", portNo);
