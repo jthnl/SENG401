@@ -3,6 +3,7 @@ use std::error::Error;
 use std::sync::RwLock;
 
 use chrono::{DateTime, Utc};
+use chrono::serde::ts_milliseconds;
 use mongodb::Client;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -14,8 +15,7 @@ pub trait EventSink {
     fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>>;
 }
 
-pub struct MongoDbEventStore {
-}
+pub struct MongoDbEventStore {}
 
 impl EventSink for MongoDbEventStore {
     fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>> {
@@ -50,6 +50,7 @@ impl EventSink for MongoDbEventStore {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Event<T: Serialize> {
+    #[serde(with = "ts_milliseconds")]
     pub timestamp: DateTime<Utc>,
     pub id: Uuid,
     pub name: String,
