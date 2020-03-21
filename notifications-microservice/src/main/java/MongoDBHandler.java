@@ -24,6 +24,16 @@ public class MongoDBHandler {
 		setDatabase("SENG401");
 	}
 
+	public void addSubscripton(MySubscription subscription){
+		setCollection("Subscriptions");
+
+		Document toInsert = new Document();
+		toInsert.put("User ID", subscription.getUser_id());
+		toInsert.put("Forum ID", subscription.getForum_id());
+
+		collection.insertOne(toInsert);
+	}
+
 	public void newUser(MyUser user){
 		setCollection("Users");
 
