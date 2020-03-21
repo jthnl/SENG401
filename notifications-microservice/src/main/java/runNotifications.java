@@ -21,15 +21,17 @@ import java.util.Date;
 public class runNotifications {
 
 	public static void main(String[] args) {
-		MyNotification test = new MyNotification("7", "7");
+		//MyNotification test = new MyNotification("7", "7");
+		MyUser testUser = new MyUser("testing", "testing", "john", "smith");
 		MongoDBHandler dbConnect = new MongoDBHandler();
-		dbConnect.addNotification(test);
+		//dbConnect.addNotification(test);
 		//dbConnect.deleteNotification();
 		//dbConnect.getOneNotification("User ID", "2");
 		//dbConnect.getAllNotifications("Seen", "False");
 		//System.out.println(new Timestamp(new Date().getTime()));
 		//System.out.println(new Timestamp(new Date().getTime()).toString());
-		
+
+		dbConnect.newUser(testUser);
 		System.out.println("End of Main. ");
 	}
 

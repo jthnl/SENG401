@@ -23,7 +23,20 @@ public class MongoDBHandler {
 		establishConnection();
 		setDatabase("SENG401");
 	}
-	
+
+	public void newUser(MyUser user){
+		setCollection("Users");
+
+		Document toInsert = new Document();
+		toInsert.put("User ID", user.getUser_id());
+		toInsert.put("Username", user.getUsername());
+		toInsert.put("Password", user.getPassword());
+		toInsert.put("First Name", user.getFirstName());
+		toInsert.put("Last Name", user.getLastName());
+
+		collection.insertOne(toInsert);
+	}
+
 	public void addNotification(MyNotification notification) {
 		setCollection("Notifications");
 		
