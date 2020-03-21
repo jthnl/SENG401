@@ -1,6 +1,4 @@
-use std::collections::HashMap;
 use std::error::Error;
-use std::sync::RwLock;
 
 use chrono::{DateTime, Utc};
 use chrono::serde::ts_milliseconds;
@@ -8,16 +6,16 @@ use mongodb::Client;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use bson::{bson, doc, to_bson};
+use crate::event::events::CommentAdded;
 
-pub trait EventSink {
+pub trait EventStore {
     // Todo: Make async
     fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>>;
 }
 
 pub struct MongoDbEventStore {}
 
-impl EventSink for MongoDbEventStore {
+impl EventStore for MongoDbEventStore {
     fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>> {
         let event = Event {
             timestamp: Utc::now(),
@@ -32,20 +30,14 @@ impl EventSink for MongoDbEventStore {
 
         let doc = bson::to_bson(&event)?.as_document().unwrap().clone();
 
-        // let doc = doc! {
-        // "timestamp": comment.timestamp.timestamp_millis(),
-        // "id": Uuid::new_v4().to_string(),
-        // "name": "CommentAdded",
-        // "data": doc! {
-        //     "id": comment.id.to_string(),
-        //     "post_id": comment.post_id.to_string(),
-        //     "content": comment.content.clone()
-        //     }
-        // };
-
         coll.insert_one(doc, None)?;
+
         Ok(())
     }
+}
+
+pub trait Materialize {
+    fn materialize_comment_added(&self, event: Event<CommentAdded>) -> Result<(), Box<dyn Error>>;
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -69,8 +61,9 @@ pub mod events {
 
     #[derive(Serialize, Deserialize, Debug)]
     pub struct CommentAdded {
+        pub comment_id: Uuid,
         pub post_id: Uuid,
-        pub content: String,
+        pub content: String
     }
 
     impl Named for CommentAdded {

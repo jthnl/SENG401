@@ -4,12 +4,11 @@ use std::sync::RwLock;
 
 use chrono::{DateTime, Utc};
 use itertools::Itertools;
-use mongodb::Client;
 use uuid::Uuid;
 
 use crate::command::{AddCommentCommand, CommandHandler};
 use crate::query::Query;
-use crate::event::{EventSink, MongoDbEventStore};
+use crate::event::{EventStore, MongoDbEventStore, Materialize, Event};
 use crate::event::events::CommentAdded;
 
 #[derive(Clone)]
@@ -43,6 +42,21 @@ impl Query for InMemoryComments {
     }
 }
 
+impl Materialize for InMemoryComments {
+    fn materialize_comment_added(&self, event: Event<CommentAdded>) -> Result<(), Box<dyn Error>> {
+        let comment = Comment {
+            id: event.data.comment_id,
+            post_id: event.data.post_id,
+            content: event.data.content,
+            timestamp: event.timestamp,
+        };
+
+        // It is assumed that no comment already exists with the same id
+        self.comments.write().unwrap().insert(comment.id, comment);
+        Ok(())
+    }
+}
+
 impl CommandHandler for InMemoryComments {
     fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>> {
         let comment = Comment {
@@ -53,11 +67,12 @@ impl CommandHandler for InMemoryComments {
         };
 
         let event_store = MongoDbEventStore {};
-        let event_data = CommentAdded {post_id: comment.post_id, content: comment.content.clone()};
-        event_store.append(event_data.into());
+        let event_data = CommentAdded {
+            comment_id: comment.id,
+            post_id: comment.post_id,
+            content: comment.content.clone() };
+        event_store.append(event_data.into())?;
 
-        // It is assumed that no comment already exists with the same random id
-        self.comments.write().unwrap().insert(comment.id, comment);
         Ok(())
     }
 }
