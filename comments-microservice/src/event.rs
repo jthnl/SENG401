@@ -1,6 +1,5 @@
 use std::error::Error;
 
-use bson::{doc, bson};
 use chrono::{DateTime, Utc};
 use chrono::serde::ts_milliseconds;
 use mongodb::Client;
@@ -32,14 +31,6 @@ impl EventStore for MongoDbEventStore {
         let doc = bson::to_bson(&event)?.as_document().unwrap().clone();
 
         coll.insert_one(doc, None)?;
-
-        // Todo: Temp
-        let cursor = coll.find(doc! {"name": CommentAdded::name()}, None)?;
-
-        println!("In events coll:");
-        for doc in cursor {
-            println!("In Cursor: {:?}", doc);
-        }
 
         Ok(())
     }

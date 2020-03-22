@@ -3,15 +3,22 @@ extern crate mongodb;
 
 use std::sync::Arc;
 
+use chrono::{DateTime, TimeZone, Utc};
+use futures::try_join;
+use mongodb::Client;
+use mongodb::options::FindOptions;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
+use bson::{bson, doc};
 use proto_comments::command_handler_server::CommandHandlerServer;
 use proto_comments::GetCommentsOnPostRequest;
 use proto_comments::query_server::QueryServer;
 
 use crate::command::{AddCommentCommand, CommandHandler};
 use crate::comment::InMemoryComments;
+use crate::event::events::CommentAdded;
+use crate::event::Named;
 use crate::query::Query;
 
 pub mod comment;
@@ -111,6 +118,46 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await.unwrap();
     });
 
-    server_task.await.unwrap();
+    let update_task = tokio::spawn(async move {
+        let mut last_timestamp = None;
+        let client = Client::with_uri_str("mongodb://localhost:27017/").unwrap();
+        loop {
+            let db = client.database("local");
+            let coll = db.collection("events");
+
+            // Sort
+            let find_options = FindOptions::builder().sort(doc! {"timestamp": 1}).build();
+
+            let mut filter = doc! {"name": CommentAdded::name()};
+            if let Some(timestamp) = last_timestamp {
+                filter.insert("timestamp", doc! {"$gt": timestamp});
+            };
+
+            let cursor = coll.find(
+                filter,
+                find_options)
+                .unwrap();
+
+            for event_doc in cursor {
+                let event_doc = event_doc.unwrap();
+
+                let timestamp = event_doc
+                    .get_i64("timestamp")
+                    .ok()
+                    .map(|t| timestamp_mills_to_utc(t));
+
+                if timestamp.is_some() { last_timestamp = timestamp; }
+
+                println!("Processed event: {:?}", event_doc);
+                // Todo: Process event
+            }
+        }
+    });
+
+    try_join!(server_task, update_task)?;
     Ok(())
+}
+
+fn timestamp_mills_to_utc(mills: i64) -> DateTime<Utc> {
+    Utc.timestamp(mills / 1000, ((mills % 1000) * 1_000_000) as u32)
 }
