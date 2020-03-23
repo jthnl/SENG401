@@ -1,19 +1,19 @@
-package model;
+package com.nhl.view;
 
 import java.util.ArrayList;
 
 public class ForumListModel {
     public ArrayList<ForumModel> forumList;
 
-    public ForumListModel(){
+    public ForumListModel() {
         forumList = new ArrayList<>();
     }
 
-    public ArrayList<ForumModel> getForumList(){
+    public ArrayList<ForumModel> getForumList() {
         return forumList;
     }
 
-    public void addForum(ForumModel f){
+    public void addForum(ForumModel f) {
         forumList.add(f);
     }
 

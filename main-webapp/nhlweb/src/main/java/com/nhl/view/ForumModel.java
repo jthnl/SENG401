@@ -1,4 +1,4 @@
-package model;
+package com.nhl.view;
 
 public class ForumModel {
     public String id;
