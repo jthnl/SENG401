@@ -2,23 +2,20 @@ package com.nhl.model;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 
 import com.nhl.nhlproto.*;
-import io.grpc.StatusRuntimeException;
-import com.nhl.view.ForumListModel;
-import com.nhl.view.ForumModel;
-import com.nhl.view.PostListModel;
-import com.nhl.view.PostModel;
+import com.nhl.view.ForumListView;
+import com.nhl.view.ForumView;
+import com.nhl.view.PostListView;
+import com.nhl.view.PostView;
 
-
-import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ForumPostGRPCModel {
-
-
-    private final com.nhl.nhlproto.ForumServiceGrpc.ForumServiceBlockingStub forumStub;
-    private final com.nhl.nhlproto.PostServiceGrpc.PostServiceBlockingStub postStub;
+    private final ForumServiceGrpc.ForumServiceBlockingStub forumStub;
+    private final PostServiceGrpc.PostServiceBlockingStub postStub;
     private final ManagedChannel channel;
 
     public ForumPostGRPCModel() {
@@ -29,46 +26,92 @@ public class ForumPostGRPCModel {
         postStub = PostServiceGrpc.newBlockingStub(channel);
     }
 
-    public ForumListModel getForumList(){
-        com.nhl.nhlproto.ListForumReq request = com.nhl.nhlproto.ListForumReq.newBuilder().build();
+    // FORUM FUNCTIONS
+
+    public Forum createForum(String author_id, String title, String content){
+        CreateForumReq request = CreateForumReq.newBuilder()
+                .setForum(Forum.newBuilder().setAuthorId(author_id).setTitle(title).setContent(content))
+                .build();
+        CreateForumRes response = forumStub.createForum(request);
+        return  response.getForum();
+    }
+
+    public Forum ReadForum(String forumId) {
+        ReadForumReq request = ReadForumReq.newBuilder().setId(forumId).build();
+        ReadForumRes response = forumStub.readForum(request);
+        return response.getForum();
+    }
+
+    public Forum UpdateForum(String forumId, String author_id, String title, String content){
+        UpdateForumReq request = UpdateForumReq.newBuilder()
+                .setForum(Forum.newBuilder().setId(forumId).setAuthorId(author_id).setTitle(title).setContent(content))
+                .build();
+        UpdateForumRes response = forumStub.updateForum(request);
+        return response.getForum();
+    }
+
+    public boolean DeleteForum(String forumId){
+        DeleteForumReq request = DeleteForumReq.newBuilder().setId(forumId).build();
+        DeleteForumRes response = forumStub.deleteForum(request);
+        return response.getSuccess();
+    }
+
+    public ArrayList<Forum> getForumList(){
+        ListForumReq request = ListForumReq.newBuilder().build();
         Iterator<ListForumRes> responses = null;
-        ForumListModel ret = new ForumListModel();
+        ArrayList<Forum> ret = new ArrayList<>();
         try{
             responses = forumStub.listForums(request);
+            while(responses.hasNext()) {
+                ret.add(responses.next().getForum());
+            }
         }catch(StatusRuntimeException ex){
-            System.out.println("Err in " + ex);         //TODO: should add proper logging
-        }
-        while(responses.hasNext()){                     //TODO: check for null case
-            ListForumRes response = responses.next();    //TODO: should probably move this to the view
-            ForumModel retObj = new ForumModel(response.getForum().getId(), response.getForum().getAuthorId(),
-                    response.getForum().getTitle(), response.getForum().getContent());
-            ret.addForum(retObj);
+            System.out.println("Err in " + ex);     //TODO: should add proper logging
         }
         return ret;
     }
 
-    public ForumModel getSpecificForum(String forumId) {
-        com.nhl.nhlproto.ReadForumReq request = com.nhl.nhlproto.ReadForumReq.newBuilder().setId(forumId).build();
-        com.nhl.nhlproto.ReadForumRes response;
-        response = forumStub.readForum(request);
-        ForumModel ret = new ForumModel(response.getForum().getId(), response.getForum().getAuthorId(),
-                response.getForum().getTitle(), response.getForum().getContent()); //TODO: should probably move this to the view
-        return ret;
+    // POST FUNCTIONS
+
+    public Post createPost(String forum_id, String author_id, String title, String content, String timestamp){
+        CreatePostReq request = CreatePostReq.newBuilder()
+                .setPost(Post.newBuilder().setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content).setTimestamp(timestamp))
+                .build();
+        CreatePostRes response = postStub.createPost(request);
+        return  response.getPost();
     }
 
-    public PostListModel getPostList(String forumId){
-        com.nhl.nhlproto.ListPostReq request = com.nhl.nhlproto.ListPostReq.newBuilder().setForumId(forumId).build();
-        Iterator<com.nhl.nhlproto.ListPostRes> responses = null;
-        PostListModel ret = new PostListModel();
+    public Post ReadPost(String post_id) {
+        ReadPostReq request = ReadPostReq.newBuilder().setId(post_id).build();
+        ReadPostRes response = postStub.readPost(request);
+        return response.getPost();
+    }
+
+    public Post UpdatePost(String post_id, String forum_id, String author_id, String title, String content, String timestamp){
+        UpdatePostReq request = UpdatePostReq.newBuilder()
+                .setPost(Post.newBuilder().setId(post_id).setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content).setTimestamp(timestamp))
+                .build();
+        UpdatePostRes response = postStub.updatePost(request);
+        return response.getPost();
+    }
+
+    public boolean DeletePost(String postId){
+        DeletePostReq request = DeletePostReq.newBuilder().setId(postId).build();
+        DeletePostRes response = postStub.deletePost(request);
+        return response.getSuccess();
+    }
+
+    public ArrayList<Post> getPostList(String forumId){
+        ListPostReq request =ListPostReq.newBuilder().setForumId(forumId).build();
+        Iterator<ListPostRes> responses = null;
+        ArrayList<Post> ret = new ArrayList<>();
         try{
             responses = postStub.listPosts(request);
+            while(responses.hasNext()){
+                ret.add(responses.next().getPost());
+            }
         }catch (StatusRuntimeException ex){
             System.out.println("Err in " + ex);         //TODO: should add proper logging
-        }
-        while(responses.hasNext()){                     //TODO: check for null case
-            Post response = responses.next().getPost();    //TODO: should probably move this to the view
-            PostModel retObj = new PostModel(response.getId(), response.getForumId(), response.getAuthorId(), response.getTitle(), response.getContent(), response.getTimestamp());
-            ret.addPost(retObj);
         }
         return ret;
     }

@@ -1,35 +1,38 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.ForumPostGRPCModel;
-import com.nhl.view.ForumListModel;
-import com.nhl.view.PostListModel;
+import com.nhl.nhlproto.Forum;
+import com.nhl.nhlproto.ReadForumReq;
+import com.nhl.view.ForumListView;
+import com.nhl.view.PostListView;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class ForumController {
 
-    //private final AtomicLong counter = new AtomicLong();
-
     @GetMapping(value="/forum")
-    public ForumListModel getForums(@RequestParam(value = "u", defaultValue = "all") String userSelect) {
+    public ForumListView getForums(@RequestParam(value = "u", defaultValue = "all") String userSelect) {
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        ForumListView ret = new ForumListView();
         if(userSelect.equals("all")){
-            return fpGrpc.getForumList();
+            ret.setForumList(fpGrpc.getForumList());
         }else{
-            //TODO: IMPLEMENT USER SUBSCRIPTION
-            ForumListModel ret = new ForumListModel();
-            ret.addForum(fpGrpc.getSpecificForum(userSelect));
-            return ret;
+            //TODO: IMPLEMENT USER SUBSCRIPTION HERE
         }
+        return ret;
     }
 
     @GetMapping(value="/post")
-    public PostListModel getPosts(@RequestParam(value = "s", defaultValue = "all", required = true) String selectId){
+    public PostListView getPosts(@RequestParam(value = "s", defaultValue = "all", required = true) String selectId){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
-            return fpGrpc.getPostList(selectId);
+        PostListView ret = new PostListView();
+        ret.setPostList(fpGrpc.getPostList(selectId));
+        return ret;
     }
 
-   
+
 }
