@@ -325,8 +325,8 @@ var mongoCtx context.Context
 
 func main() {
 	// CLI - INPUTS
-	portNoPtr := flag.String("portnum", "50051", "port number to run forumpost server, default 50051")
-	mongoURIPtr := flag.String("mongo", "localhost:27017", "where mongodb is running, default mongodb://localhost:27017")
+	portNoPtr := flag.String("portnum", "50051", "specify which port the server is running")
+	mongoURIPtr := flag.String("mongo", "localhost:27017", "specify where mongodb is running")
 	flag.Parse()
 
 	// SETUP VARIABLES
