@@ -6,7 +6,6 @@ import com.nhl.nhlproto.ReadForumReq;
 import com.nhl.view.ForumListView;
 import com.nhl.view.ForumView;
 import com.nhl.view.MessageView;
-import com.nhl.view.PostListView;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class ForumController {
     }
 
     @PostMapping(value="/forum/create")
-    public MessageView createPost(@RequestBody ForumView forumJSON){
+    public MessageView createForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
         Forum response = fpGrpc.createForum(forumJSON.author_id, forumJSON.title, forumJSON.content);
         ForumView ret = new ForumView(response);
@@ -34,7 +33,7 @@ public class ForumController {
     }
 
     @PostMapping(value="/forum/modify")
-    public MessageView modifyPost(@RequestBody ForumView forumJSON){
+    public MessageView modifyForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
         Forum check = fpGrpc.ReadForum(forumJSON.id);
         if(check.getAuthorId().equals(forumJSON.author_id)){
@@ -42,12 +41,12 @@ public class ForumController {
             ForumView ret = new ForumView(response);
             return new MessageView(false, null, false, null, ret);
         } else {
-            return new MessageView(true, "user did not create this post", false, null, null);
+            return new MessageView(true, "user did not create this forum", false, null, null);
         }
     }
 
-    @PostMapping(value="forum/delete")
-    public MessageView deletePost(@RequestBody ForumView forumJSON){
+    @PostMapping(value="/forum/delete")
+    public MessageView deleteForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
         Forum check = fpGrpc.ReadForum(forumJSON.id);
         if(check.getAuthorId().equals(forumJSON.author_id)){
@@ -58,7 +57,7 @@ public class ForumController {
                 return new MessageView(true, "unable to delete forum", false, null, null);
             }
         } else {
-            return new MessageView(true, "user did not create this post", false, null, null);
+            return new MessageView(true, "user did not create this forum", false, null, null);
         }
     }
 }

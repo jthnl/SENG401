@@ -73,9 +73,9 @@ public class ForumPostGRPCModel {
 
     // POST FUNCTIONS
 
-    public Post createPost(String forum_id, String author_id, String title, String content, String timestamp){
+    public Post createPost(String forum_id, String author_id, String title, String content){
         CreatePostReq request = CreatePostReq.newBuilder()
-                .setPost(Post.newBuilder().setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content).setTimestamp(timestamp))
+                .setPost(Post.newBuilder().setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content))
                 .build();
         CreatePostRes response = postStub.createPost(request);
         return  response.getPost();
@@ -87,9 +87,9 @@ public class ForumPostGRPCModel {
         return response.getPost();
     }
 
-    public Post UpdatePost(String post_id, String forum_id, String author_id, String title, String content, String timestamp){
+    public Post UpdatePost(String post_id, String forum_id, String author_id, String title, String content){
         UpdatePostReq request = UpdatePostReq.newBuilder()
-                .setPost(Post.newBuilder().setId(post_id).setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content).setTimestamp(timestamp))
+                .setPost(Post.newBuilder().setId(post_id).setForumId(forum_id).setAuthorId(author_id).setTitle(title).setContent(content))
                 .build();
         UpdatePostRes response = postStub.updatePost(request);
         return response.getPost();

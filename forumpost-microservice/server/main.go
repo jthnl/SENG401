@@ -266,13 +266,17 @@ func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdateP
 	post := req.GetPost()
 	oid, err := primitive.ObjectIDFromHex(post.GetId())
 	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Post id %v", err),)
+	}
+	fid, err := primitive.ObjectIDFromHex(post.GetForumId())
+	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Forum id %v", err),)
 	}
 	curr_time := time.Now().String()
 	// convert values to be updated into local struct
 	update := bson.M{
-		"_forum_id":  post.GetForumId(),
-		"authord_id": post.GetAuthorId(),
+		"_forum_id":  fid,
+		"author_id": post.GetAuthorId(),
 		"title":      post.GetTitle(),
 		"content":    post.GetContent(),
 		"timestamp":  curr_time,
