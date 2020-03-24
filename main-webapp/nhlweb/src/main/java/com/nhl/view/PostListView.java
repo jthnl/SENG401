@@ -5,7 +5,7 @@ import com.nhl.nhlproto.Post;
 
 import java.util.ArrayList;
 
-public class PostListView {
+public class PostListView implements MsgObjectView {
     ArrayList<PostView> postList;
 
     public PostListView(){

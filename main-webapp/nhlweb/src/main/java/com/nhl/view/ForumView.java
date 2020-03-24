@@ -2,7 +2,7 @@ package com.nhl.view;
 
 import com.nhl.nhlproto.Forum;
 
-public class ForumView {
+public class ForumView implements MsgObjectView {
     public String id;
     public String author_id;
     public String title;

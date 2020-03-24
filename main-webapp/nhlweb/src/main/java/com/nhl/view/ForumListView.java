@@ -4,7 +4,7 @@ import com.nhl.nhlproto.Forum;
 
 import java.util.ArrayList;
 
-public class ForumListView {
+public class ForumListView implements MsgObjectView {
     private ArrayList<ForumView> forumList;
 
     public ForumListView() {
