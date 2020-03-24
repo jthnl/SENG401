@@ -115,7 +115,7 @@ func (s *ForumServiceServer)  UpdateForum(ctx context.Context, req *forumpb.Upda
 	}
 	// convert values to be updated into local struct
 	update := bson.M{
-		"authord_id": forum.GetAuthorId(),
+		"author_id": forum.GetAuthorId(),
 		"title":      forum.GetTitle(),
 		"content":    forum.GetContent(),
 	}
