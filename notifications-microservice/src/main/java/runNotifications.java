@@ -23,7 +23,7 @@ public class runNotifications {
 	public static void main(String[] args) {
 		//MyNotification test = new MyNotification("7", "7");
 		//MyUser testUser = new MyUser("testing", "testing", "john", "smith");
-		MySubscription testSub = new MySubscription("7", "5");
+		//MySubscription testSub = new MySubscription("6", "4");
 		MongoDBHandler dbConnect = new MongoDBHandler();
 		//dbConnect.addNotification(test);
 		//dbConnect.deleteNotification();
@@ -32,7 +32,11 @@ public class runNotifications {
 		//System.out.println(new Timestamp(new Date().getTime()));
 		//System.out.println(new Timestamp(new Date().getTime()).toString());
 
-		dbConnect.addSubscripton(testSub);
+		//dbConnect.addSubscripton(testSub);
+		//dbConnect.addNotificationsForNewPost( "5");
+		//dbConnect.removeSubscription(new MySubscription("7", "5"));
+		dbConnect.getAllNotificationsForUser("7");
+		//dbConnect.changeNotificationToSeen(new MyNotification("7","5"));
 		System.out.println("End of Main. ");
 	}
 
