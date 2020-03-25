@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::sync::Arc;
 
 use chrono::{DateTime, Utc};
 use chrono::serde::ts_milliseconds;
@@ -6,26 +7,32 @@ use mongodb::Client;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::event::events::CommentAdded;
+use crate::event::event_data::CommentAdded;
 
 pub trait EventStore {
     // Todo: Make async
-    fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>>;
+    fn append(&self, event_data: EventData) -> Result<(), Box<dyn Error>>;
 }
 
-pub struct MongoDbEventStore {}
+pub struct MongoDbEventStore {
+    client: Arc<Client>
+}
+
+impl MongoDbEventStore {
+    pub fn new(client: Arc<Client>) -> MongoDbEventStore {
+        MongoDbEventStore { client }
+    }
+}
 
 impl EventStore for MongoDbEventStore {
-    fn append<T: Named + Serialize>(&self, event_data: Box<T>) -> Result<(), Box<dyn Error>> {
+    fn append(&self, event_data: EventData) -> Result<(), Box<dyn Error>> {
         let event = Event {
             timestamp: Utc::now(),
             id: Uuid::new_v4(),
-            name: T::name(),
             data: event_data,
         };
 
-        let client = Client::with_uri_str("mongodb://localhost:27017/")?;
-        let db = client.database("local");
+        let db = self.client.database("local");
         let coll = db.collection("events");
 
         let doc = bson::to_bson(&event)?.as_document().unwrap().clone();
@@ -36,39 +43,31 @@ impl EventStore for MongoDbEventStore {
     }
 }
 
-pub trait Materialize {
-    fn materialize_comment_added(&self, event: Event<CommentAdded>) -> Result<(), Box<dyn Error>>;
+pub trait EventMaterializer {
+    fn materialize(&self, event: Event) -> Result<(), Box<dyn Error>>;
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Event<T: Serialize> {
+pub struct Event {
     #[serde(with = "ts_milliseconds")]
     pub timestamp: DateTime<Utc>,
     pub id: Uuid,
-    pub name: String,
-    pub data: T,
+    pub data: EventData,
 }
 
-pub trait Named {
-    fn name() -> String;
+#[derive(Serialize, Deserialize, Debug)]
+pub enum EventData {
+    CommentAdded(CommentAdded)
 }
 
-pub mod events {
+pub mod event_data {
     use serde::{Deserialize, Serialize};
     use uuid::Uuid;
-
-    use crate::event::Named;
 
     #[derive(Serialize, Deserialize, Debug)]
     pub struct CommentAdded {
         pub comment_id: Uuid,
         pub post_id: Uuid,
         pub content: String,
-    }
-
-    impl Named for CommentAdded {
-        fn name() -> String {
-            "CommentAdded".into()
-        }
     }
 }

@@ -6,10 +6,8 @@ use chrono::{DateTime, Utc};
 use itertools::Itertools;
 use uuid::Uuid;
 
-use crate::command::{AddCommentCommand, CommandHandler};
+use crate::event::{Event, EventData, EventMaterializer};
 use crate::query::Query;
-use crate::event::{EventStore, MongoDbEventStore, Materialize, Event};
-use crate::event::events::CommentAdded;
 
 #[derive(Clone)]
 pub struct Comment {
@@ -42,36 +40,21 @@ impl Query for InMemoryComments {
     }
 }
 
-impl Materialize for InMemoryComments {
-    fn materialize_comment_added(&self, event: Event<CommentAdded>) -> Result<(), Box<dyn Error>> {
-        let comment = Comment {
-            id: event.data.comment_id,
-            post_id: event.data.post_id,
-            content: event.data.content,
-            timestamp: event.timestamp,
-        };
+impl EventMaterializer for InMemoryComments {
+    fn materialize(&self, event: Event) -> Result<(), Box<dyn Error>> {
+        match event.data{
+            EventData::CommentAdded(comment_added) => {
+                let comment = Comment {
+                    id: comment_added.comment_id,
+                    post_id: comment_added.post_id,
+                    content: comment_added.content,
+                    timestamp: event.timestamp,
+                };
 
-        // It is assumed that no comment already exists with the same id
-        self.comments.write().unwrap().insert(comment.id, comment);
-        Ok(())
-    }
-}
-
-impl CommandHandler for InMemoryComments {
-    fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>> {
-        let comment = Comment {
-            id: Uuid::new_v4(),
-            post_id: command.post_id,
-            content: command.content,
-            timestamp: Utc::now(),
-        };
-
-        let event_store = MongoDbEventStore {};
-        let event_data = CommentAdded {
-            comment_id: comment.id,
-            post_id: comment.post_id,
-            content: comment.content.clone() };
-        event_store.append(event_data.into())?;
+                // It is assumed that no comment already exists with the same id
+                self.comments.write().unwrap().insert(comment.id, comment);
+            }
+        }
 
         Ok(())
     }
