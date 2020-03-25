@@ -8,30 +8,45 @@
 package com.nhl.view;
 
 import com.nhl.view.UserInfo;
+import com.nhl.view.MsgObjectView;
 
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import org.bson.Document;
 
-
-public class User
+public class User implements MsgObjectView
 {
-	private UserInfo info;
-	private Date dateJoined;
 	private String id;
+	private UserInfo info;
+	private Date joined;
 
 	public static void main( String args[] )
 	{
 		System.out.println( "user" );
 	}
 
-	public User( UserInfo info, String id )
+	public User( Document doc )
 	{
-		this.info = info;
-		this.dateJoined = new Date();
-		this.id = id;
+		this.id = doc.get( "_id" ).toString();
+
+		String usrnm = doc.get( "username" ).toString();
+		String pass = doc.get( "password" ).toString();
+		String fname = doc.get( "fname" ).toString();
+		String lname = doc.get( "lname" ).toString();
+		String email = doc.get( "email" ).toString();
+		this.info = new UserInfo( usrnm, pass, fname, lname, email );
+
+		DateFormat df = DateFormat.getInstance();
+		try {
+			this.joined = df.parse( doc.get( "joined" ).toString() );
+		} catch( ParseException e) {
+			System.err.println( "Bad 'Date joined' record found" );
+			this.joined = new Date();
+		}
 	}
 
-	public UserInfo getInfo()
-	{
-		return info;
-	}
+	public String getId() {return id;}
+	public UserInfo getInfo() {return info;}
+	public Date getJoined() {return joined;}
 }

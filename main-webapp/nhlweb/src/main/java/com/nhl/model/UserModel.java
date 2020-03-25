@@ -7,19 +7,21 @@
 
 package com.nhl.model;
 
+import com.nhl.view.User;
+import com.nhl.view.UserInfo;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.nhl.view.User;
-import com.nhl.view.UserInfo;
 import org.bson.Document;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.AccountException;
 import java.util.Iterator;
 import java.util.Date;
+import java.text.DateFormat;
 
 public class UserModel
 {
@@ -39,18 +41,29 @@ public class UserModel
 
 	public User authenticateUser( String username, String password ) throws FailedLoginException
 	{
-		return null;
+		Iterator<Document> it = users.find().iterator();
 
-		//throw new FailedLoginException( "Username does not exist!" );
+		while (it.hasNext())
+		{
+			Document user_doc = it.next();
+			String db_username = user_doc.get( "username" ).toString();
+			if( db_username.compareToIgnoreCase( username ) == 0 )
+			{
+				String db_password = user_doc.get( "password" ).toString();
+				if( db_password.compareTo( password ) == 0 )
+				{
+					return new User( user_doc );
+				}
+				throw new FailedLoginException( "Incorrect Password" );
+			}
+		}
+
+		throw new FailedLoginException( "Username does not exist!" );
 	}
 
 	public void createUser( UserInfo info ) throws AccountException
 	{
-		System.out.println("Searching usernames" );
-		FindIterable<Document> iterDoc = users.find();
-
-		// Getting the iterator
-		Iterator<Document> it = iterDoc.iterator();
+		Iterator<Document> it = users.find().iterator();
 
 		while (it.hasNext())
 		{
@@ -61,12 +74,13 @@ public class UserModel
 			}
 		}
 
+		DateFormat df = DateFormat.getInstance();
 		Document document = new Document( "username", info.username )
 				.append( "password", info.password )
 				.append( "fname", info.fname )
 				.append( "lname", info.lname )
 				.append( "email", info.email )
-				.append( "joined", new Date() );
+				.append( "joined", df.format( new Date() ) );
 		users.insertOne(document);
 	}
 
