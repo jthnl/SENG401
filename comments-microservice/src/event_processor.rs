@@ -20,7 +20,7 @@ impl BsonEventProcessor {
 
 impl EventProcessor<Document> for BsonEventProcessor {
     fn process_event(&self, event: Document) -> Result<(), Box<dyn Error>> {
-        println!("Processed event: {:?}", event);
+        println!("Processing event: {:?}", event);
         let event = bson::from_bson(bson::Bson::Document(event))?;
         self.materializer.materialize(event)?;
         Ok(())

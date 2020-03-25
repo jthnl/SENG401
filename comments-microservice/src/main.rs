@@ -139,10 +139,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 None => bson::Document::new()
             };
 
-            let cursor = coll.find(
-                filter,
-                find_options)
-                .unwrap();
+            let cursor = match coll.find(filter, find_options) {
+                Ok(cursor) => cursor,
+                Err(e) => {
+                    eprintln!("Failed to retrieve cursor: {}", e);
+                    // Wait briefly before checking again
+                    tokio::time::delay_for(Duration::from_secs(1)).await;
+                    continue;
+                }
+            };
 
             for event_doc in cursor {
                 let event_doc = match event_doc {
@@ -160,7 +165,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                 if timestamp.is_some() { last_timestamp = timestamp; }
 
-                event_processor.process_event(event_doc).unwrap();
+                if let Err(e) =  event_processor.process_event(event_doc){
+                    eprintln!("Failed to process event: {}", e);
+                }
             }
 
             // Wait briefly before checking again
