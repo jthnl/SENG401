@@ -1,0 +1,65 @@
+.bg-light {
+    background-color: white !important;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
+}
+
+.list-group-item {
+    background-color: transparent;
+}
+.nav-link .dropdown-toggle {
+    font-weight: 800 !important;
+}
+
+.nav-text {
+    display: block;
+    padding: .5rem 1rem;
+    font-weight: 100;
+}
+
+.card {
+    border: none;
+}
+
+.logo {
+    width: 24px;
+    padding-right: 5px;
+}
+
+.post {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.card > .list-group > .list-group-item {
+    background-color: white;
+    
+}
+
+.custom-text-1 {
+    padding: .5rem 0;
+    display: block;
+    font-weight: 100;
+}
+
+.custom-padding-1 {
+    padding: .5rem 0;
+}
+
+.list-game-item {
+    display: block;
+    text-align: center;
+    margin-bottom: 4px;
+    padding: 1rem 1.25rem;
+    background-color: white;
+    border-radius: 1.5px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}

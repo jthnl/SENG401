@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="container mt-5">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><img class="logo" src="../../assets/heart.png">My Feed</li>
+          <li class="list-group-item"><img class="logo" src="../../assets/hot.png">Hot</li>
+          <li class="list-group-item"><img class="logo" src="../../assets/trophy.png">Leagues</li>
+          <li class="list-group-item"><img class="logo" src="../../assets/teams.png">Teams</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+          <a class="navbar-brand" href="#">Flames</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <span class="nav-text">Sort by</span>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Newest
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Top</a>
+                  <a class="dropdown-item" href="#">Hot</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <span class="nav-text">Feed</span>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Flames
+                </a>
+                <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
+                  <a *ngFor="let team of teams" class="dropdown-item">{{team}}</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+          <div class="card bg-transparent">
+            <ul class="post">
+              <li *ngFor="let contact of contacts | async">
+                <app-post [contact]=contact></app-post>
+              </li>
+            </ul>
+            <!-- <ul class="list-group list-group-flush">
+              <li class="list-game-item box-shadow">Post 1</li>
+              <li class="list-game-item box-shadow">Post 2</li>
+              <li class="list-game-item box-shadow">Post 3</li>
+            </ul> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="custom-padding-1">
+        <span class="custom-text-1 ">Coming soon</span>
+      </div>
+        <div class="card bg-transparent">
+          <ul class="post">
+            <li *ngFor="let contact of contacts | async">
+              <app-coming-soon [contact]=contact></app-coming-soon>
+            </li>
+          </ul>
+          <!-- <ul class="list-group list-group-flush">
+            <li class="list-game-item box-shadow">Game 1</li>
+            <li class="list-game-item box-shadow">Game 2</li>
+            <li class="list-game-item box-shadow">Game 3</li>
+          </ul> -->
+      </div>
+    </div>
+  </div>
+</div>
