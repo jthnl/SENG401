@@ -1,14 +1,13 @@
-use uuid::Uuid;
-use crate::comments::query::Query;
-use std::error::Error;
-use crate::comments::command::{CommandHandler, AddCommentCommand};
 use std::collections::HashMap;
-use chrono::{DateTime, Utc};
+use std::error::Error;
 use std::sync::RwLock;
-use itertools::Itertools;
 
-pub mod command;
-pub mod query;
+use chrono::{DateTime, Utc};
+use itertools::Itertools;
+use uuid::Uuid;
+
+use crate::event::{Event, EventData, EventMaterializer};
+use crate::query::Query;
 
 #[derive(Clone)]
 pub struct Comment {
@@ -41,18 +40,22 @@ impl Query for InMemoryComments {
     }
 }
 
-impl CommandHandler for InMemoryComments {
-    fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>> {
-        // Todo: Check that a command with the same id has not already been processed
-        let comment = Comment {
-            id: Uuid::new_v4(),
-            post_id: command.post_id,
-            content: command.content,
-            timestamp: Utc::now()
-        };
+impl EventMaterializer for InMemoryComments {
+    fn materialize(&self, event: Event) -> Result<(), Box<dyn Error>> {
+        match event.data{
+            EventData::CommentAdded(comment_added) => {
+                let comment = Comment {
+                    id: comment_added.comment_id,
+                    post_id: comment_added.post_id,
+                    content: comment_added.content,
+                    timestamp: event.timestamp,
+                };
 
-        // It is assumed that no comment already exists with the same random id
-        self.comments.write().unwrap().insert(comment.id, comment);
+                // It is assumed that no comment already exists with the same id
+                self.comments.write().unwrap().insert(comment.id, comment);
+            }
+        }
+
         Ok(())
     }
 }
