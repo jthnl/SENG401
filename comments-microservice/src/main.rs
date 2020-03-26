@@ -105,7 +105,7 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse()?;
+    let addr = "[::1]:50052".parse()?;
 
     let mongodb_client = Arc::new(Client::with_uri_str("mongodb://localhost:27017/").unwrap());
 
