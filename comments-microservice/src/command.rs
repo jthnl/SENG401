@@ -6,7 +6,7 @@ use crate::comment::Comment;
 use crate::event::{EventData, EventStore};
 use crate::event::event_data::CommentAdded;
 
-pub trait CommandHandler {
+pub trait Command {
     // Todo: Make async
     fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>>;
 }
@@ -30,7 +30,7 @@ impl EventBackedCommandHandler {
     }
 }
 
-impl CommandHandler for EventBackedCommandHandler {
+impl Command for EventBackedCommandHandler {
     fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>> {
         let comment = Comment {
             id: Uuid::new_v4(),

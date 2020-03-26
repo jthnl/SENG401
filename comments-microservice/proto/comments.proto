@@ -4,11 +4,9 @@ package comments;
 option java_package = "com.comments.commentsproto";
 option java_multiple_files = true;
 
-service CommandHandler {
+service Command {
     rpc AddComment (AddCommentCommand) returns (Empty);
 }
-
-// Todo: Add a "ExecuteCommandRequest" message with the "oneof" keyword for containing one of many possible commands
 
 message AddCommentCommand {
     string post_id = 1;

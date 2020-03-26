@@ -11,11 +11,11 @@ use mongodb::options::FindOptions;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
-use grpc_comments::command_handler_server::CommandHandlerServer;
+use grpc_comments::command_server::CommandServer;
 use grpc_comments::GetCommentsOnPostRequest;
 use grpc_comments::query_server::QueryServer;
 
-use crate::command::{AddCommentCommand, CommandHandler, EventBackedCommandHandler};
+use crate::command::{AddCommentCommand, Command, EventBackedCommandHandler};
 use crate::comment::InMemoryComments;
 use crate::event::MongoDbEventStore;
 use crate::event_processor::{BsonEventProcessor, EventProcessor};
@@ -32,18 +32,18 @@ pub mod grpc_comments {
     tonic::include_proto!("comments");
 }
 
-pub struct GrpcCommandHandler {
-    command_handler: Arc<dyn CommandHandler + Send + Sync>
+pub struct GrpcCommand {
+    command_handler: Arc<dyn Command + Send + Sync>
 }
 
-impl GrpcCommandHandler {
-    pub fn new(command_handler: Arc<dyn CommandHandler + Send + Sync>) -> GrpcCommandHandler {
-        GrpcCommandHandler { command_handler }
+impl GrpcCommand {
+    pub fn new(command_handler: Arc<dyn Command + Send + Sync>) -> GrpcCommand {
+        GrpcCommand { command_handler }
     }
 }
 
 #[tonic::async_trait]
-impl grpc_comments::command_handler_server::CommandHandler for GrpcCommandHandler {
+impl grpc_comments::command_server::Command for GrpcCommand {
     async fn add_comment(
         &self,
         request: Request<grpc_comments::AddCommentCommand>,
@@ -114,10 +114,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let command_handler = Arc::new(EventBackedCommandHandler::new(event_store));
 
     let grpc_query = GrpcQuery::new(in_memory_comments.clone());
-    let grpc_command_handler = GrpcCommandHandler::new(command_handler.clone());
+    let grpc_command_handler = GrpcCommand::new(command_handler.clone());
     let grpc_task = tokio::spawn(async move {
         Server::builder()
-            .add_service(CommandHandlerServer::new(grpc_command_handler))
+            .add_service(CommandServer::new(grpc_command_handler))
             .add_service(QueryServer::new(grpc_query))
             .serve(addr)
             .await.unwrap();
