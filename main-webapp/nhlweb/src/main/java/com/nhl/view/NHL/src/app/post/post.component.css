@@ -1,0 +1,33 @@
+html {
+    font-family: 'futura';
+}
+
+.logo {
+    padding: 5px;
+    width: 80px;
+}
+
+.post-card {
+    width: 100%;
+    background-color: white;
+    padding: 5px;
+    margin: 10px 0;
+}
+
+/* table, td, tr {
+    border: 1px solid black;
+} */
+
+.post-table {
+    width: 100%;
+}
+
+.post-title {
+    font-family: 'futura';
+    padding: 10px 0;
+}
+
+.post-description {
+    color: black;
+    font-size: 18px;
+}

@@ -47,15 +47,10 @@
         </nav>
           <div class="card bg-transparent">
             <ul class="post">
-              <li *ngFor="let contact of contacts | async">
-                <app-post [contact]=contact></app-post>
+              <li *ngFor="let contact of contacts | async" routerLink="/post">
+                <app-thread [contact]=contact></app-thread>
               </li>
             </ul>
-            <!-- <ul class="list-group list-group-flush">
-              <li class="list-game-item box-shadow">Post 1</li>
-              <li class="list-game-item box-shadow">Post 2</li>
-              <li class="list-game-item box-shadow">Post 3</li>
-            </ul> -->
       </div>
     </div>
     <div class="col-sm-3">

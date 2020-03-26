@@ -6,26 +6,36 @@ import { MaterialModule } from './modules/material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthenticationModule } from './authentication/authentication.module';
+// import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeComponent } from './home/home.component';
-import { PostComponent } from './components/post/post.component';
+import { ThreadComponent } from './components/thread/thread.component';
+import { PostComponent } from './post/post.component';
+
 import { CommentComponent } from './components/comment/comment.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
+import { CreateComponent } from './create/create.component';
+import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     HomeComponent,
     PostComponent,
+    ThreadComponent,
     CommentComponent,
     NavbarComponent,
     ComingSoonComponent,
+    CreateComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AuthenticationModule,
     HttpClientModule,
     MaterialModule
   ],
