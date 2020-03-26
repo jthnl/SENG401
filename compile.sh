@@ -1,1 +1,0 @@
-javac ./nhl/entities/*.java ./nhl/model/*.java
