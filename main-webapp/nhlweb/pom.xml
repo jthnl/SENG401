@@ -71,6 +71,11 @@
             <artifactId>grpc-stub</artifactId>
             <version>1.28.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.2</version>
+        </dependency>
     </dependencies>
 
     <build>
