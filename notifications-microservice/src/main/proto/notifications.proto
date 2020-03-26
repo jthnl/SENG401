@@ -1,0 +1,46 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "notifications.grpc";
+
+
+service notificationService{
+    rpc subscribe(subscribeRequest) returns (subscribeResponse);
+    rpc unsubscribe(unsubscribeRequest) returns (unsubscribeResponse);
+    rpc loginNotifications (loginNotificationsRequest) returns (loginNotificationsResponse);
+    rpc seenNotification (seenNotificationRequest) returns (seenNotificationResponse);
+}
+
+
+
+message subscribeRequest {
+    string user_id = 1;
+    string forum_id = 2;
+}
+
+message subscribeResponse {
+    string successful = 1;
+}
+
+message unsubscribeRequest {
+
+}
+
+message unsubscribeResponse {
+
+}
+
+message loginNotificationsRequest{
+
+}
+
+message loginNotificationsResponse{
+
+}
+
+message seenNotificationRequest{
+
+}
+
+message seenNotificationResponse {
+
+}
