@@ -3,7 +3,7 @@ extern crate mongodb;
 
 use std::sync::Arc;
 
-use bson::{bson, doc};
+use bson::{doc};
 use chrono::{DateTime, TimeZone, Utc};
 use futures::try_join;
 use mongodb::Client;
