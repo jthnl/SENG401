@@ -7,7 +7,7 @@ use mongodb::Client;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::event::event_data::CommentAdded;
+use crate::event::event_data::{CommentAdded, CommentRemoved};
 
 pub trait EventStore {
     // Todo: Make async
@@ -57,7 +57,8 @@ pub struct Event {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum EventData {
-    CommentAdded(CommentAdded)
+    CommentAdded(CommentAdded),
+    CommentRemoved(CommentRemoved),
 }
 
 pub mod event_data {
@@ -69,5 +70,10 @@ pub mod event_data {
         pub comment_id: Uuid,
         pub post_id: Uuid,
         pub content: String,
+    }
+
+    #[derive(Serialize, Deserialize, Debug)]
+    pub struct CommentRemoved {
+        pub comment_id: Uuid
     }
 }

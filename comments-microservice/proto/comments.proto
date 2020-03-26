@@ -6,11 +6,16 @@ option java_multiple_files = true;
 
 service CommandService {
     rpc AddComment (AddCommentCommand) returns (Empty);
+    rpc RemoveComment (RemoveCommentCommand) returns (Empty);
 }
 
 message AddCommentCommand {
     string post_id = 1;
     string content = 2;
+}
+
+message RemoveCommentCommand {
+    string comment_id = 1;
 }
 
 // Todo: Use google.protobuf.Empty instead

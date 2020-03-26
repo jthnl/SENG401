@@ -1,6 +1,7 @@
-use bson::Document;
 use std::error::Error;
 use std::sync::Arc;
+
+use bson::Document;
 
 use crate::event::EventMaterializer;
 

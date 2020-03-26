@@ -42,7 +42,7 @@ impl Query for InMemoryComments {
 
 impl EventMaterializer for InMemoryComments {
     fn materialize(&self, event: Event) -> Result<(), Box<dyn Error>> {
-        match event.data{
+        match event.data {
             EventData::CommentAdded(comment_added) => {
                 let comment = Comment {
                     id: comment_added.comment_id,
@@ -53,9 +53,19 @@ impl EventMaterializer for InMemoryComments {
 
                 // It is assumed that no comment already exists with the same id
                 self.comments.write().unwrap().insert(comment.id, comment);
+                Ok(())
+            }
+            EventData::CommentRemoved(comment_removed) => {
+                let removed = self.comments.write().unwrap()
+                    .remove(&comment_removed.comment_id);
+
+                match removed {
+                    Some(_) => Ok(()),
+                    None =>
+                        Err(format!("No comment with id `{}` found.", &comment_removed.comment_id)
+                            .into())
+                }
             }
         }
-
-        Ok(())
     }
 }

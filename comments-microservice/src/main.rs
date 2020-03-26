@@ -3,11 +3,12 @@ extern crate mongodb;
 
 use std::sync::Arc;
 
-use bson::{doc};
+use bson::doc;
 use chrono::{DateTime, TimeZone, Utc};
 use futures::try_join;
 use mongodb::Client;
 use mongodb::options::FindOptions;
+use tokio::time::Duration;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
@@ -15,12 +16,11 @@ use grpc_comments::command_service_server::CommandServiceServer;
 use grpc_comments::GetCommentsOnPostRequest;
 use grpc_comments::query_service_server::QueryServiceServer;
 
-use crate::command::{AddCommentCommand, Command, EventBackedCommandHandler};
+use crate::command::{AddCommentCommand, Command, EventBackedCommandHandler, RemoveCommentCommand};
 use crate::comment::InMemoryComments;
 use crate::event::MongoDbEventStore;
 use crate::event_processor::{BsonEventProcessor, EventProcessor};
 use crate::query::Query;
-use tokio::time::Duration;
 
 pub mod comment;
 pub mod command;
@@ -54,6 +54,21 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
             post_id: Uuid::parse_str(&request.get_ref().post_id)
                 .map_err(|_| Status::invalid_argument("post_id is invalid"))?,
             content: request.get_ref().content.clone(),
+        }).map_err(|e| Status::internal(e.to_string()))?;
+
+        let reply = grpc_comments::Empty {};
+        Ok(Response::new(reply))
+    }
+
+    async fn remove_comment(
+        &self,
+        request: Request<grpc_comments::RemoveCommentCommand>,
+    ) -> Result<Response<grpc_comments::Empty>, Status> {
+        println!("Got a request: {:?}", request);
+
+        self.command_handler.remove_comment(RemoveCommentCommand {
+            comment_id: Uuid::parse_str(&request.get_ref().comment_id)
+                .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
         }).map_err(|e| Status::internal(e.to_string()))?;
 
         let reply = grpc_comments::Empty {};
@@ -135,7 +150,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let find_options = FindOptions::builder().sort(doc! {"timestamp": 1}).build();
 
             let filter = match last_timestamp {
-                Some(timestamp) => doc!{"timestamp": doc! {"$gt": timestamp.timestamp_millis()}},
+                Some(timestamp) => doc! {"timestamp": doc! {"$gt": timestamp.timestamp_millis()}},
                 None => bson::Document::new()
             };
 
@@ -165,7 +180,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                 if timestamp.is_some() { last_timestamp = timestamp; }
 
-                if let Err(e) =  event_processor.process_event(event_doc){
+                if let Err(e) = event_processor.process_event(event_doc) {
                     eprintln!("Failed to process event: {}", e);
                 }
             }
