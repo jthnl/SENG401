@@ -1,0 +1,32 @@
+syntax = "proto3";
+package comments;
+
+option java_package = "com.comments.commentsproto";
+option java_multiple_files = true;
+
+service CommandService {
+    rpc AddComment (AddCommentCommand) returns (Empty);
+}
+
+message AddCommentCommand {
+    string post_id = 1;
+    string content = 2;
+}
+
+// Todo: Use google.protobuf.Empty instead
+message Empty {}
+
+service QueryService {
+    rpc GetCommentsOnPost(GetCommentsOnPostRequest) returns (stream Comment);
+}
+
+message GetCommentsOnPostRequest {
+    string post_id = 1;
+}
+
+message Comment {
+    string id = 1;
+    string post_id = 2;
+    string content = 3;
+    string timestamp = 4;
+}
