@@ -9,10 +9,10 @@ package com.nhl.model;
 
 import com.nhl.view.User;
 import com.nhl.view.UserInfo;
+import com.nhl.view.UsernameID;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -39,7 +39,7 @@ public class UserModel
 		users = database.getCollection("Users");
 	}
 
-	public User authenticateUser( String username, String password ) throws FailedLoginException
+	public UsernameID authenticateUser( String username, String password ) throws FailedLoginException
 	{
 		Iterator<Document> it = users.find().iterator();
 
@@ -52,7 +52,7 @@ public class UserModel
 				String db_password = user_doc.get( "password" ).toString();
 				if( db_password.compareTo( password ) == 0 )
 				{
-					return new User( user_doc );
+					return new UsernameID( user_doc.get("_id").toString(), db_username );
 				}
 				throw new FailedLoginException( "Incorrect Password" );
 			}
@@ -84,9 +84,21 @@ public class UserModel
 		users.insertOne(document);
 	}
 
-	public boolean changeUsername( int userId, String username )
+	public User getUser( String userId ) throws AccountException
 	{
-		return false;
+		Iterator<Document> it = users.find().iterator();
+
+		while (it.hasNext())
+		{
+			Document user_doc = it.next();
+			String db_id = user_doc.get( "_id" ).toString();
+			if( db_id.compareToIgnoreCase( userId ) == 0 )
+			{
+				return new User( user_doc );
+			}
+		}
+
+		throw new AccountException( "User ID not found" );
 	}
 
 }
