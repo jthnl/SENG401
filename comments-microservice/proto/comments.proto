@@ -4,7 +4,7 @@ package comments;
 option java_package = "com.comments.commentsproto";
 option java_multiple_files = true;
 
-service Command {
+service CommandService {
     rpc AddComment (AddCommentCommand) returns (Empty);
 }
 
@@ -16,7 +16,7 @@ message AddCommentCommand {
 // Todo: Use google.protobuf.Empty instead
 message Empty {}
 
-service Query {
+service QueryService {
     rpc GetCommentsOnPost(GetCommentsOnPostRequest) returns (stream Comment);
 }
 

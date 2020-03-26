@@ -11,9 +11,9 @@ use mongodb::options::FindOptions;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
-use grpc_comments::command_server::CommandServer;
+use grpc_comments::command_service_server::CommandServiceServer;
 use grpc_comments::GetCommentsOnPostRequest;
-use grpc_comments::query_server::QueryServer;
+use grpc_comments::query_service_server::QueryServiceServer;
 
 use crate::command::{AddCommentCommand, Command, EventBackedCommandHandler};
 use crate::comment::InMemoryComments;
@@ -32,18 +32,18 @@ pub mod grpc_comments {
     tonic::include_proto!("comments");
 }
 
-pub struct GrpcCommand {
+pub struct GrpcCommandService {
     command_handler: Arc<dyn Command + Send + Sync>
 }
 
-impl GrpcCommand {
-    pub fn new(command_handler: Arc<dyn Command + Send + Sync>) -> GrpcCommand {
-        GrpcCommand { command_handler }
+impl GrpcCommandService {
+    pub fn new(command_handler: Arc<dyn Command + Send + Sync>) -> GrpcCommandService {
+        GrpcCommandService { command_handler }
     }
 }
 
 #[tonic::async_trait]
-impl grpc_comments::command_server::Command for GrpcCommand {
+impl grpc_comments::command_service_server::CommandService for GrpcCommandService {
     async fn add_comment(
         &self,
         request: Request<grpc_comments::AddCommentCommand>,
@@ -61,18 +61,18 @@ impl grpc_comments::command_server::Command for GrpcCommand {
     }
 }
 
-pub struct GrpcQuery {
+pub struct GrpcQueryService {
     query: Arc<dyn Query + Send + Sync>
 }
 
-impl GrpcQuery {
-    pub fn new(query: Arc<dyn Query + Send + Sync>) -> GrpcQuery {
-        GrpcQuery { query }
+impl GrpcQueryService {
+    pub fn new(query: Arc<dyn Query + Send + Sync>) -> GrpcQueryService {
+        GrpcQueryService { query }
     }
 }
 
 #[tonic::async_trait]
-impl grpc_comments::query_server::Query for GrpcQuery {
+impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
     type GetCommentsOnPostStream = tokio::sync::mpsc::Receiver<
         Result<grpc_comments::Comment, Status>>;
 
@@ -113,12 +113,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let in_memory_comments = Arc::new(InMemoryComments::new());
     let command_handler = Arc::new(EventBackedCommandHandler::new(event_store));
 
-    let grpc_query = GrpcQuery::new(in_memory_comments.clone());
-    let grpc_command_handler = GrpcCommand::new(command_handler.clone());
+    let grpc_query = GrpcQueryService::new(in_memory_comments.clone());
+    let grpc_command_handler = GrpcCommandService::new(command_handler.clone());
     let grpc_task = tokio::spawn(async move {
         Server::builder()
-            .add_service(CommandServer::new(grpc_command_handler))
-            .add_service(QueryServer::new(grpc_query))
+            .add_service(CommandServiceServer::new(grpc_command_handler))
+            .add_service(QueryServiceServer::new(grpc_query))
             .serve(addr)
             .await.unwrap();
     });
