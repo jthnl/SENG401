@@ -66,12 +66,12 @@ public class MongoDBHandler {
 		return allNotifications;
 	}
 
-	public void changeNotificationToSeen(MyNotification notification){
+	public void changeNotificationToSeen(String user_id, String forum_id){	//maybe add a timestamp here
 		setCollection("Notifications");
 		Document query = new Document();
 //		Document toChange = new Document();
-		query.put("User ID", notification.getUser_id());
-		query.put("Forum ID", notification.getForum_id());
+		query.put("User ID", user_id);
+		query.put("Forum ID", forum_id);
 //		toChange.put("User ID", notification.getUser_id());
 //		toChange.put("Forum ID", notification.getForum_id());
 //		toChange.put("Timestamp", notification.getTime());
@@ -80,19 +80,19 @@ public class MongoDBHandler {
 		collection.updateOne(query, new Document("$set", new Document("Seen", "True")));
 	}
 
-	public void addSubscripton(MySubscription subscription){
+	public void addSubscription(String user_id, String forum_id){
 		setCollection("Subscriptions");
 		Document toInsert = new Document();
-		toInsert.put("User ID", subscription.getUser_id());
-		toInsert.put("Forum ID", subscription.getForum_id());
+		toInsert.put("User ID", user_id);
+		toInsert.put("Forum ID", forum_id);
 		collection.insertOne(toInsert);
 	}
 
-	public void removeSubscription(MySubscription subscription) {
+	public void removeSubscription(String user_id, String forum_id) {
 		setCollection("Subscriptions");
 		Document toDelete = new Document();
-		toDelete.put("User ID", subscription.getUser_id());
-		toDelete.put("Forum ID", subscription.getForum_id());
+		toDelete.put("User ID", user_id);
+		toDelete.put("Forum ID", forum_id);
 		collection.deleteOne(toDelete);
 	}
 

@@ -33,7 +33,7 @@ public class runNotifications {
 		//System.out.println(new Timestamp(new Date().getTime()).toString());
 
 		//dbConnect.addSubscripton(testSub);
-		//dbConnect.addNotificationsForNewPost( "5");
+		dbConnect.addNotificationsForNewPost( "5");
 		//dbConnect.removeSubscription(new MySubscription("7", "5"));
 		dbConnect.getAllNotificationsForUser("7");
 		//dbConnect.changeNotificationToSeen(new MyNotification("7","5"));

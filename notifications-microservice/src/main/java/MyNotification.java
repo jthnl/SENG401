@@ -13,7 +13,7 @@ public class MyNotification {
 		this.setForum_id(forum_id);
 		setTime(new Timestamp(new Date().getTime()).toString());
 		seenFlag = "False";
-		setMessage("There is a new post in " + forum_id + " from " + user_id + "! ");
+		setMessage("There is a new post in " + forum_id + "! ");
 	}
 	
 	public MyNotification(String user_id, String forum_id, String timeStamp, String seen, String message) {

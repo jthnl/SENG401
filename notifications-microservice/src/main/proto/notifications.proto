@@ -4,43 +4,44 @@ option java_package = "notifications.grpc";
 
 
 service notificationService{
-    rpc subscribe(subscribeRequest) returns (subscribeResponse);
+    rpc subscribe(subscribeRequest) returns (subscribeResponse);    //they call subscribe, pass in subscribe request, and get back subscribe response
     rpc unsubscribe(unsubscribeRequest) returns (unsubscribeResponse);
-    rpc loginNotifications (loginNotificationsRequest) returns (loginNotificationsResponse);
+    rpc getNotifications (getNotificationsRequest) returns (stream getNotificationsResponse);
     rpc seenNotification (seenNotificationRequest) returns (seenNotificationResponse);
 }
 
-
-
-message subscribeRequest {
+message subscribeRequest {  //this is effectively a data structure
     string user_id = 1;
     string forum_id = 2;
 }
 
 message subscribeResponse {
-    string successful = 1;
+    string response = 1;
 }
 
 message unsubscribeRequest {
-
+    string user_id = 1;
+    string forum_id = 2;
 }
 
 message unsubscribeResponse {
-
+    string response = 1;
 }
 
-message loginNotificationsRequest{
-
+message getNotificationsRequest{
+    string user_id = 1;
 }
 
-message loginNotificationsResponse{
-
+message getNotificationsResponse{   //currently I return an array of notifications
+    string user_id = 1;
+    string forum_id = 2;
 }
 
 message seenNotificationRequest{
-
+    string user_id = 1;
+    string forum_id = 2;
 }
 
 message seenNotificationResponse {
-
+    string response = 1;
 }
