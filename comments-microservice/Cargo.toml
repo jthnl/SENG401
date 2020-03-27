@@ -7,9 +7,14 @@ edition = "2018"
 tonic = "0.1"
 prost = "0.6"
 tokio = { version = "0.2", features = ["full"] }
-uuid = { version = "0.8", features = ["v4"] }
-chrono = "0.4"
+uuid = { version = "0.8", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
 itertools = "0.8"
+mongodb = "0.9"
+bson = "0.14"
+serde = "1.0"
+serde_json = "1.0"
+futures = "0.3"
 
 [build-dependencies]
 tonic-build = "0.1.0"

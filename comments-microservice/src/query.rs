@@ -1,6 +1,8 @@
-use uuid::Uuid;
-use crate::comments::Comment;
 use std::error::Error;
+
+use uuid::Uuid;
+
+use crate::comment::Comment;
 
 pub trait Query {
     // Todo: Return iterator rather than vector

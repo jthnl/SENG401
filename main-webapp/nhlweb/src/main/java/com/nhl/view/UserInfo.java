@@ -5,15 +5,15 @@
  * Jedediah Heal
  */
 
-package nhl.entities;
+package com.nhl.view;
 
 public class UserInfo
 {
-	private String username;
-	private String password;
-	private String fname;
-	private String lname;
-	private String email;
+	public String username;
+	public String password;
+	public String fname;
+	public String lname;
+	public String email;
 
 	public static void main( String args[] )
 	{
@@ -29,13 +29,4 @@ public class UserInfo
 		this.email = email;
 	}
 
-	public String getUsername()
-	{
-		return username;
-	}
-
-	public String getPassword()
-	{
-		return password;
-	}
 }
