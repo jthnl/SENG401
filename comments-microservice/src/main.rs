@@ -16,7 +16,7 @@ use grpc_comments::command_service_server::CommandServiceServer;
 use grpc_comments::GetCommentsOnPostRequest;
 use grpc_comments::query_service_server::QueryServiceServer;
 
-use crate::command::{AddCommentCommand, Command, EventBackedCommandHandler, RemoveCommentCommand};
+use crate::command::{AddCommentCommand, Command, DownvoteCommentCommand, EventBackedCommandHandler, UpvoteCommentCommand, RemoveCommentCommand};
 use crate::comment::InMemoryComments;
 use crate::event::MongoDbEventStore;
 use crate::event_processor::{BsonEventProcessor, EventProcessor};
@@ -74,6 +74,36 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
         let reply = grpc_comments::Empty {};
         Ok(Response::new(reply))
     }
+
+    async fn upvote_comment(
+        &self,
+        request: Request<grpc_comments::UpvoteCommentCommand>,
+    ) -> Result<Response<grpc_comments::Empty>, Status> {
+        println!("Got a request: {:?}", request);
+
+        self.command_handler.upvote_comment(UpvoteCommentCommand {
+            comment_id: Uuid::parse_str(&request.get_ref().comment_id)
+                .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
+        }).map_err(|e| Status::internal(e.to_string()))?;
+
+        let reply = grpc_comments::Empty {};
+        Ok(Response::new(reply))
+    }
+
+    async fn downvote_comment(
+        &self,
+        request: Request<grpc_comments::DownvoteCommentCommand>,
+    ) -> Result<Response<grpc_comments::Empty>, Status> {
+        println!("Got a request: {:?}", request);
+
+        self.command_handler.downvote_comment(DownvoteCommentCommand {
+            comment_id: Uuid::parse_str(&request.get_ref().comment_id)
+                .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
+        }).map_err(|e| Status::internal(e.to_string()))?;
+
+        let reply = grpc_comments::Empty {};
+        Ok(Response::new(reply))
+    }
 }
 
 pub struct GrpcQueryService {
@@ -110,6 +140,8 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
                     post_id: comment.post_id.to_string(),
                     content: comment.content,
                     timestamp: comment.timestamp.to_string(),
+                    upvotes: comment.upvotes,
+                    downvotes: comment.downvotes,
                 })).await.unwrap();
             }
         });
@@ -140,6 +172,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let event_processor = BsonEventProcessor::new(in_memory_comments.clone());
     let update_task = tokio::spawn(async move {
+        // Todo: Move this code elsewhere
+
         let mut last_timestamp: Option<DateTime<Utc>> = None;
 
         loop {

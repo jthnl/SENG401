@@ -15,6 +15,8 @@ pub struct Comment {
     pub post_id: Uuid,
     pub content: String,
     pub timestamp: DateTime<Utc>,
+    pub upvotes: i32,
+    pub downvotes: i32,
 }
 
 pub struct InMemoryComments {
@@ -49,6 +51,8 @@ impl EventMaterializer for InMemoryComments {
                     post_id: comment_added.post_id,
                     content: comment_added.content,
                     timestamp: event.timestamp,
+                    upvotes: 0,
+                    downvotes: 0,
                 };
 
                 // It is assumed that no comment already exists with the same id
@@ -60,10 +64,32 @@ impl EventMaterializer for InMemoryComments {
                     .remove(&comment_removed.comment_id);
 
                 match removed {
-                    Some(_) => Ok(()),
                     None =>
                         Err(format!("No comment with id `{}` found.", &comment_removed.comment_id)
-                            .into())
+                            .into()),
+                    Some(_) => Ok(()),
+                }
+            }
+            EventData::CommentUpvoted(comment_upvoted) => {
+                match self.comments.write().unwrap().get_mut(&comment_upvoted.comment_id) {
+                    None => Err(
+                        format!("No comment with id `{}` found.", &comment_upvoted.comment_id)
+                            .into()),
+                    Some(comment) => {
+                        comment.upvotes += 1;
+                        Ok(())
+                    }
+                }
+            }
+            EventData::CommentDownvoted(comment_downvoted) => {
+                match self.comments.write().unwrap().get_mut(&comment_downvoted.comment_id) {
+                    None => Err(
+                        format!("No comment with id `{}` found.", &comment_downvoted.comment_id)
+                            .into()),
+                    Some(comment) => {
+                        comment.downvotes += 1;
+                        Ok(())
+                    }
                 }
             }
         }
