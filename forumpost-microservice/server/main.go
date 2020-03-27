@@ -16,6 +16,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"github.com/google/uuid"
 	forumpb "../proto/forum"
 	postpb "../proto/post"
 )
@@ -158,12 +159,12 @@ func (s *ForumServiceServer) DeleteForum(ctx context.Context, req *forumpb.Delet
 type PostServiceServer struct{}
 
 type PostItem struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty"`
-	ForumID	 primitive.ObjectID `bson:"_forum_id,omitempty"`
-	AuthorID string             `bson:"author_id"`
-	Title    string             `bson:"title"`
-	Content  string             `bson:"content"`
-	Timestamp string 			`bson:"timestamp"`
+	ID       string		 				`bson:"_id,omitempty"`
+	ForumID	 primitive.ObjectID 		`bson:"_forum_id,omitempty"`
+	AuthorID string             		`bson:"author_id"`
+	Title    string             		`bson:"title"`
+	Content  string             		`bson:"content"`
+	Timestamp string 					`bson:"timestamp"`
 }
 
 func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePostReq) (*postpb.CreatePostRes, error) {
@@ -177,6 +178,7 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePo
 	curr_time := time.Now().String()
 	// convert to local struct
 	data := PostItem{
+		ID: uuid.New().String(),
 		ForumID: forum_id,
 		AuthorID: post.GetAuthorId(),
 		Title: post.GetTitle(),
@@ -190,8 +192,8 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePo
 		)
 	}
 	// get generated ID, and set timestamp
-	oid := result.InsertedID.(primitive.ObjectID)
-	post.Id = oid.Hex()
+	oid := result.InsertedID.(string)
+	post.Id = oid
 	post.Timestamp = curr_time  
 	// return post back
 	return &postpb.CreatePostRes{Post: post}, nil
@@ -199,10 +201,7 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePo
 
 func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostReq) (*postpb.ReadPostRes, error) {
 	// read requested post ID
-	oid, err := primitive.ObjectIDFromHex(req.GetId());
-	if(err != nil){
-		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
-	}
+	oid := req.GetId()
 	// find post on mongoDB
 	result := postdb.FindOne(ctx, bson.M{"_id": oid})
 	data := PostItem{}
@@ -212,7 +211,7 @@ func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostRe
 	// setup response of post found
 	response := &postpb.ReadPostRes{
 		Post: &postpb.Post{
-			Id: oid.Hex(),
+			Id: oid,
 			ForumId: data.ForumID.Hex(),
 			AuthorId: data.AuthorID,
 			Title: data.Title,
@@ -245,7 +244,7 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 		}
 		stream.Send(&postpb.ListPostRes{
 			Post: &postpb.Post{
-				Id: data.ID.Hex(),
+				Id: data.ID,
 				ForumId: data.ForumID.Hex(),
 				AuthorId: data.AuthorID,
 				Title:    data.Title,
@@ -264,10 +263,7 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdatePostReq) (*postpb.UpdatePostRes, error){
 	// read post to be update
 	post := req.GetPost()
-	oid, err := primitive.ObjectIDFromHex(post.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Post id %v", err),)
-	}
+	oid := post.GetId()
 	fid, err := primitive.ObjectIDFromHex(post.GetForumId())
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Error getting Forum id %v", err),)
@@ -292,7 +288,7 @@ func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdateP
 	// return updated post
 	return &postpb.UpdatePostRes{
 		Post: &postpb.Post{
-			Id:       decoded.ID.Hex(),
+			Id:       decoded.ID,
 			AuthorId: decoded.AuthorID,
 			Title:    decoded.Title,
 			Content:  decoded.Content,
@@ -303,12 +299,9 @@ func (s *PostServiceServer)  UpdatePost(ctx context.Context, req *postpb.UpdateP
 
 func (s *PostServiceServer) DeletePost(ctx context.Context, req *postpb.DeletePostReq) (*postpb.DeletePostRes, error) {
 	// read id of post to be deleted
-	oid, err := primitive.ObjectIDFromHex(req.GetId())
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
-	}
+	oid := req.GetId()
 	// delete post
-	_, err = postdb.DeleteOne(ctx, bson.M{"_id": oid})
+	_, err := postdb.DeleteOne(ctx, bson.M{"_id": oid})
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Post was not deleted. post id requested = %s: %v", req.GetId(), err))
 	}
