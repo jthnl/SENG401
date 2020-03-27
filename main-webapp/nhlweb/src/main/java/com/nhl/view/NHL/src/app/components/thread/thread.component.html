@@ -4,13 +4,13 @@
             <table class="post-table text-center">
                 <tr>
                     <td rowspan="3"><img class="logo" src="../../../assets/flames_logo.png"></td>
-                    <td class="font-weight-bold">Flames</td>
+                    <td class="font-weight-bold">Forum</td>
                 </tr>
                 <tr>
-                    <td class="small">{{ contact.name }}</td>
+                    <td class="small">Name</td>
                 </tr>
                 <tr>
-                    <td class="small font-weight-light">1 hour ago</td>
+                    <td class="small font-weight-light">Time stamp</td>
                 </tr>
                 <tr>
                     <td>Shares</td>
@@ -23,12 +23,8 @@
         </div>
         <div class="col-9">
             <mat-progress-bar mode="qudeterminateery" color="" value="40"></mat-progress-bar>
-            <h4 class="post-title">Title {{ contact.email }}</h4>
-            <p class="post-description">
-                Just witnessed the most epic save. Just witnessed the most epic save. 
-                Just witnessed the Just witnessed the most epic save.ost epic save. 
-                Just witnes …{{ contact.age }}</p>
-
+            <h4 class="post-title">{{ forum.title }}</h4>
+            <p class="post-description"> {{ forum.content }} </p>
         </div>
     </div>
 </div>

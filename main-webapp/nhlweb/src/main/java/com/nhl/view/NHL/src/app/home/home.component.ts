@@ -3,7 +3,9 @@ import { Contact } from '../models/contact.class';
 import { of, Observable } from 'rxjs';
 import { teams } from '../models/teams';
 import { NhlStatsService } from '../services/nhl-stats.service';
+import { NhlWebappService } from '../services/nhl-webapp.service';
 import { Schedule } from '../models/schedule.class';
+import { Forum } from '../models/forum.class';
 
 
 @Component({
@@ -16,12 +18,15 @@ export class HomeComponent implements OnInit {
   contacts: Observable<Contact[]>;
   teams = teams;
   upcomingGames: Schedule[];
+  forums: Forum[];
 
-  constructor(private statsService: NhlStatsService) { }
+
+  constructor(private statsService: NhlStatsService, private webappService: NhlWebappService) { }
 
   ngOnInit() {
 
     this.getUpcomingGames();
+    this.getForums();
 
     this.contacts = of([
       {
@@ -58,11 +63,19 @@ export class HomeComponent implements OnInit {
 
   }
 
-    getUpcomingGames() {
-      this.statsService
-      .getUpcomingGames()
-      .subscribe((data) => {
-        this.upcomingGames = data;
-      });
+  getUpcomingGames() {
+    this.statsService
+    .getUpcomingGames()
+    .subscribe((data) => {
+      this.upcomingGames = data;
+    });
   }
+
+  getForums() {
+    this.webappService
+    .getForums()
+    .subscribe((data) => {
+      this.forums = data;
+    });
+}
 }

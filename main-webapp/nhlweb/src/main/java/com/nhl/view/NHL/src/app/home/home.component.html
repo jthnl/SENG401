@@ -47,8 +47,8 @@
         </nav>
           <div class="card bg-transparent">
             <ul class="post">
-              <li *ngFor="let contact of contacts | async" routerLink="/post">
-                <app-thread [contact]=contact></app-thread>
+              <li *ngFor="let forum of forums" routerLink="/post">
+                <app-thread [forum]=forum></app-thread>
               </li>
             </ul>
       </div>
