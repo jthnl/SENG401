@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CommentsQueryController {
     @GetMapping(value="/comments/query/commentsOnPost")
-    public MessageView getForums(@RequestParam("postId") String postId) {
+    public MessageView commentsOnPost(@RequestParam("postId") String postId) {
         CommentsQueryGRPCModel commentsQueryGRPCModel = new CommentsQueryGRPCModel();
         CommentsListView ret = new CommentsListView();
         ret.setCommentsList(commentsQueryGRPCModel.getCommentsOnPost(postId));

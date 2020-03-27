@@ -4,18 +4,18 @@ import com.comments.commentsproto.Comment;
 
 public class CommentView implements MsgObjectView {
     public String id;
-    public String post_id;
+    public String postId;
     public String content;
 
-    public CommentView(String id, String post_id, String content){
+    public CommentView(String id, String postId, String content){
         this.id = id;
-        this.post_id = post_id;
+        this.postId = postId;
         this.content = content;
     }
 
     public CommentView(Comment f){
         this.id = f.getId();
-        this.post_id = f.getPostId();
+        this.postId = f.getPostId();
         this.content = f.getContent();
     }
 }
