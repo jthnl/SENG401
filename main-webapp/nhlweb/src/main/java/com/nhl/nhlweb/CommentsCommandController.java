@@ -19,4 +19,18 @@ public class CommentsCommandController {
         commentsCommandGRPCModel.removeComment(removeCommentView.commentId);
         return new MessageView(false, null, false, "success", null);
     }
+
+    @PostMapping(value = "/comments/command/upvoteComment")
+    public MessageView upvoteComment(@RequestBody UpvoteCommentView upvoteCommentView) {
+        CommentsCommandGRPCModel commentsCommandGRPCModel = new CommentsCommandGRPCModel();
+        commentsCommandGRPCModel.upvoteComment(upvoteCommentView.commentId);
+        return new MessageView(false, null, false, "success", null);
+    }
+
+    @PostMapping(value = "/comments/command/downvoteComment")
+    public MessageView downvoteComment(@RequestBody DownvoteCommentView downvoteCommentView) {
+        CommentsCommandGRPCModel commentsCommandGRPCModel = new CommentsCommandGRPCModel();
+        commentsCommandGRPCModel.downvoteComment(downvoteCommentView.commentId);
+        return new MessageView(false, null, false, "success", null);
+    }
 }

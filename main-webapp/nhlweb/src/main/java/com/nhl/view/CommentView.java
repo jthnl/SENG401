@@ -6,16 +6,22 @@ public class CommentView implements MsgObjectView {
     public String id;
     public String postId;
     public String content;
+    public int upvotes;
+    public int downvotes;
 
-    public CommentView(String id, String postId, String content){
+    public CommentView(String id, String postId, String content, int upvotes, int downvotes) {
         this.id = id;
         this.postId = postId;
         this.content = content;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
     }
 
-    public CommentView(Comment f){
-        this.id = f.getId();
-        this.postId = f.getPostId();
-        this.content = f.getContent();
+    public CommentView(Comment comment){
+        this.id = comment.getId();
+        this.postId = comment.getPostId();
+        this.content = comment.getContent();
+        this.upvotes = comment.getUpvotes();
+        this.downvotes = comment.getDownvotes();
     }
 }

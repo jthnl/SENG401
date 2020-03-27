@@ -12,6 +12,7 @@ public class CommentsQueryGRPCModel {
     private final QueryServiceGrpc.QueryServiceBlockingStub queryStub;
 
     public CommentsQueryGRPCModel() {
+        // Todo: Reuse the same channel for the application lifetime
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress("localhost", 50052)
                 .usePlaintext()
