@@ -79,23 +79,25 @@ public final class Notifications {
       "nsubscribeRequest\022\017\n\007user_id\030\001 \001(\t\022\020\n\010fo" +
       "rum_id\030\002 \001(\t\"\'\n\023unsubscribeResponse\022\020\n\010r" +
       "esponse\030\001 \001(\t\"*\n\027getNotificationsRequest" +
-      "\022\017\n\007user_id\030\001 \001(\t\"=\n\030getNotificationsRes" +
+      "\022\017\n\007user_id\030\001 \001(\t\"|\n\030getNotificationsRes" +
       "ponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(\t" +
-      "\"<\n\027seenNotificationRequest\022\017\n\007user_id\030\001" +
-      " \001(\t\022\020\n\010forum_id\030\002 \001(\t\",\n\030seenNotificati",
-      "onResponse\022\020\n\010response\030\001 \001(\t\"*\n\026addNotif" +
-      "icationRequest\022\020\n\010forum_id\030\001 \001(\t\"+\n\027addN" +
-      "otificationResponse\022\020\n\010response\030\001 \001(\t2\336\002" +
-      "\n\023notificationService\0222\n\tsubscribe\022\021.sub" +
-      "scribeRequest\032\022.subscribeResponse\0228\n\013uns" +
-      "ubscribe\022\023.unsubscribeRequest\032\024.unsubscr" +
-      "ibeResponse\022I\n\020getNotifications\022\030.getNot" +
-      "ificationsRequest\032\031.getNotificationsResp" +
-      "onse0\001\022G\n\020seenNotification\022\030.seenNotific" +
-      "ationRequest\032\031.seenNotificationResponse\022",
-      "E\n\020addNotifications\022\027.addNotificationReq" +
-      "uest\032\030.addNotificationResponseB\026\n\022notifi" +
-      "cations.grpcP\001b\006proto3"
+      "\022\021\n\ttimestamp\030\003 \001(\t\022\017\n\007message\030\004 \001(\t\022\031\n\021" +
+      "notificationCount\030\005 \001(\t\"<\n\027seenNotificat",
+      "ionRequest\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030" +
+      "\002 \001(\t\",\n\030seenNotificationResponse\022\020\n\010res" +
+      "ponse\030\001 \001(\t\"*\n\026addNotificationRequest\022\020\n" +
+      "\010forum_id\030\001 \001(\t\"+\n\027addNotificationRespon" +
+      "se\022\020\n\010response\030\001 \001(\t2\336\002\n\023notificationSer" +
+      "vice\0222\n\tsubscribe\022\021.subscribeRequest\032\022.s" +
+      "ubscribeResponse\0228\n\013unsubscribe\022\023.unsubs" +
+      "cribeRequest\032\024.unsubscribeResponse\022I\n\020ge" +
+      "tNotifications\022\030.getNotificationsRequest" +
+      "\032\031.getNotificationsResponse0\001\022G\n\020seenNot",
+      "ification\022\030.seenNotificationRequest\032\031.se" +
+      "enNotificationResponse\022E\n\020addNotificatio" +
+      "ns\022\027.addNotificationRequest\032\030.addNotific" +
+      "ationResponseB\026\n\022notifications.grpcP\001b\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -144,7 +146,7 @@ public final class Notifications {
     internal_static_getNotificationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_getNotificationsResponse_descriptor,
-        new java.lang.String[] { "UserId", "ForumId", });
+        new java.lang.String[] { "UserId", "ForumId", "Timestamp", "Message", "NotificationCount", });
     internal_static_seenNotificationRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_seenNotificationRequest_fieldAccessorTable = new

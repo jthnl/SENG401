@@ -61,7 +61,15 @@ public class MongoDBHandler {
 		Document result = new Document();
 		while(iterator.hasNext()) {
 			result = iterator.next();
-			allNotifications.add(new MyNotification(user_id, result.get("Forum ID").toString()));
+			allNotifications.add(
+					new MyNotification(
+							user_id,
+							result.get("Forum ID").toString(),
+							result.get("Timestamp").toString(),
+							"False",
+							result.get("Message").toString()
+					)
+			);
 		}
 		return allNotifications;
 	}

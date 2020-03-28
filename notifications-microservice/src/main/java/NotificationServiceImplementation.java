@@ -27,11 +27,26 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
         MongoDBHandler dbConnect = new MongoDBHandler();
         ArrayList<MyNotification> result = dbConnect.getAllNotificationsForUser(request.getUserId());
         getNotificationsResponse response;
-        for (int i = 0; i < result.size(); i++) {
+        if (result.size() == 0) {       //change the count and assign "" to all others
             response = getNotificationsResponse.newBuilder()
-                    .setForumId(result.get(i).getForum_id())
-                    .setUserId(result.get(i).getUser_id()).build();
+                    .setForumId("")
+                    .setUserId("")
+                    .setTimestamp("")
+                    .setMessage("")
+                    .setNotificationCount("0")
+                    .build();
             responseObserver.onNext(response);
+        } else {        //change everything
+            for (int i = 0; i < result.size(); i++) {
+                response = getNotificationsResponse.newBuilder()
+                        .setForumId(result.get(i).getForum_id())
+                        .setUserId(result.get(i).getUser_id())
+                        .setTimestamp(result.get(i).getTime())
+                        .setMessage(result.get(i).getMessage())
+                        .setNotificationCount(Integer.toString(result.size()))
+                        .build();
+                responseObserver.onNext(response);
+            }
         }
         responseObserver.onCompleted();
     }

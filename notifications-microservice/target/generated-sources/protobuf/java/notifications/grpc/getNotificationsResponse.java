@@ -21,6 +21,9 @@ public  final class getNotificationsResponse extends
   private getNotificationsResponse() {
     userId_ = "";
     forumId_ = "";
+    timestamp_ = "";
+    message_ = "";
+    notificationCount_ = "";
   }
 
   @java.lang.Override
@@ -58,6 +61,24 @@ public  final class getNotificationsResponse extends
             java.lang.String s = input.readStringRequireUtf8();
 
             forumId_ = s;
+            break;
+          }
+          case 26: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            timestamp_ = s;
+            break;
+          }
+          case 34: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            message_ = s;
+            break;
+          }
+          case 42: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            notificationCount_ = s;
             break;
           }
         }
@@ -151,6 +172,108 @@ public  final class getNotificationsResponse extends
     }
   }
 
+  public static final int TIMESTAMP_FIELD_NUMBER = 3;
+  private volatile java.lang.Object timestamp_;
+  /**
+   * <code>string timestamp = 3;</code>
+   */
+  public java.lang.String getTimestamp() {
+    java.lang.Object ref = timestamp_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      timestamp_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string timestamp = 3;</code>
+   */
+  public com.google.protobuf.ByteString
+      getTimestampBytes() {
+    java.lang.Object ref = timestamp_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      timestamp_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int MESSAGE_FIELD_NUMBER = 4;
+  private volatile java.lang.Object message_;
+  /**
+   * <code>string message = 4;</code>
+   */
+  public java.lang.String getMessage() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      message_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string message = 4;</code>
+   */
+  public com.google.protobuf.ByteString
+      getMessageBytes() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      message_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int NOTIFICATIONCOUNT_FIELD_NUMBER = 5;
+  private volatile java.lang.Object notificationCount_;
+  /**
+   * <code>string notificationCount = 5;</code>
+   */
+  public java.lang.String getNotificationCount() {
+    java.lang.Object ref = notificationCount_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      notificationCount_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string notificationCount = 5;</code>
+   */
+  public com.google.protobuf.ByteString
+      getNotificationCountBytes() {
+    java.lang.Object ref = notificationCount_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      notificationCount_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -169,6 +292,15 @@ public  final class getNotificationsResponse extends
     if (!getForumIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, forumId_);
     }
+    if (!getTimestampBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+    }
+    if (!getMessageBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, message_);
+    }
+    if (!getNotificationCountBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, notificationCount_);
+    }
   }
 
   public int getSerializedSize() {
@@ -181,6 +313,15 @@ public  final class getNotificationsResponse extends
     }
     if (!getForumIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, forumId_);
+    }
+    if (!getTimestampBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
+    }
+    if (!getMessageBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, message_);
+    }
+    if (!getNotificationCountBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, notificationCount_);
     }
     memoizedSize = size;
     return size;
@@ -202,6 +343,12 @@ public  final class getNotificationsResponse extends
         .equals(other.getUserId());
     result = result && getForumId()
         .equals(other.getForumId());
+    result = result && getTimestamp()
+        .equals(other.getTimestamp());
+    result = result && getMessage()
+        .equals(other.getMessage());
+    result = result && getNotificationCount()
+        .equals(other.getNotificationCount());
     return result;
   }
 
@@ -216,6 +363,12 @@ public  final class getNotificationsResponse extends
     hash = (53 * hash) + getUserId().hashCode();
     hash = (37 * hash) + FORUM_ID_FIELD_NUMBER;
     hash = (53 * hash) + getForumId().hashCode();
+    hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+    hash = (53 * hash) + getTimestamp().hashCode();
+    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+    hash = (53 * hash) + getMessage().hashCode();
+    hash = (37 * hash) + NOTIFICATIONCOUNT_FIELD_NUMBER;
+    hash = (53 * hash) + getNotificationCount().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -353,6 +506,12 @@ public  final class getNotificationsResponse extends
 
       forumId_ = "";
 
+      timestamp_ = "";
+
+      message_ = "";
+
+      notificationCount_ = "";
+
       return this;
     }
 
@@ -377,6 +536,9 @@ public  final class getNotificationsResponse extends
       notifications.grpc.getNotificationsResponse result = new notifications.grpc.getNotificationsResponse(this);
       result.userId_ = userId_;
       result.forumId_ = forumId_;
+      result.timestamp_ = timestamp_;
+      result.message_ = message_;
+      result.notificationCount_ = notificationCount_;
       onBuilt();
       return result;
     }
@@ -424,6 +586,18 @@ public  final class getNotificationsResponse extends
       }
       if (!other.getForumId().isEmpty()) {
         forumId_ = other.forumId_;
+        onChanged();
+      }
+      if (!other.getTimestamp().isEmpty()) {
+        timestamp_ = other.timestamp_;
+        onChanged();
+      }
+      if (!other.getMessage().isEmpty()) {
+        message_ = other.message_;
+        onChanged();
+      }
+      if (!other.getNotificationCount().isEmpty()) {
+        notificationCount_ = other.notificationCount_;
         onChanged();
       }
       onChanged();
@@ -586,6 +760,213 @@ public  final class getNotificationsResponse extends
   checkByteStringIsUtf8(value);
       
       forumId_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object timestamp_ = "";
+    /**
+     * <code>string timestamp = 3;</code>
+     */
+    public java.lang.String getTimestamp() {
+      java.lang.Object ref = timestamp_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        timestamp_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string timestamp = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTimestampBytes() {
+      java.lang.Object ref = timestamp_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        timestamp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string timestamp = 3;</code>
+     */
+    public Builder setTimestamp(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      timestamp_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string timestamp = 3;</code>
+     */
+    public Builder clearTimestamp() {
+      
+      timestamp_ = getDefaultInstance().getTimestamp();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string timestamp = 3;</code>
+     */
+    public Builder setTimestampBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      timestamp_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object message_ = "";
+    /**
+     * <code>string message = 4;</code>
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string message = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string message = 4;</code>
+     */
+    public Builder setMessage(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      message_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string message = 4;</code>
+     */
+    public Builder clearMessage() {
+      
+      message_ = getDefaultInstance().getMessage();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string message = 4;</code>
+     */
+    public Builder setMessageBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      message_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object notificationCount_ = "";
+    /**
+     * <code>string notificationCount = 5;</code>
+     */
+    public java.lang.String getNotificationCount() {
+      java.lang.Object ref = notificationCount_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        notificationCount_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string notificationCount = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNotificationCountBytes() {
+      java.lang.Object ref = notificationCount_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        notificationCount_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string notificationCount = 5;</code>
+     */
+    public Builder setNotificationCount(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      notificationCount_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string notificationCount = 5;</code>
+     */
+    public Builder clearNotificationCount() {
+      
+      notificationCount_ = getDefaultInstance().getNotificationCount();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string notificationCount = 5;</code>
+     */
+    public Builder setNotificationCountBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      notificationCount_ = value;
       onChanged();
       return this;
     }
