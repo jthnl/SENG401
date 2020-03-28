@@ -1,6 +1,8 @@
 import io.grpc.stub.StreamObserver;
 import notifications.grpc.*;
 
+import java.util.ArrayList;
+
 public class NotificationServiceImplementation extends notificationServiceGrpc.notificationServiceImplBase {
     @Override
     public void subscribe(subscribeRequest request, StreamObserver<subscribeResponse> responseObserver) {
@@ -22,7 +24,16 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
 
     @Override
     public void getNotifications(getNotificationsRequest request, StreamObserver<getNotificationsResponse> responseObserver) {
-
+        MongoDBHandler dbConnect = new MongoDBHandler();
+        ArrayList<MyNotification> result = dbConnect.getAllNotificationsForUser(request.getUserId());
+        getNotificationsResponse response;
+        for (int i = 0; i < result.size(); i++) {
+            response = getNotificationsResponse.newBuilder()
+                    .setForumId(result.get(i).getForum_id())
+                    .setUserId(result.get(i).getUser_id()).build();
+            responseObserver.onNext(response);
+        }
+        responseObserver.onCompleted();
     }
 
     @Override
@@ -30,6 +41,15 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
         MongoDBHandler dbConnect = new MongoDBHandler();
         dbConnect.changeNotificationToSeen(request.getUserId(), request.getForumId());
         seenNotificationResponse response = seenNotificationResponse.newBuilder().setResponse("success").build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void addNotifications(addNotificationRequest request, StreamObserver<addNotificationResponse> responseObserver) {
+        MongoDBHandler dbConnect = new MongoDBHandler();
+        dbConnect.addNotificationsForNewPost(request.getForumId());
+        addNotificationResponse response = addNotificationResponse.newBuilder().setResponse("success").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

@@ -8,6 +8,7 @@ service notificationService{
     rpc unsubscribe(unsubscribeRequest) returns (unsubscribeResponse);
     rpc getNotifications (getNotificationsRequest) returns (stream getNotificationsResponse);
     rpc seenNotification (seenNotificationRequest) returns (seenNotificationResponse);
+    rpc addNotifications (addNotificationRequest) returns (addNotificationResponse);
 }
 
 message subscribeRequest {  //this is effectively a data structure
@@ -43,5 +44,13 @@ message seenNotificationRequest{
 }
 
 message seenNotificationResponse {
+    string response = 1;
+}
+
+message addNotificationRequest{
+    string forum_id = 1;
+}
+
+message addNotificationResponse{
     string response = 1;
 }
