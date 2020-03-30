@@ -12,6 +12,9 @@ import java.util.ArrayList;
 
 @RestController
 public class ForumController {
+    private final String corsEnabled = "http://localhost:4200";
+
+    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/forum")
     public MessageView getForums(@RequestParam(value = "u", defaultValue = "all") String userSelect) {
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -24,6 +27,7 @@ public class ForumController {
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/create")
     public MessageView createForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -32,6 +36,7 @@ public class ForumController {
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/modify")
     public MessageView modifyForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -45,6 +50,7 @@ public class ForumController {
         }
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/delete")
     public MessageView deleteForum(@RequestBody ForumView forumJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();

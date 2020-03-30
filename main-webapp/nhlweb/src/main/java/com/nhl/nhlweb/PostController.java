@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PostController {
+    private final String corsEnabled = "http://localhost:4200";
+
+    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post")
     public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = true) String selectId){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -17,6 +20,7 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/create")
     public MessageView createPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -25,6 +29,7 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/modify")
     public MessageView modifyPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -38,6 +43,7 @@ public class PostController {
         }
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/delete")
     public MessageView deletePost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();

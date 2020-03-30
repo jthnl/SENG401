@@ -1,8 +1,6 @@
 package com.nhl.model;
 
-import com.comments.commentsproto.AddCommentCommand;
-import com.comments.commentsproto.CommandServiceGrpc;
-import com.comments.commentsproto.RemoveCommentCommand;
+import com.comments.commentsproto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -10,6 +8,7 @@ public class CommentsCommandGRPCModel {
     private final CommandServiceGrpc.CommandServiceBlockingStub commandStub;
 
     public CommentsCommandGRPCModel() {
+        // Todo: Reuse the same channel for the application lifetime
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress("localhost", 50052)
                 .usePlaintext()
@@ -37,5 +36,25 @@ public class CommentsCommandGRPCModel {
 
         //noinspection ResultOfMethodCallIgnored
         commandStub.removeComment(request);
+    }
+
+    public void upvoteComment(String commentId){
+        UpvoteCommentCommand request = UpvoteCommentCommand
+                .newBuilder()
+                .setCommentId(commentId)
+                .build();
+
+        //noinspection ResultOfMethodCallIgnored
+        commandStub.upvoteComment(request);
+    }
+
+    public void downvoteComment(String commentId){
+        DownvoteCommentCommand request = DownvoteCommentCommand
+                .newBuilder()
+                .setCommentId(commentId)
+                .build();
+
+        //noinspection ResultOfMethodCallIgnored
+        commandStub.downvoteComment(request);
     }
 }
