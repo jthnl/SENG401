@@ -1,21 +1,37 @@
 syntax = "proto3";
 package comments;
 
-service CommandHandler {
-    rpc AddComment (AddCommentCommand) returns (Empty);
-}
+option java_package = "com.comments.commentsproto";
+option java_multiple_files = true;
 
-// Todo: Add a "ExecuteCommandRequest" message with the "oneof" keyword for containing one of many possible commands
+service CommandService {
+    rpc AddComment (AddCommentCommand) returns (Empty);
+    rpc RemoveComment (RemoveCommentCommand) returns (Empty);
+    rpc UpvoteComment (UpvoteCommentCommand) returns (Empty);
+    rpc DownvoteComment (DownvoteCommentCommand) returns (Empty);
+}
 
 message AddCommentCommand {
     string post_id = 1;
     string content = 2;
 }
 
+message RemoveCommentCommand {
+    string comment_id = 1;
+}
+
+message UpvoteCommentCommand {
+    string comment_id = 1;
+}
+
+message DownvoteCommentCommand {
+    string comment_id = 1;
+}
+
 // Todo: Use google.protobuf.Empty instead
 message Empty {}
 
-service Query {
+service QueryService {
     rpc GetCommentsOnPost(GetCommentsOnPostRequest) returns (stream Comment);
 }
 
@@ -28,4 +44,7 @@ message Comment {
     string post_id = 2;
     string content = 3;
     string timestamp = 4;
+    int32 upvotes = 5;
+    int32 downvotes = 6;
+
 }

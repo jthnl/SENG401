@@ -1,0 +1,17 @@
+.coming-soon {
+    width: 100%;
+    background-color: white;
+    padding: 5px;
+    margin: 10px 0;
+}
+
+.logo {
+    width: 30px;
+}
+
+.text-inform {
+
+    color: rgb(97, 97, 97);
+    font-size: 12px;
+    margin: 0;
+}
