@@ -9,7 +9,6 @@ import { NhlWebappService } from '../services/nhl-webapp.service';
 })
 export class CreateComponent implements OnInit {
 
-
   author_id: string;
   title = "title";
   content = "content";

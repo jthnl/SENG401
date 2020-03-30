@@ -18,7 +18,8 @@ export class NhlWebappService {
         const forums: Forum[] = [];
 
         data.object.forumList.forEach(element => {
-          forums.push(new Forum( element.id,
+          forums.push(new Forum(
+            // element.id,
                                  element.author_id,
                                  element.title,
                                  element.content,
