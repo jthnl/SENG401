@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Forum } from '../models/forum.class';
+import { NhlWebappService } from '../services/nhl-webapp.service';
 
 @Component({
   selector: 'app-create',
@@ -7,23 +8,22 @@ import { Forum } from '../models/forum.class';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
-  forum: Forum;
+
+
   author_id: string;
-  title: string;
-  content: string;
-  constructor() { }
+  title = "title";
+  content = "content";
+
+  constructor(private webappService: NhlWebappService ) { }
 
   ngOnInit() {
-    this.author_id = "example";
+    this.author_id = "testauthid";
   }
 
   create() {
-
-    this.forum = new Forum(this.author_id, this.title, this.content);
-
-    console.log(this.forum);
+    const forum: Forum = new Forum(this.author_id, this.title, this.content);
+    console.log('Posting forum: ', forum);
+    this.webappService.postForum(forum);
 
   }
-
-
 }

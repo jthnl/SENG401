@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './modules/material/material.module';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { AuthenticationModule } from './authentication/authentication.module';
@@ -37,6 +39,7 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     MaterialModule
   ],
   providers: [],
