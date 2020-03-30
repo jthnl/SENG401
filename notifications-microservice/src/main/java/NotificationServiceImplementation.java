@@ -8,7 +8,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     public void subscribe(subscribeRequest request, StreamObserver<subscribeResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
         dbConnect.addSubscription(request.getUserId(), request.getForumId());
-        subscribeResponse response = subscribeResponse.newBuilder().setResponse("success").build();
+        subscribeResponse response = subscribeResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -17,7 +17,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     public void unsubscribe(unsubscribeRequest request, StreamObserver<unsubscribeResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
         dbConnect.removeSubscription(request.getUserId(), request.getForumId());
-        unsubscribeResponse response = unsubscribeResponse.newBuilder().setResponse("success").build();
+        unsubscribeResponse response = unsubscribeResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -52,10 +52,35 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     }
 
     @Override
+    public void getSubscriptions(getSubscriptionsRequest request, StreamObserver<getSubscriptionsResponse> responseObserver) {
+        MongoDBHandler dbConnect = new MongoDBHandler();
+        ArrayList<MySubscription> result = dbConnect.getAllSubscriptionsForUser(request.getUserId());
+        getSubscriptionsResponse response;
+        if (result.size() == 0) {
+            response = getSubscriptionsResponse.newBuilder()
+                    .setUserId("")
+                    .setForumId("")
+                    .setSubscriptionCount("0")
+                    .build();
+            responseObserver.onNext(response);
+        } else {
+            for (int i = 0; i < result.size(); i++) {
+                response = getSubscriptionsResponse.newBuilder()
+                        .setUserId(result.get(i).getUser_id())
+                        .setForumId(result.get(i).getForum_id())
+                        .setSubscriptionCount(Integer.toString(result.size()))
+                        .build();
+                responseObserver.onNext(response);
+            }
+        }
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void seenNotification(seenNotificationRequest request, StreamObserver<seenNotificationResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
-        dbConnect.changeNotificationToSeen(request.getUserId(), request.getForumId());
-        seenNotificationResponse response = seenNotificationResponse.newBuilder().setResponse("success").build();
+        dbConnect.changeNotificationToSeen(request.getUserId(), request.getForumId(), request.getTimestamp());
+        seenNotificationResponse response = seenNotificationResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -64,7 +89,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     public void addNotifications(addNotificationRequest request, StreamObserver<addNotificationResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
         dbConnect.addNotificationsForNewPost(request.getForumId());
-        addNotificationResponse response = addNotificationResponse.newBuilder().setResponse("success").build();
+        addNotificationResponse response = addNotificationResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

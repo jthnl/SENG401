@@ -45,6 +45,16 @@ public final class Notifications {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_getNotificationsResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_getSubscriptionsRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_getSubscriptionsRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_getSubscriptionsResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_getSubscriptionsResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_seenNotificationRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -82,22 +92,27 @@ public final class Notifications {
       "\022\017\n\007user_id\030\001 \001(\t\"|\n\030getNotificationsRes" +
       "ponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(\t" +
       "\022\021\n\ttimestamp\030\003 \001(\t\022\017\n\007message\030\004 \001(\t\022\031\n\021" +
-      "notificationCount\030\005 \001(\t\"<\n\027seenNotificat",
-      "ionRequest\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030" +
-      "\002 \001(\t\",\n\030seenNotificationResponse\022\020\n\010res" +
-      "ponse\030\001 \001(\t\"*\n\026addNotificationRequest\022\020\n" +
-      "\010forum_id\030\001 \001(\t\"+\n\027addNotificationRespon" +
-      "se\022\020\n\010response\030\001 \001(\t2\336\002\n\023notificationSer" +
-      "vice\0222\n\tsubscribe\022\021.subscribeRequest\032\022.s" +
-      "ubscribeResponse\0228\n\013unsubscribe\022\023.unsubs" +
-      "cribeRequest\032\024.unsubscribeResponse\022I\n\020ge" +
-      "tNotifications\022\030.getNotificationsRequest" +
-      "\032\031.getNotificationsResponse0\001\022G\n\020seenNot",
-      "ification\022\030.seenNotificationRequest\032\031.se" +
-      "enNotificationResponse\022E\n\020addNotificatio" +
-      "ns\022\027.addNotificationRequest\032\030.addNotific" +
-      "ationResponseB\026\n\022notifications.grpcP\001b\006p" +
-      "roto3"
+      "notificationCount\030\005 \001(\t\"*\n\027getSubscripti",
+      "onsRequest\022\017\n\007user_id\030\001 \001(\t\"X\n\030getSubscr" +
+      "iptionsResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010foru" +
+      "m_id\030\002 \001(\t\022\031\n\021subscriptionCount\030\003 \001(\t\"O\n" +
+      "\027seenNotificationRequest\022\017\n\007user_id\030\001 \001(" +
+      "\t\022\020\n\010forum_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\t\"," +
+      "\n\030seenNotificationResponse\022\020\n\010response\030\001" +
+      " \001(\t\"*\n\026addNotificationRequest\022\020\n\010forum_" +
+      "id\030\001 \001(\t\"+\n\027addNotificationResponse\022\020\n\010r" +
+      "esponse\030\001 \001(\t2\251\003\n\023notificationService\0222\n" +
+      "\tsubscribe\022\021.subscribeRequest\032\022.subscrib",
+      "eResponse\0228\n\013unsubscribe\022\023.unsubscribeRe" +
+      "quest\032\024.unsubscribeResponse\022I\n\020getNotifi" +
+      "cations\022\030.getNotificationsRequest\032\031.getN" +
+      "otificationsResponse0\001\022I\n\020getSubscriptio" +
+      "ns\022\030.getSubscriptionsRequest\032\031.getSubscr" +
+      "iptionsResponse0\001\022G\n\020seenNotification\022\030." +
+      "seenNotificationRequest\032\031.seenNotificati" +
+      "onResponse\022E\n\020addNotifications\022\027.addNoti" +
+      "ficationRequest\032\030.addNotificationRespons" +
+      "eB\026\n\022notifications.grpcP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -147,26 +162,38 @@ public final class Notifications {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_getNotificationsResponse_descriptor,
         new java.lang.String[] { "UserId", "ForumId", "Timestamp", "Message", "NotificationCount", });
-    internal_static_seenNotificationRequest_descriptor =
+    internal_static_getSubscriptionsRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
+    internal_static_getSubscriptionsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_getSubscriptionsRequest_descriptor,
+        new java.lang.String[] { "UserId", });
+    internal_static_getSubscriptionsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_getSubscriptionsResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_getSubscriptionsResponse_descriptor,
+        new java.lang.String[] { "UserId", "ForumId", "SubscriptionCount", });
+    internal_static_seenNotificationRequest_descriptor =
+      getDescriptor().getMessageTypes().get(8);
     internal_static_seenNotificationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_seenNotificationRequest_descriptor,
-        new java.lang.String[] { "UserId", "ForumId", });
+        new java.lang.String[] { "UserId", "ForumId", "Timestamp", });
     internal_static_seenNotificationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_seenNotificationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_seenNotificationResponse_descriptor,
         new java.lang.String[] { "Response", });
     internal_static_addNotificationRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_addNotificationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_addNotificationRequest_descriptor,
         new java.lang.String[] { "ForumId", });
     internal_static_addNotificationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_addNotificationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_addNotificationResponse_descriptor,

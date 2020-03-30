@@ -35,7 +35,7 @@ public class runNotifications {
 		//dbConnect.addSubscripton(testSub);
 		//dbConnect.addNotificationsForNewPost( "5");
 		//dbConnect.removeSubscription(new MySubscription("7", "5"));
-		dbConnect.getAllNotificationsForUser("7");
+		dbConnect.getAllSubscriptionsForUser("2");
 		//dbConnect.changeNotificationToSeen(new MyNotification("7","5"));
 		System.out.println("End of Main. ");
 	}

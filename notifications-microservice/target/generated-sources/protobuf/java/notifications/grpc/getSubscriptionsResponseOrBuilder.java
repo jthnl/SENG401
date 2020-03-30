@@ -3,8 +3,8 @@
 
 package notifications.grpc;
 
-public interface seenNotificationRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:seenNotificationRequest)
+public interface getSubscriptionsResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:getSubscriptionsResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -28,12 +28,12 @@ public interface seenNotificationRequestOrBuilder extends
       getForumIdBytes();
 
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string subscriptionCount = 3;</code>
    */
-  java.lang.String getTimestamp();
+  java.lang.String getSubscriptionCount();
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string subscriptionCount = 3;</code>
    */
   com.google.protobuf.ByteString
-      getTimestampBytes();
+      getSubscriptionCountBytes();
 }

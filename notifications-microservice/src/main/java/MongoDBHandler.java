@@ -49,6 +49,22 @@ public class MongoDBHandler {
 		return allSubscriptions;
 	}
 
+	public ArrayList<MySubscription> getAllSubscriptionsForUser(String user_id){
+		setCollection("Subscriptions");
+		Document query = new Document();
+		query.put("User ID", user_id);
+		FindIterable<Document> cursor = collection.find(query);
+		MongoCursor<Document> iterator = cursor.iterator();
+
+		ArrayList<MySubscription> allSubscriptions = new ArrayList<MySubscription>();
+		Document result = new Document();
+		while(iterator.hasNext()) {
+			result = iterator.next();
+			allSubscriptions.add(new MySubscription(result.get("User ID").toString(), result.get("Forum ID").toString()));
+		}
+		return allSubscriptions;
+	}
+
 	public ArrayList<MyNotification> getAllNotificationsForUser(String user_id) {
 		setCollection("Notifications");
 		Document query = new Document();
@@ -74,12 +90,13 @@ public class MongoDBHandler {
 		return allNotifications;
 	}
 
-	public void changeNotificationToSeen(String user_id, String forum_id){	//maybe add a timestamp here
+	public void changeNotificationToSeen(String user_id, String forum_id, String timestamp){	//maybe add a timestamp here
 		setCollection("Notifications");
 		Document query = new Document();
 //		Document toChange = new Document();
 		query.put("User ID", user_id);
 		query.put("Forum ID", forum_id);
+		query.put("Timestamp", timestamp);
 //		toChange.put("User ID", notification.getUser_id());
 //		toChange.put("Forum ID", notification.getForum_id());
 //		toChange.put("Timestamp", notification.getTime());

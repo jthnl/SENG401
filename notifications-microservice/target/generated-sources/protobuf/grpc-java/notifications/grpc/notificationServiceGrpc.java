@@ -64,6 +64,18 @@ public final class notificationServiceGrpc {
               notifications.grpc.getNotificationsResponse.getDefaultInstance()))
           .build();
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<notifications.grpc.getSubscriptionsRequest,
+      notifications.grpc.getSubscriptionsResponse> METHOD_GET_SUBSCRIPTIONS =
+      io.grpc.MethodDescriptor.<notifications.grpc.getSubscriptionsRequest, notifications.grpc.getSubscriptionsResponse>newBuilder()
+          .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+          .setFullMethodName(generateFullMethodName(
+              "notificationService", "getSubscriptions"))
+          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+              notifications.grpc.getSubscriptionsRequest.getDefaultInstance()))
+          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+              notifications.grpc.getSubscriptionsResponse.getDefaultInstance()))
+          .build();
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<notifications.grpc.seenNotificationRequest,
       notifications.grpc.seenNotificationResponse> METHOD_SEEN_NOTIFICATION =
       io.grpc.MethodDescriptor.<notifications.grpc.seenNotificationRequest, notifications.grpc.seenNotificationResponse>newBuilder()
@@ -141,6 +153,13 @@ public final class notificationServiceGrpc {
 
     /**
      */
+    public void getSubscriptions(notifications.grpc.getSubscriptionsRequest request,
+        io.grpc.stub.StreamObserver<notifications.grpc.getSubscriptionsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_GET_SUBSCRIPTIONS, responseObserver);
+    }
+
+    /**
+     */
     public void seenNotification(notifications.grpc.seenNotificationRequest request,
         io.grpc.stub.StreamObserver<notifications.grpc.seenNotificationResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_SEEN_NOTIFICATION, responseObserver);
@@ -176,6 +195,13 @@ public final class notificationServiceGrpc {
                 notifications.grpc.getNotificationsRequest,
                 notifications.grpc.getNotificationsResponse>(
                   this, METHODID_GET_NOTIFICATIONS)))
+          .addMethod(
+            METHOD_GET_SUBSCRIPTIONS,
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                notifications.grpc.getSubscriptionsRequest,
+                notifications.grpc.getSubscriptionsResponse>(
+                  this, METHODID_GET_SUBSCRIPTIONS)))
           .addMethod(
             METHOD_SEEN_NOTIFICATION,
             asyncUnaryCall(
@@ -241,6 +267,14 @@ public final class notificationServiceGrpc {
 
     /**
      */
+    public void getSubscriptions(notifications.grpc.getSubscriptionsRequest request,
+        io.grpc.stub.StreamObserver<notifications.grpc.getSubscriptionsResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(METHOD_GET_SUBSCRIPTIONS, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void seenNotification(notifications.grpc.seenNotificationRequest request,
         io.grpc.stub.StreamObserver<notifications.grpc.seenNotificationResponse> responseObserver) {
       asyncUnaryCall(
@@ -297,6 +331,14 @@ public final class notificationServiceGrpc {
         notifications.grpc.getNotificationsRequest request) {
       return blockingServerStreamingCall(
           getChannel(), METHOD_GET_NOTIFICATIONS, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<notifications.grpc.getSubscriptionsResponse> getSubscriptions(
+        notifications.grpc.getSubscriptionsRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), METHOD_GET_SUBSCRIPTIONS, getCallOptions(), request);
     }
 
     /**
@@ -371,8 +413,9 @@ public final class notificationServiceGrpc {
   private static final int METHODID_SUBSCRIBE = 0;
   private static final int METHODID_UNSUBSCRIBE = 1;
   private static final int METHODID_GET_NOTIFICATIONS = 2;
-  private static final int METHODID_SEEN_NOTIFICATION = 3;
-  private static final int METHODID_ADD_NOTIFICATIONS = 4;
+  private static final int METHODID_GET_SUBSCRIPTIONS = 3;
+  private static final int METHODID_SEEN_NOTIFICATION = 4;
+  private static final int METHODID_ADD_NOTIFICATIONS = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -402,6 +445,10 @@ public final class notificationServiceGrpc {
         case METHODID_GET_NOTIFICATIONS:
           serviceImpl.getNotifications((notifications.grpc.getNotificationsRequest) request,
               (io.grpc.stub.StreamObserver<notifications.grpc.getNotificationsResponse>) responseObserver);
+          break;
+        case METHODID_GET_SUBSCRIPTIONS:
+          serviceImpl.getSubscriptions((notifications.grpc.getSubscriptionsRequest) request,
+              (io.grpc.stub.StreamObserver<notifications.grpc.getSubscriptionsResponse>) responseObserver);
           break;
         case METHODID_SEEN_NOTIFICATION:
           serviceImpl.seenNotification((notifications.grpc.seenNotificationRequest) request,
@@ -447,6 +494,7 @@ public final class notificationServiceGrpc {
               .addMethod(METHOD_SUBSCRIBE)
               .addMethod(METHOD_UNSUBSCRIBE)
               .addMethod(METHOD_GET_NOTIFICATIONS)
+              .addMethod(METHOD_GET_SUBSCRIPTIONS)
               .addMethod(METHOD_SEEN_NOTIFICATION)
               .addMethod(METHOD_ADD_NOTIFICATIONS)
               .build();

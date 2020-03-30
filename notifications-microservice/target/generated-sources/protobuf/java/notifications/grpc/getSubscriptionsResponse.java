@@ -4,24 +4,20 @@
 package notifications.grpc;
 
 /**
- * <pre>
- *add a timestamp to distinguish between multiple notifications
- * </pre>
- *
- * Protobuf type {@code seenNotificationRequest}
+ * Protobuf type {@code getSubscriptionsResponse}
  */
-public  final class seenNotificationRequest extends
+public  final class getSubscriptionsResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:seenNotificationRequest)
-    seenNotificationRequestOrBuilder {
-  // Use seenNotificationRequest.newBuilder() to construct.
-  private seenNotificationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:getSubscriptionsResponse)
+    getSubscriptionsResponseOrBuilder {
+  // Use getSubscriptionsResponse.newBuilder() to construct.
+  private getSubscriptionsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private seenNotificationRequest() {
+  private getSubscriptionsResponse() {
     userId_ = "";
     forumId_ = "";
-    timestamp_ = "";
+    subscriptionCount_ = "";
   }
 
   @java.lang.Override
@@ -29,7 +25,7 @@ public  final class seenNotificationRequest extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private seenNotificationRequest(
+  private getSubscriptionsResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -64,7 +60,7 @@ public  final class seenNotificationRequest extends
           case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            timestamp_ = s;
+            subscriptionCount_ = s;
             break;
           }
         }
@@ -80,14 +76,14 @@ public  final class seenNotificationRequest extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return notifications.grpc.Notifications.internal_static_seenNotificationRequest_descriptor;
+    return notifications.grpc.Notifications.internal_static_getSubscriptionsResponse_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return notifications.grpc.Notifications.internal_static_seenNotificationRequest_fieldAccessorTable
+    return notifications.grpc.Notifications.internal_static_getSubscriptionsResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            notifications.grpc.seenNotificationRequest.class, notifications.grpc.seenNotificationRequest.Builder.class);
+            notifications.grpc.getSubscriptionsResponse.class, notifications.grpc.getSubscriptionsResponse.Builder.class);
   }
 
   public static final int USER_ID_FIELD_NUMBER = 1;
@@ -158,34 +154,34 @@ public  final class seenNotificationRequest extends
     }
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 3;
-  private volatile java.lang.Object timestamp_;
+  public static final int SUBSCRIPTIONCOUNT_FIELD_NUMBER = 3;
+  private volatile java.lang.Object subscriptionCount_;
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string subscriptionCount = 3;</code>
    */
-  public java.lang.String getTimestamp() {
-    java.lang.Object ref = timestamp_;
+  public java.lang.String getSubscriptionCount() {
+    java.lang.Object ref = subscriptionCount_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      timestamp_ = s;
+      subscriptionCount_ = s;
       return s;
     }
   }
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string subscriptionCount = 3;</code>
    */
   public com.google.protobuf.ByteString
-      getTimestampBytes() {
-    java.lang.Object ref = timestamp_;
+      getSubscriptionCountBytes() {
+    java.lang.Object ref = subscriptionCount_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      timestamp_ = b;
+      subscriptionCount_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -210,8 +206,8 @@ public  final class seenNotificationRequest extends
     if (!getForumIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, forumId_);
     }
-    if (!getTimestampBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+    if (!getSubscriptionCountBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, subscriptionCount_);
     }
   }
 
@@ -226,8 +222,8 @@ public  final class seenNotificationRequest extends
     if (!getForumIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, forumId_);
     }
-    if (!getTimestampBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
+    if (!getSubscriptionCountBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, subscriptionCount_);
     }
     memoizedSize = size;
     return size;
@@ -239,18 +235,18 @@ public  final class seenNotificationRequest extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof notifications.grpc.seenNotificationRequest)) {
+    if (!(obj instanceof notifications.grpc.getSubscriptionsResponse)) {
       return super.equals(obj);
     }
-    notifications.grpc.seenNotificationRequest other = (notifications.grpc.seenNotificationRequest) obj;
+    notifications.grpc.getSubscriptionsResponse other = (notifications.grpc.getSubscriptionsResponse) obj;
 
     boolean result = true;
     result = result && getUserId()
         .equals(other.getUserId());
     result = result && getForumId()
         .equals(other.getForumId());
-    result = result && getTimestamp()
-        .equals(other.getTimestamp());
+    result = result && getSubscriptionCount()
+        .equals(other.getSubscriptionCount());
     return result;
   }
 
@@ -265,76 +261,76 @@ public  final class seenNotificationRequest extends
     hash = (53 * hash) + getUserId().hashCode();
     hash = (37 * hash) + FORUM_ID_FIELD_NUMBER;
     hash = (53 * hash) + getForumId().hashCode();
-    hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-    hash = (53 * hash) + getTimestamp().hashCode();
+    hash = (37 * hash) + SUBSCRIPTIONCOUNT_FIELD_NUMBER;
+    hash = (53 * hash) + getSubscriptionCount().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(byte[] data)
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(java.io.InputStream input)
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static notifications.grpc.seenNotificationRequest parseDelimitedFrom(java.io.InputStream input)
+  public static notifications.grpc.getSubscriptionsResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static notifications.grpc.seenNotificationRequest parseDelimitedFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static notifications.grpc.seenNotificationRequest parseFrom(
+  public static notifications.grpc.getSubscriptionsResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -346,7 +342,7 @@ public  final class seenNotificationRequest extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(notifications.grpc.seenNotificationRequest prototype) {
+  public static Builder newBuilder(notifications.grpc.getSubscriptionsResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -361,29 +357,25 @@ public  final class seenNotificationRequest extends
     return builder;
   }
   /**
-   * <pre>
-   *add a timestamp to distinguish between multiple notifications
-   * </pre>
-   *
-   * Protobuf type {@code seenNotificationRequest}
+   * Protobuf type {@code getSubscriptionsResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:seenNotificationRequest)
-      notifications.grpc.seenNotificationRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:getSubscriptionsResponse)
+      notifications.grpc.getSubscriptionsResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return notifications.grpc.Notifications.internal_static_seenNotificationRequest_descriptor;
+      return notifications.grpc.Notifications.internal_static_getSubscriptionsResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return notifications.grpc.Notifications.internal_static_seenNotificationRequest_fieldAccessorTable
+      return notifications.grpc.Notifications.internal_static_getSubscriptionsResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              notifications.grpc.seenNotificationRequest.class, notifications.grpc.seenNotificationRequest.Builder.class);
+              notifications.grpc.getSubscriptionsResponse.class, notifications.grpc.getSubscriptionsResponse.Builder.class);
     }
 
-    // Construct using notifications.grpc.seenNotificationRequest.newBuilder()
+    // Construct using notifications.grpc.getSubscriptionsResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -404,33 +396,33 @@ public  final class seenNotificationRequest extends
 
       forumId_ = "";
 
-      timestamp_ = "";
+      subscriptionCount_ = "";
 
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return notifications.grpc.Notifications.internal_static_seenNotificationRequest_descriptor;
+      return notifications.grpc.Notifications.internal_static_getSubscriptionsResponse_descriptor;
     }
 
-    public notifications.grpc.seenNotificationRequest getDefaultInstanceForType() {
-      return notifications.grpc.seenNotificationRequest.getDefaultInstance();
+    public notifications.grpc.getSubscriptionsResponse getDefaultInstanceForType() {
+      return notifications.grpc.getSubscriptionsResponse.getDefaultInstance();
     }
 
-    public notifications.grpc.seenNotificationRequest build() {
-      notifications.grpc.seenNotificationRequest result = buildPartial();
+    public notifications.grpc.getSubscriptionsResponse build() {
+      notifications.grpc.getSubscriptionsResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public notifications.grpc.seenNotificationRequest buildPartial() {
-      notifications.grpc.seenNotificationRequest result = new notifications.grpc.seenNotificationRequest(this);
+    public notifications.grpc.getSubscriptionsResponse buildPartial() {
+      notifications.grpc.getSubscriptionsResponse result = new notifications.grpc.getSubscriptionsResponse(this);
       result.userId_ = userId_;
       result.forumId_ = forumId_;
-      result.timestamp_ = timestamp_;
+      result.subscriptionCount_ = subscriptionCount_;
       onBuilt();
       return result;
     }
@@ -462,16 +454,16 @@ public  final class seenNotificationRequest extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof notifications.grpc.seenNotificationRequest) {
-        return mergeFrom((notifications.grpc.seenNotificationRequest)other);
+      if (other instanceof notifications.grpc.getSubscriptionsResponse) {
+        return mergeFrom((notifications.grpc.getSubscriptionsResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(notifications.grpc.seenNotificationRequest other) {
-      if (other == notifications.grpc.seenNotificationRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(notifications.grpc.getSubscriptionsResponse other) {
+      if (other == notifications.grpc.getSubscriptionsResponse.getDefaultInstance()) return this;
       if (!other.getUserId().isEmpty()) {
         userId_ = other.userId_;
         onChanged();
@@ -480,8 +472,8 @@ public  final class seenNotificationRequest extends
         forumId_ = other.forumId_;
         onChanged();
       }
-      if (!other.getTimestamp().isEmpty()) {
-        timestamp_ = other.timestamp_;
+      if (!other.getSubscriptionCount().isEmpty()) {
+        subscriptionCount_ = other.subscriptionCount_;
         onChanged();
       }
       onChanged();
@@ -496,11 +488,11 @@ public  final class seenNotificationRequest extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      notifications.grpc.seenNotificationRequest parsedMessage = null;
+      notifications.grpc.getSubscriptionsResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (notifications.grpc.seenNotificationRequest) e.getUnfinishedMessage();
+        parsedMessage = (notifications.grpc.getSubscriptionsResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -648,71 +640,71 @@ public  final class seenNotificationRequest extends
       return this;
     }
 
-    private java.lang.Object timestamp_ = "";
+    private java.lang.Object subscriptionCount_ = "";
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string subscriptionCount = 3;</code>
      */
-    public java.lang.String getTimestamp() {
-      java.lang.Object ref = timestamp_;
+    public java.lang.String getSubscriptionCount() {
+      java.lang.Object ref = subscriptionCount_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        timestamp_ = s;
+        subscriptionCount_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string subscriptionCount = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getTimestampBytes() {
-      java.lang.Object ref = timestamp_;
+        getSubscriptionCountBytes() {
+      java.lang.Object ref = subscriptionCount_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        timestamp_ = b;
+        subscriptionCount_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string subscriptionCount = 3;</code>
      */
-    public Builder setTimestamp(
+    public Builder setSubscriptionCount(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      timestamp_ = value;
+      subscriptionCount_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string subscriptionCount = 3;</code>
      */
-    public Builder clearTimestamp() {
+    public Builder clearSubscriptionCount() {
       
-      timestamp_ = getDefaultInstance().getTimestamp();
+      subscriptionCount_ = getDefaultInstance().getSubscriptionCount();
       onChanged();
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string subscriptionCount = 3;</code>
      */
-    public Builder setTimestampBytes(
+    public Builder setSubscriptionCountBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      timestamp_ = value;
+      subscriptionCount_ = value;
       onChanged();
       return this;
     }
@@ -727,39 +719,39 @@ public  final class seenNotificationRequest extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:seenNotificationRequest)
+    // @@protoc_insertion_point(builder_scope:getSubscriptionsResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:seenNotificationRequest)
-  private static final notifications.grpc.seenNotificationRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:getSubscriptionsResponse)
+  private static final notifications.grpc.getSubscriptionsResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new notifications.grpc.seenNotificationRequest();
+    DEFAULT_INSTANCE = new notifications.grpc.getSubscriptionsResponse();
   }
 
-  public static notifications.grpc.seenNotificationRequest getDefaultInstance() {
+  public static notifications.grpc.getSubscriptionsResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<seenNotificationRequest>
-      PARSER = new com.google.protobuf.AbstractParser<seenNotificationRequest>() {
-    public seenNotificationRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<getSubscriptionsResponse>
+      PARSER = new com.google.protobuf.AbstractParser<getSubscriptionsResponse>() {
+    public getSubscriptionsResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new seenNotificationRequest(input, extensionRegistry);
+        return new getSubscriptionsResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<seenNotificationRequest> parser() {
+  public static com.google.protobuf.Parser<getSubscriptionsResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<seenNotificationRequest> getParserForType() {
+  public com.google.protobuf.Parser<getSubscriptionsResponse> getParserForType() {
     return PARSER;
   }
 
-  public notifications.grpc.seenNotificationRequest getDefaultInstanceForType() {
+  public notifications.grpc.getSubscriptionsResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
