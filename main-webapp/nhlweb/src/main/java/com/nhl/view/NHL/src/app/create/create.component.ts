@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Forum } from '../models/forum.class';
 import { NhlWebappService } from '../services/nhl-webapp.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-create',
@@ -10,10 +12,17 @@ import { NhlWebappService } from '../services/nhl-webapp.service';
 export class CreateComponent implements OnInit {
 
   author_id: string;
-  title = "title";
-  content = "content";
+  title = "";
+  forum = "";
+  content = "";
 
-  constructor(private webappService: NhlWebappService ) { }
+  constructor(private webappService: NhlWebappService, private router: Router ) { }
+
+
+  navigateToHome() {
+    this.router.navigateByUrl('/');
+  }
+
 
   ngOnInit() {
     this.author_id = "testauthid";
@@ -23,6 +32,6 @@ export class CreateComponent implements OnInit {
     const forum: Forum = new Forum(this.author_id, this.title, this.content);
     console.log('Posting forum: ', forum);
     this.webappService.postForum(forum);
-
+    this.navigateToHome();
   }
 }

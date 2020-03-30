@@ -39,6 +39,20 @@
     
 }
 
+.selected {
+    color: red;
+}
+
+
+li.list-group-item {
+    cursor: pointer;
+}
+
+li.list-group-item:hover{
+    color: orange;
+}
+
+
 .custom-text-1 {
     padding: .5rem 0;
     display: block;

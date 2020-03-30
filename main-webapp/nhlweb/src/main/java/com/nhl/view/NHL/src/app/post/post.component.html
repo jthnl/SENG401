@@ -4,40 +4,62 @@
     <div class="col-sm-2">
       <table class="post-table text-center post-card box-shadow">
         <tr>
-            <td rowspan="3"><img class="logo" src="../../../assets/flames_logo.png"></td>
-            <td class="font-weight-bold">Flames</td>
+          <td rowspan="3">
+            <img class="logo" src="../../../assets/flames_logo.png" />
+          </td>
+          <td class="font-weight-bold">Flames</td>
         </tr>
         <tr>
-            <td class="small">jfgf</td>
+          <td class="small">jfgf</td>
         </tr>
         <tr>
-            <td class="small font-weight-light">1 hour ago</td>
+          <td class="small font-weight-light">1 hour ago</td>
         </tr>
         <tr>
-            <td>Shares</td>
-            <td rowspan="2">Save</td>
+          <td>Shares</td>
+          <td rowspan="2">Save</td>
         </tr>
         <tr>
-            <td>Comments</td>
+          <td>Comments</td>
         </tr>
-    </table>
+      </table>
     </div>
     <div class="col-sm-7">
       <div class="container-fluid">
         <div class="post-card box-shadow">
-                  <div class="container">
-                    <mat-progress-bar mode="qudeterminateery" color="" value="40"></mat-progress-bar>
-                    <h2 class="post-title text-center">Title</h2>
-                    <p class="post-description">
-                        Just witnessed the most epic save. Just witnessed the most epic save. 
-                        Just witnessed the Just witnessed the most epic save.ost epic save. 
-                        Just witnes …</p>
-                  </div>
-      </div>
+          <div class="container">
+            <mat-progress-bar
+              mode="qudeterminateery"
+              color=""
+              value="40"
+            ></mat-progress-bar>
+            <h2 class="post-title text-center">Title</h2>
+            <p class="post-description">
+              Just witnessed the most epic save. Just witnessed the most epic
+              save. Just witnessed the Just witnessed the most epic save.ost
+              epic save. Just witnes …
+            </p>
+          </div>
+        </div>
+
+        <!-- <div class="card bg-transparent">
+          <ul class="post">
+            <li *ngFor="let forum of forums | slice:0:5" routerLink="/post">
+              <app-comment></app-comment>
+            </li>
+            <ng-container *ngIf="showMore">
+              <ng-container *ngFor="let forum of forums; let i = index">
+                 <li *ngIf="i >= 5">
+                  <app-thread [forum]=forum></app-thread>
+                 </li>
+              </ng-container>
+           </ng-container>
+          </ul>
+    </div> -->
+
+
       </div>
     </div>
-    <div class="col-sm-3">
-      
-    </div>
+    <div class="col-sm-3"></div>
   </div>
 </div>

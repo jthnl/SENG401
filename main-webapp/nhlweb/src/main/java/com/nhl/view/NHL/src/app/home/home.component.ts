@@ -8,17 +8,28 @@ import { Schedule } from '../models/schedule.class';
 import { Forum } from '../models/forum.class';
 
 
+
+
+enum Page {
+  teams,
+  feed
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
+
 
   contacts: Observable<Contact[]>;
   teams = teams;
   upcomingGames: Schedule[];
   forums: Forum[];
+
+  status = Page.teams;
 
 
   constructor(private statsService: NhlStatsService, private webappService: NhlWebappService) { }
@@ -27,40 +38,6 @@ export class HomeComponent implements OnInit {
 
     this.getUpcomingGames();
     this.getForums();
-
-    this.contacts = of([
-      {
-        'id': 1,
-        'name': 'Laura',
-        'email': 'lbutler0@latimes.com',
-        'age': 47
-      },
-      {
-        'id': 2,
-        'name': 'Walter',
-        'email': 'wkelley1@goodreads.com',
-        'age': 37
-      },
-      {
-        'id': 3,
-        'name': 'Walter',
-        'email': 'wgutierrez2@smugmug.com',
-        'age': 49
-      },
-      {
-        'id': 4,
-        'name': 'Jesse',
-        'email': 'jarnold3@com.com',
-        'age': 47
-      },
-      {
-        'id': 5,
-        'name': 'Irene',
-        'email': 'iduncan4@oakley.com',
-        'age': 33
-      }
-    ]);
-
   }
 
   getUpcomingGames() {
@@ -77,5 +54,12 @@ export class HomeComponent implements OnInit {
     .subscribe((data) => {
       this.forums = data;
     });
-}
+  }
+
+  forumToggle(input) {
+    if (Page[this.status] !== input) {
+      this.status = (this.status + 1) % 2;
+      this.getUpcomingGames();
+    }
+  }
 }

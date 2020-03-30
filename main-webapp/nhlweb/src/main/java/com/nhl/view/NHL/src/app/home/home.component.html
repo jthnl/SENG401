@@ -4,65 +4,126 @@
     <div class="col-sm-2">
       <div class="container mt-5">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><img class="logo" src="../../assets/heart.png">My Feed</li>
-          <li class="list-group-item"><img class="logo" src="../../assets/hot.png">Hot</li>
-          <li class="list-group-item"><img class="logo" src="../../assets/trophy.png">Leagues</li>
-          <li class="list-group-item"><img class="logo" src="../../assets/teams.png">Teams</li>
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 1 }"
+            (click)="forumToggle('feed')"
+          >
+            <img class="logo" src="../../assets/heart.png" />My Feed
+          </li>
+          <!-- <li class="list-group-item"><img class="logo" src="../../assets/hot.png">Teams</li> -->
+          <!-- <li class="list-group-item"><img class="logo" src="../../assets/trophy.png">Leagues</li> -->
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 0 }"
+            (click)="forumToggle('teams')"
+          >
+            <img class="logo" src="../../assets/teams.png" />Teams
+          </li>
         </ul>
       </div>
     </div>
     <div class="col-sm-7">
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-          <a class="navbar-brand" href="#">Flames</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <span class="nav-text">Sort by</span>
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <a class="navbar-brand" href="#">Flames</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <span class="nav-text">Sort by</span>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Newest
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Top</a>
+                <a class="dropdown-item" href="#">Hot</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <span class="nav-text">Feed</span>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Flames
+              </a>
+              <div
+                class="dropdown-menu scrollable-menu"
+                aria-labelledby="navbarDropdown"
+              >
+                <a
+                  *ngFor="let team of teams | keyvalue"
+                  class="dropdown-item"
+                  >{{ team.value }}</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="card bg-transparent">
+        <ul class="post">
+          <li *ngFor="let forum of forums | slice: 0:5" routerLink="/post">
+            <app-thread [forum]="forum"></app-thread>
+          </li>
+          <ng-container *ngIf="showMore">
+            <ng-container *ngFor="let forum of forums; let i = index">
+              <li *ngIf="i >= 5">
+                <app-thread [forum]="forum"></app-thread>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Newest
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Top</a>
-                  <a class="dropdown-item" href="#">Hot</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <span class="nav-text">Feed</span>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Flames
-                </a>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown">
-                  <a *ngFor="let team of teams | keyvalue" class="dropdown-item">{{team.value}}</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </nav>
-          <div class="card bg-transparent">
-            <ul class="post">
-              <li *ngFor="let forum of forums" routerLink="/post">
-                <app-thread [forum]=forum></app-thread>
-              </li>
-            </ul>
+            </ng-container>
+          </ng-container>
+        </ul>
       </div>
+      <ng-container *ngIf="!showMore">
+        <div class="text-center">
+          <button
+            class="btn btn-outline-primary my-2 my-sm-0"
+            (click)="showMore = true"
+            type="submit"
+          >
+            Show more
+          </button>
+        </div>
+      </ng-container>
     </div>
     <div class="col-sm-3">
       <div class="custom-padding-1">
         <span class="custom-text-1 ">Coming soon</span>
       </div>
-        <div class="card bg-transparent">
-          <ul class="post">
-            <li *ngFor="let game of upcomingGames">
-              <app-coming-soon [game]=game></app-coming-soon>
-            </li>
-          </ul>
+      <div class="card bg-transparent">
+        <ul class="post">
+          <li *ngFor="let game of upcomingGames">
+            <app-coming-soon [game]="game"></app-coming-soon>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
