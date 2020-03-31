@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Schedule } from '../../models/schedule.class';
+import { teams } from '../../models/teams';
 
 @Component({
   selector: 'app-coming-soon',
@@ -12,5 +13,7 @@ export class ComingSoonComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
+
 }

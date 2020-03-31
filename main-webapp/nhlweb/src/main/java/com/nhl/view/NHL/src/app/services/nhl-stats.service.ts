@@ -26,7 +26,9 @@ export class NhlStatsService {
           allGames.push(new Schedule( element.gamePk,
                                         element.gameDate,
                                         this.getTeamName(element.teams.away.team.id),
+                                        this.getTeamLogo(element.teams.away.team.id),
                                         this.getTeamName(element.teams.home.team.id),
+                                        this.getTeamLogo(element.teams.home.team.id),
                                         element.venue.name));
         });
         return allGames;
@@ -36,7 +38,10 @@ export class NhlStatsService {
 
   getTeamName(teamId: number): string {
     return teams.find(team => team.apiId === teamId).name;
-    // return teams.find[]length());
+  }
+
+  getTeamLogo(teamId: number): string {
+    return teams.find(team => team.apiId === teamId).imgURL;
   }
 
 }

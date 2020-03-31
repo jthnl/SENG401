@@ -13,6 +13,5 @@ export class Comment {
         getContent() {
             return this.content;
         }
-
 }
 
