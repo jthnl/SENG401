@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strconv"
 	"time"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -167,6 +168,41 @@ type PostItem struct {
 	Timestamp string 					`bson:"timestamp"`
 }
 
+type VotePostItem struct {
+	ID        string		 			`bson:"_id,omitempty"`
+	PID       string		 			`bson:"post_id,omitempty"`
+	AuthorID  string             		`bson:"user_id"`
+	Vote 	  int 						`bson:"vote"`
+}
+
+func GetPostVote(id string) (string, string){
+	data := &VotePostItem{}
+	cursor, err := votepostdb.Find(context.Background(), bson.M{"post_id": id})
+	if err != nil{
+		return "err","err"
+	}
+	defer cursor.Close(context.Background())
+	upvote := 0
+	downvote := 0
+	for cursor.Next(context.Background()) {
+		fmt.Printf("%d", data.Vote)
+		err := cursor.Decode(data)
+		if err != nil {
+			return "err","err"
+		}
+		if data.Vote == 1{
+			upvote++
+		} else {
+			downvote++
+		}
+	}
+	if err := cursor.Err(); err != nil {
+		return "err","err"
+	}
+	
+	return strconv.Itoa(upvote), strconv.Itoa(downvote)
+} 
+
 func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePostReq) (*postpb.CreatePostRes, error) {
 	// read post to be added
 	post := req.GetPost()
@@ -194,7 +230,8 @@ func (s *PostServiceServer) CreatePost(ctx context.Context, req *postpb.CreatePo
 	// get generated ID, and set timestamp
 	oid := result.InsertedID.(string)
 	post.Id = oid
-	post.Timestamp = curr_time  
+	post.Timestamp = curr_time
+	post.Upvote, post.Downvote = GetPostVote(oid)
 	// return post back
 	return &postpb.CreatePostRes{Post: post}, nil
 }
@@ -208,6 +245,7 @@ func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostRe
 	if err := result.Decode(&data); err != nil {
 		return nil, status.Errorf(codes.NotFound, fmt.Sprintf("Post does not exist. id requested %s: %v", req.GetId(), err))
 	}
+	upVote, downVote := GetPostVote(oid)
 	// setup response of post found
 	response := &postpb.ReadPostRes{
 		Post: &postpb.Post{
@@ -217,6 +255,8 @@ func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostRe
 			Title: data.Title,
 			Content: data.Content,
 			Timestamp: data.Timestamp,
+			Upvote: upVote,
+			Downvote: downVote,
 		},
 	}
 	// return post found
@@ -242,6 +282,7 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 		if err != nil {
 			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
 		}
+		upVote, downVote := GetPostVote(data.ID)
 		stream.Send(&postpb.ListPostRes{
 			Post: &postpb.Post{
 				Id: data.ID,
@@ -250,6 +291,8 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 				Title:    data.Title,
 				Content:  data.Content,
 				Timestamp: data.Timestamp,
+				Upvote: upVote,
+				Downvote: downVote,
 			},
 		})
 	}
@@ -311,9 +354,143 @@ func (s *PostServiceServer) DeletePost(ctx context.Context, req *postpb.DeletePo
 	}, nil
 }
 
+func (s *PostServiceServer) UpvotePost(ctx context.Context, req *postpb.UpvotePostReq)(*postpb.UpvotePostRes, error){
+	// get user id and post id
+	uid := req.GetUserId()
+	pid := req.GetPostId()
+
+	// check if post can be upvoted - check if already upvoted
+	chkVote := votepostdb.FindOne(ctx, bson.M{"user_id" : uid, "post_id" : pid})
+	data := VotePostItem{}
+	if err := chkVote.Decode(&data); err == nil {
+		if data.Vote == 1 {
+			// already upvoted
+			return &postpb.UpvotePostRes{
+				Success: false,
+				Message: "already upvoted",
+			}, nil
+		} else {
+			// change downvote to upvote
+			did, err := primitive.ObjectIDFromHex(data.ID)
+			if err != nil{
+				return &postpb.UpvotePostRes{
+					Success: false,
+					Message: "server error, upvoted failed",
+				}, nil
+			}
+			voteEdit := bson.M{"_id": did}
+			update := bson.M{
+				"post_id":  data.PID,
+				"user_id": 	data.AuthorID,
+				"vote":    	1,
+			}
+			result := votepostdb.FindOneAndUpdate(ctx, voteEdit, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+			decoded := VotePostItem{}
+			err = result.Decode(&decoded)
+			if err != nil {
+				return &postpb.UpvotePostRes{
+					Success: false,
+					Message: "server error, upvoted failed",
+				}, nil
+			}
+			return &postpb.UpvotePostRes{
+				Success: true,
+				Message: "changed from downvote to upvote",
+			}, nil
+		}
+	}
+	// create new upvote item
+	insertData := VotePostItem{
+		PID: pid,
+		AuthorID: uid,
+		Vote: 1, 
+	}
+	// insert to database
+	_, err := votepostdb.InsertOne(mongoCtx, insertData)
+	if err != nil {
+		return &postpb.UpvotePostRes{
+			Success: false,
+			Message: "server error, upvoted failed",
+		}, nil
+	}
+	// success, return
+	return &postpb.UpvotePostRes{
+		Success: true,
+		Message: "upvoted",
+	}, nil
+}
+
+func (s *PostServiceServer) DownvotePost(ctx context.Context, req *postpb.DownvotePostReq)(*postpb.DownvotePostRes, error){
+		// get user id and post id
+		uid := req.GetUserId()
+		pid := req.GetPostId()
+	
+		// check if post can be downvoted - check if already downvoted
+		chkVote := votepostdb.FindOne(ctx, bson.M{"user_id" : uid, "post_id" : pid})
+		data := VotePostItem{}
+		if err := chkVote.Decode(&data); err == nil {
+			if data.Vote == -1 {
+				// already downvoted
+				return &postpb.DownvotePostRes{
+					Success: false,
+					Message: "already downvoted",
+				}, nil
+			} else {
+				// change upvote to downvote
+				did, err := primitive.ObjectIDFromHex(data.ID)
+				if err != nil{
+					return &postpb.DownvotePostRes{
+						Success: false,
+						Message: "server error, downvote failed",
+					}, nil
+				}
+				voteEdit := bson.M{"_id": did}
+				update := bson.M{
+					"post_id":  data.PID,
+					"user_id": 	data.AuthorID,
+					"vote":    	-1,
+				}
+				result := votepostdb.FindOneAndUpdate(ctx, voteEdit, bson.M{"$set": update}, options.FindOneAndUpdate().SetReturnDocument(1))
+				decoded := VotePostItem{}
+				err = result.Decode(&decoded)
+				if err != nil {
+					return &postpb.DownvotePostRes{
+						Success: false,
+						Message: "server error, upvoted failed",
+					}, nil
+				}
+				return &postpb.DownvotePostRes{
+					Success: true,
+					Message: "changed from upvote to downvote",
+				}, nil
+			}
+		}
+		// create new downvote item
+		insertData := VotePostItem{
+			PID: pid,
+			AuthorID: uid,
+			Vote: -1, 
+		}
+		// insert to database
+		_, err := votepostdb.InsertOne(mongoCtx, insertData)
+		if err != nil {
+			return &postpb.DownvotePostRes{
+				Success: false,
+				Message: "server error, downvote failed",
+			}, nil
+		}
+		// success, return
+		return &postpb.DownvotePostRes{
+			Success: true,
+			Message: "downvoted",
+		}, nil
+}
+
+
 var db *mongo.Client
 var forumdb *mongo.Collection
 var postdb *mongo.Collection
+var votepostdb *mongo.Collection
 var mongoCtx context.Context
 
 func main() {
@@ -362,6 +539,7 @@ func main() {
 	// specify database collections
 	forumdb = db.Database("mydb").Collection("forum")
 	postdb = db.Database("mydb").Collection("post")
+	votepostdb = db.Database("mydb").Collection("votepost")
 
 	// START SERVER
 	go func() {

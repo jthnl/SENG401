@@ -13,6 +13,9 @@ message Post {
     string title = 4;
     string content = 5;
     string timestamp = 6;
+    string upvote = 7;
+    string downvote = 8;
+    string myvote = 9;
 }
 
 message CreatePostReq {
@@ -55,10 +58,32 @@ message ListPostRes {
     Post post = 1;
 }
 
+message UpvotePostReq {
+    string user_id = 1;
+    string post_id = 2;
+}
+
+message UpvotePostRes {
+    bool success = 1;
+    string message = 2;
+}
+
+message DownvotePostReq {
+    string user_id = 1;
+    string post_id = 2;
+}
+
+message DownvotePostRes {
+    bool success = 1;
+    string message = 2;
+}
+
 service PostService {
     rpc CreatePost(CreatePostReq) returns (CreatePostRes);
     rpc ReadPost(ReadPostReq) returns (ReadPostRes);
     rpc UpdatePost(UpdatePostReq) returns (UpdatePostRes);
     rpc DeletePost(DeletePostReq) returns (DeletePostRes);
     rpc ListPosts(ListPostReq) returns (stream ListPostRes);
+    rpc UpvotePost(UpvotePostReq) returns (UpvotePostRes);
+    rpc DownvotePost(DownvotePostReq) returns (DownvotePostRes);
 }
