@@ -21,11 +21,6 @@ public class User implements MsgObjectView
 	private UserInfo info;
 	private Date joined;
 
-	public static void main( String args[] )
-	{
-		System.out.println( "user" );
-	}
-
 	public User( Document doc )
 	{
 		this.id = doc.get( "_id" ).toString();

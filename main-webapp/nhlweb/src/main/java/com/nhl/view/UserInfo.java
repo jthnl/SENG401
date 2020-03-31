@@ -15,11 +15,6 @@ public class UserInfo
 	public String lname;
 	public String email;
 
-	public static void main( String args[] )
-	{
-		System.out.println( "userInfo" );
-	}
-
 	public UserInfo( String username, String password, String fname, String lname, String email )
 	{
 		this.username = username;
