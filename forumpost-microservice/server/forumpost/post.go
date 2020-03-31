@@ -341,3 +341,56 @@ func GetPostVote(id string) (string, string){
 	
 	return strconv.Itoa(upvote), strconv.Itoa(downvote)
 } 
+
+func (s *PostServiceServer) FindPosts(req *postpb.FindPostReq, stream postpb.PostService_FindPostsServer) error {
+	
+	// read forum id reqeusted
+	titleQuery:= req.GetTitleQuery()
+
+	// set filter for text search based on title
+	filter := bson.M{"$text": bson.M{"$search": titleQuery}}
+	findOptions := options.Find()
+	findOptions.SetLimit(100)
+	findOptions.SetProjection(bson.M{
+	  "id":         1,
+	  "forum_id":   1,
+	  "title": 		1,
+	  "content" : 	1,
+	  "score":       bson.M{"$meta": "textScore"},
+	})
+	findOptions.SetSort(bson.M{"score": bson.M{"$meta": "textScore"}})
+	
+	// get all posts with filter
+	data := &PostItem{}
+
+	cursor, err := postdb.Find(context.Background(), filter, findOptions)
+	if err != nil{
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
+	}
+	defer cursor.Close(context.Background())
+	// send posts as a gRPC stream
+	for cursor.Next(context.Background()) {
+		err := cursor.Decode(data)
+		if err != nil {
+			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
+		}
+		upVote, downVote := GetPostVote(data.ID)
+		stream.Send(&postpb.FindPostRes{
+			Post: &postpb.Post{
+				Id: data.ID,
+				ForumId: data.ForumID.Hex(),
+				AuthorId: data.AuthorID,
+				Title:    data.Title,
+				Content:  data.Content,
+				Timestamp: data.Timestamp,
+				Upvote: upVote,
+				Downvote: downVote,
+			},
+		})
+	}
+	if err := cursor.Err(); err != nil {
+		return status.Errorf(codes.Internal, fmt.Sprintf("Unkown cursor error: %v", err))
+	}
+	// stop sending
+	return nil
+}

@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
@@ -69,6 +70,23 @@ func main() {
 	forumdb = db.Database("mydb").Collection("forum")
 	postdb = db.Database("mydb").Collection("post")
 	votepostdb = db.Database("mydb").Collection("votepost")
+
+	// creating search index for posts
+	opt := options.Index()
+	opt.SetWeights(bson.M{
+		"title" : 5,
+		"content" : 2,
+	})
+	modIdx := mongo.IndexModel{Keys: bson.M{
+		"title": "text",
+		"content" : "text",  
+		}, Options: opt,
+	}
+	if _, err := postdb.Indexes().CreateOne(mongoCtx, modIdx); err != nil {
+		log.Println("Could not create index for posts:", err)
+	}
+	
+
 
 	// START SERVER
 	go func() {
