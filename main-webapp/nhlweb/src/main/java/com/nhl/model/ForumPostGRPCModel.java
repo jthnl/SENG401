@@ -106,6 +106,21 @@ public class ForumPostGRPCModel {
         return postStub.downvotePost(request);
     }
 
+    public ArrayList<Post> searchPost(String query){
+        FindPostReq request =FindPostReq.newBuilder().setTitleQuery(query).build();
+        Iterator<FindPostRes> responses = null;
+        ArrayList<Post> ret = new ArrayList<>();
+        try{
+            responses = postStub.findPosts(request);
+            while(responses.hasNext()){
+                ret.add(responses.next().getPost());
+            }
+        }catch (StatusRuntimeException ex){
+            System.out.println("Err in " + ex);         //TODO: should add proper logging
+        }
+        return ret;
+    }
+
     public ArrayList<Post> getPostList(String forumId){
         ListPostReq request =ListPostReq.newBuilder().setForumId(forumId).build();
         Iterator<ListPostRes> responses = null;

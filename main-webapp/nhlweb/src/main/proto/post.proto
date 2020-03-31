@@ -78,6 +78,15 @@ message DownvotePostRes {
     string message = 2;
 }
 
+message FindPostReq{
+    string title_query = 1;
+}
+
+message FindPostRes{
+    Post post = 1;
+}
+
+
 service PostService {
     rpc CreatePost(CreatePostReq) returns (CreatePostRes);
     rpc ReadPost(ReadPostReq) returns (ReadPostRes);
@@ -86,4 +95,5 @@ service PostService {
     rpc ListPosts(ListPostReq) returns (stream ListPostRes);
     rpc UpvotePost(UpvotePostReq) returns (UpvotePostRes);
     rpc DownvotePost(DownvotePostReq) returns (DownvotePostRes);
+    rpc FindPosts(FindPostReq) returns (stream FindPostRes);
 }

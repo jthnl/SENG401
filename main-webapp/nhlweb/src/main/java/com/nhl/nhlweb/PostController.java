@@ -89,4 +89,13 @@ public class PostController {
             return new MessageView(true, message, true, null, null);
         }
     }
+
+    @CrossOrigin(origins = corsEnabled)
+    @GetMapping(value="/post/search")
+    public MessageView searchPost(@RequestParam(value = "s", required = true) String selectId){
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        PostListView ret = new PostListView();
+        ret.setPostList(fpGrpc.searchPost(selectId));
+        return new MessageView(false, null, false, null, ret);
+    }
 }
