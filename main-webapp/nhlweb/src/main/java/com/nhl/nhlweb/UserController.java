@@ -12,6 +12,7 @@ import javax.security.auth.login.FailedLoginException;
 
 class LoginInfo { public String username; public String password; }
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserController {
 
