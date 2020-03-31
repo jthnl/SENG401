@@ -5,11 +5,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
 import com.nhl.nhlproto.*;
-import com.nhl.view.ForumListView;
-import com.nhl.view.ForumView;
-import com.nhl.view.PostListView;
-import com.nhl.view.PostView;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -99,6 +94,16 @@ public class ForumPostGRPCModel {
         DeletePostReq request = DeletePostReq.newBuilder().setId(postId).build();
         DeletePostRes response = postStub.deletePost(request);
         return response.getSuccess();
+    }
+
+    public UpvotePostRes UpvotePost(String postId, String userId){
+        UpvotePostReq request = UpvotePostReq.newBuilder().setPostId(postId).setUserId(userId).build();
+        return postStub.upvotePost(request);
+    }
+
+    public DownvotePostRes DownvotePost(String postId, String userId){
+        DownvotePostReq request = DownvotePostReq.newBuilder().setPostId(postId).setUserId(userId).build();
+        return postStub.downvotePost(request);
     }
 
     public ArrayList<Post> getPostList(String forumId){

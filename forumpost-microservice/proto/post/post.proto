@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package post;
 
-option java_package = "java_postproto";
-option java_outer_classname = "PostProtos";
 option go_package = "postpb";
 
 message Post {
@@ -15,7 +13,6 @@ message Post {
     string timestamp = 6;
     string upvote = 7;
     string downvote = 8;
-    string myvote = 9;
 }
 
 message CreatePostReq {
