@@ -1,5 +1,7 @@
 .logo {
     width: 34px;
+    cursor: pointer;
+    outline: none;
 }
 
 .media

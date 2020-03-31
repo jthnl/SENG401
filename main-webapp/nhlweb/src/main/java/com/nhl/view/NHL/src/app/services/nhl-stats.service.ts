@@ -35,7 +35,8 @@ export class NhlStatsService {
    }
 
   getTeamName(teamId: number): string {
-    return teams.get(teamId);
+    return teams.find(team => team.apiId === teamId).name;
+    // return teams.find[]length());
   }
 
 }

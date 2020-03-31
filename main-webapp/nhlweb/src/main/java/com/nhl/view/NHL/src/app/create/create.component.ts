@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Forum } from '../models/forum.class';
-import { NhlWebappService } from '../services/nhl-webapp.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { Post } from '../models/post.class';
+import { PostService } from '../services/post.service';
+import { teams } from '../models/teams';
+import { Team } from '../models/team.class';
+
 
 
 @Component({
@@ -11,12 +14,14 @@ import {Router} from '@angular/router';
 })
 export class CreateComponent implements OnInit {
 
+  id: string;
   author_id: string;
-  title = "";
-  forum = "";
-  content = "";
-
-  constructor(private webappService: NhlWebappService, private router: Router ) { }
+  title = '';
+  forum_id = '0';
+  content = '';
+  teams = teams;
+  selected_team: Team;
+  constructor(private postService: PostService, private router: Router ) { }
 
 
   navigateToHome() {
@@ -25,13 +30,13 @@ export class CreateComponent implements OnInit {
 
 
   ngOnInit() {
-    this.author_id = "testauthid";
+    this.author_id = 'testauthid';
   }
 
   create() {
-    const forum: Forum = new Forum(this.author_id, this.title, this.content);
-    console.log('Posting forum: ', forum);
-    this.webappService.postForum(forum);
+    const post: Post = new Post(this.selected_team.forumId, this.author_id, this.title, this.content);
+    console.log('Posting post: ', post);
+    this.postService.postPost(post);
     this.navigateToHome();
   }
 }

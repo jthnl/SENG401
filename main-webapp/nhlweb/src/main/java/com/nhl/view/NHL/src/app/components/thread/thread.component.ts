@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Contact } from '../../models/contact.class';
-import { Forum } from '../../models/forum.class';
+import { Post } from 'src/app/models/post.class';
 
 @Component({
   selector: 'app-thread',
@@ -8,7 +7,7 @@ import { Forum } from '../../models/forum.class';
   styleUrls: ['./thread.component.css']
 })
 export class ThreadComponent implements OnInit {
-  @Input() forum: Forum;
+  @Input() post: Post;
 
   constructor() { }
 

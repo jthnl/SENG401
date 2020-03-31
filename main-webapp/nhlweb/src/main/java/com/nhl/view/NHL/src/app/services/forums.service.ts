@@ -6,7 +6,7 @@ import { Forum } from '../models/forum.class';
 @Injectable({
   providedIn: 'root'
 })
-export class NhlWebappService {
+export class ForumsService {
 
   apiURL = 'http://localhost:8080';
   constructor(private httpClient: HttpClient) { }

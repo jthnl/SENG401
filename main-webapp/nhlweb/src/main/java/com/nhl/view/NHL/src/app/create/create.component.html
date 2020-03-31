@@ -16,8 +16,39 @@
     		    </div>
     		        		    
     		    <div class="form-group">
-    		        <label for="title">Forum <span *ngIf="forum==''" class="require">*</span></label>
-    		        <input type="text" [(ngModel)]="forum"  class="form-control" name="title" />
+    		        <label for="title">Forum <span *ngIf="forum=='Select Forum'" class="require">*</span></label>
+					
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						  <ul class="navbar-nav mx-auto">
+							<li class="nav-item dropdown">
+							  <a
+								class="nav-link dropdown-toggle"
+								href="#"
+								id="navbarDropdown"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							  >
+							  <span *ngIf="selected_team != null" >{{ selected_team.name }}</span>
+								
+							  </a>
+							  <div
+								class="dropdown-menu scrollable-menu"
+								aria-labelledby="navbarDropdown"
+							  >
+								<a
+								  *ngFor="let team of teams"
+								  class="dropdown-item"
+								  (click)="selected_team=team" 
+								  >{{ team.name }}</a
+								>
+							  </div>
+							</li>
+						  </ul>
+						</div>
+					  </nav>
                 </div>
                 
     		    <div class="form-group">

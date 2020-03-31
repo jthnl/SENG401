@@ -25,7 +25,7 @@
     </div>
     <div class="col-sm-7">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-        <a class="navbar-brand" href="#">Flames</a>
+        <span class="navbar-brand">Forum</span>
         <button
           class="navbar-toggler"
           type="button"
@@ -39,7 +39,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <span class="nav-text">Sort by</span>
             </li>
             <li class="nav-item dropdown">
@@ -58,9 +58,11 @@
                 <a class="dropdown-item" href="#">Top</a>
                 <a class="dropdown-item" href="#">Hot</a>
               </div>
-            </li>
+            </li> -->
+
+
             <li class="nav-item">
-              <span class="nav-text">Feed</span>
+              <span class="nav-text">Team</span>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -72,16 +74,19 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Flames
+                
+                <span *ngIf="selected_team; else elseBlock">{{ selected_team.name }}</span>
+                <ng-template #elseBlock>Select</ng-template>
               </a>
               <div
                 class="dropdown-menu scrollable-menu"
                 aria-labelledby="navbarDropdown"
               >
                 <a
-                  *ngFor="let team of teams | keyvalue"
+                  *ngFor="let team of teams"
+                  (click)="changeTeam(team)"
                   class="dropdown-item"
-                  >{{ team.value }}</a
+                  >{{ team.name }}</a
                 >
               </div>
             </li>
@@ -90,19 +95,19 @@
       </nav>
       <div class="card bg-transparent">
         <ul class="post">
-          <li *ngFor="let forum of forums | slice: 0:5" routerLink="/post">
-            <app-thread [forum]="forum"></app-thread>
+          <li *ngFor="let post of posts | slice: 0:5" [routerLink]="['/post']">
+            <app-thread [post]="post"></app-thread>
           </li>
           <ng-container *ngIf="showMore">
-            <ng-container *ngFor="let forum of forums; let i = index">
+            <ng-container *ngFor="let post of posts; let i = index" routerLink="/post">
               <li *ngIf="i >= 5">
-                <app-thread [forum]="forum"></app-thread>
+                <app-thread [post]="post"></app-thread>
               </li>
             </ng-container>
           </ng-container>
         </ul>
       </div>
-      <ng-container *ngIf="!showMore">
+      <ng-container *ngIf="!showMore && posts && posts.length > 5">
         <div class="text-center">
           <button
             class="btn btn-outline-primary my-2 my-sm-0"

@@ -1,6 +1,3 @@
-html {
-    font-family: 'futura';
-}
 
 .logo {
     padding: 5px;
@@ -12,6 +9,13 @@ html {
     background-color: white;
     padding: 5px;
     margin: 10px 0;
+    border: none;
+}
+
+.comment {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 /* table, td, tr {
@@ -27,7 +31,7 @@ html {
     padding: 10px 0;
 }
 
-.post-description {
+.post-content {
     color: black;
     font-size: 18px;
 }

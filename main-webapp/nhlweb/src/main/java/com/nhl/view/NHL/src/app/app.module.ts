@@ -19,6 +19,7 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { CreateComponent } from './create/create.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
+import { NewCommentComponent } from './components/new-comment/new-comment.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { LoginComponent } from './login/login.component';
     ComingSoonComponent,
     CreateComponent,
     ProfileComponent,
+    NewCommentComponent,
   ],
   imports: [
     BrowserModule,

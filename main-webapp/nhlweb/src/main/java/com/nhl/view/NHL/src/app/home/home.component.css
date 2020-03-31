@@ -28,6 +28,11 @@
     padding-right: 5px;
 }
 
+ul.post>li[routerLink="/post"]:hover {
+    outline: 1px solid red;
+    cursor: pointer;
+}
+
 .post {
     list-style: none;
     margin: 0;

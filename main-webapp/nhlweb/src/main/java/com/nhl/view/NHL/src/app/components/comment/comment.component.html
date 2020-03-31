@@ -1,30 +1,11 @@
 <div class="post-card box-shadow">
     <div class="row">
         <div class="col-3">
-            <table class="post-table text-center">
-                <tr>
-                    <td rowspan="3"><img class="logo" src="../../../assets/flames_logo.png"></td>
-                    <td class="font-weight-bold">Forum</td>
-                </tr>
-                <tr>
-                    <td class="small">Name</td>
-                </tr>
-                <tr>
-                    <td class="small font-weight-light">Time stamp</td>
-                </tr>
-                <tr>
-                    <td>Shares</td>
-                    <td rowspan="2">Save</td>
-                </tr>
-                <tr>
-                    <td>Comments</td>
-                </tr>
-            </table>
+            <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ comment.upvotes }}</h6>
+            <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ comment.downvotes }}</h6>
         </div>
         <div class="col-9">
-            <mat-progress-bar mode="qudeterminateery" color="" value="40"></mat-progress-bar>
-            <h4 class="post-title">{{ forum.title }}</h4>
-            <p class="post-description"> {{ forum.content }} </p>
+            <p class="comment-content"> {{ comment.content }} </p>
         </div>
     </div>
 </div>

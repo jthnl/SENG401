@@ -5,3 +5,9 @@ label small {
     color: #999;
     font-weight: normal;
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}

@@ -2,6 +2,9 @@
 <div class="container-fluid mt-2">
   <div class="row">
     <div class="col-sm-2">
+      <div class="custom-padding-1">
+        <span class="custom-text-1 ">User</span>
+      </div>
       <table class="post-table text-center post-card box-shadow">
         <tr>
           <td rowspan="3">
@@ -25,7 +28,11 @@
       </table>
     </div>
     <div class="col-sm-7">
+      
       <div class="container-fluid">
+        <div class="custom-padding-1">
+          <span class="custom-text-1 ">Post</span>
+        </div>
         <div class="post-card box-shadow">
           <div class="container">
             <mat-progress-bar
@@ -34,7 +41,7 @@
               value="40"
             ></mat-progress-bar>
             <h2 class="post-title text-center">Title</h2>
-            <p class="post-description">
+            <p class="post-content">
               Just witnessed the most epic save. Just witnessed the most epic
               save. Just witnessed the Just witnessed the most epic save.ost
               epic save. Just witnes …
@@ -42,24 +49,47 @@
           </div>
         </div>
 
-        <!-- <div class="card bg-transparent">
-          <ul class="post">
-            <li *ngFor="let forum of forums | slice:0:5" routerLink="/post">
-              <app-comment></app-comment>
+        <div class="bg-transparent">
+          <ul class="comment">
+            <li *ngFor="let comment of comments | slice:0:5">
+              <app-comment [comment]=comment></app-comment>
             </li>
             <ng-container *ngIf="showMore">
-              <ng-container *ngFor="let forum of forums; let i = index">
+              <ng-container *ngFor="let comment of comments; let i = index">
                  <li *ngIf="i >= 5">
-                  <app-thread [forum]=forum></app-thread>
-                 </li>
+                  <app-comment [comment]=comment></app-comment>
+                </li>
               </ng-container>
            </ng-container>
           </ul>
-    </div> -->
+    </div>
 
+      <div class="text-center" *ngIf="!addingComment">
+        <button
+          class="btn btn-outline-primary my-2 my-sm-0"
+          (click)="addingComment=true"
+          type="submit"
+        >
+          Add comment
+        </button>
+      </div>
+      <ng-container *ngIf="addingComment">
+          <app-new-comment [postId]="postId" (emitter)="addComment($event)"></app-new-comment>
+     </ng-container>
 
       </div>
     </div>
-    <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+      <div class="custom-padding-1">
+        <span class="custom-text-1 ">Coming soon</span>
+      </div>
+      <div class="bg-transparent">
+        <ul class="comment">
+          <li *ngFor="let game of upcomingGames">
+            <app-coming-soon [game]="game"></app-coming-soon>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
