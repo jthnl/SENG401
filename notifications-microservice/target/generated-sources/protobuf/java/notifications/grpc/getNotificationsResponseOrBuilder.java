@@ -28,31 +28,41 @@ public interface getNotificationsResponseOrBuilder extends
       getForumIdBytes();
 
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string post_id = 3;</code>
+   */
+  java.lang.String getPostId();
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  com.google.protobuf.ByteString
+      getPostIdBytes();
+
+  /**
+   * <code>string timestamp = 4;</code>
    */
   java.lang.String getTimestamp();
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   com.google.protobuf.ByteString
       getTimestampBytes();
 
   /**
-   * <code>string message = 4;</code>
+   * <code>string message = 5;</code>
    */
   java.lang.String getMessage();
   /**
-   * <code>string message = 4;</code>
+   * <code>string message = 5;</code>
    */
   com.google.protobuf.ByteString
       getMessageBytes();
 
   /**
-   * <code>string notificationCount = 5;</code>
+   * <code>string notificationCount = 6;</code>
    */
   java.lang.String getNotificationCount();
   /**
-   * <code>string notificationCount = 5;</code>
+   * <code>string notificationCount = 6;</code>
    */
   com.google.protobuf.ByteString
       getNotificationCountBytes();

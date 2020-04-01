@@ -89,30 +89,32 @@ public final class Notifications {
       "nsubscribeRequest\022\017\n\007user_id\030\001 \001(\t\022\020\n\010fo" +
       "rum_id\030\002 \001(\t\"\'\n\023unsubscribeResponse\022\020\n\010r" +
       "esponse\030\001 \001(\t\"*\n\027getNotificationsRequest" +
-      "\022\017\n\007user_id\030\001 \001(\t\"|\n\030getNotificationsRes" +
-      "ponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(\t" +
-      "\022\021\n\ttimestamp\030\003 \001(\t\022\017\n\007message\030\004 \001(\t\022\031\n\021" +
-      "notificationCount\030\005 \001(\t\"*\n\027getSubscripti",
-      "onsRequest\022\017\n\007user_id\030\001 \001(\t\"X\n\030getSubscr" +
-      "iptionsResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010foru" +
-      "m_id\030\002 \001(\t\022\031\n\021subscriptionCount\030\003 \001(\t\"O\n" +
-      "\027seenNotificationRequest\022\017\n\007user_id\030\001 \001(" +
-      "\t\022\020\n\010forum_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\t\"," +
-      "\n\030seenNotificationResponse\022\020\n\010response\030\001" +
-      " \001(\t\"*\n\026addNotificationRequest\022\020\n\010forum_" +
-      "id\030\001 \001(\t\"+\n\027addNotificationResponse\022\020\n\010r" +
-      "esponse\030\001 \001(\t2\251\003\n\023notificationService\0222\n" +
-      "\tsubscribe\022\021.subscribeRequest\032\022.subscrib",
-      "eResponse\0228\n\013unsubscribe\022\023.unsubscribeRe" +
-      "quest\032\024.unsubscribeResponse\022I\n\020getNotifi" +
-      "cations\022\030.getNotificationsRequest\032\031.getN" +
-      "otificationsResponse0\001\022I\n\020getSubscriptio" +
-      "ns\022\030.getSubscriptionsRequest\032\031.getSubscr" +
-      "iptionsResponse0\001\022G\n\020seenNotification\022\030." +
-      "seenNotificationRequest\032\031.seenNotificati" +
-      "onResponse\022E\n\020addNotifications\022\027.addNoti" +
-      "ficationRequest\032\030.addNotificationRespons" +
-      "eB\026\n\022notifications.grpcP\001b\006proto3"
+      "\022\017\n\007user_id\030\001 \001(\t\"\215\001\n\030getNotificationsRe" +
+      "sponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(" +
+      "\t\022\017\n\007post_id\030\003 \001(\t\022\021\n\ttimestamp\030\004 \001(\t\022\017\n" +
+      "\007message\030\005 \001(\t\022\031\n\021notificationCount\030\006 \001(",
+      "\t\"*\n\027getSubscriptionsRequest\022\017\n\007user_id\030" +
+      "\001 \001(\t\"X\n\030getSubscriptionsResponse\022\017\n\007use" +
+      "r_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(\t\022\031\n\021subscrip" +
+      "tionCount\030\003 \001(\t\"`\n\027seenNotificationReque" +
+      "st\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 \001(\t\022\017\n" +
+      "\007post_id\030\003 \001(\t\022\021\n\ttimestamp\030\004 \001(\t\",\n\030see" +
+      "nNotificationResponse\022\020\n\010response\030\001 \001(\t\"" +
+      ";\n\026addNotificationRequest\022\020\n\010forum_id\030\001 " +
+      "\001(\t\022\017\n\007post_id\030\002 \001(\t\"+\n\027addNotificationR" +
+      "esponse\022\020\n\010response\030\001 \001(\t2\251\003\n\023notificati",
+      "onService\0222\n\tsubscribe\022\021.subscribeReques" +
+      "t\032\022.subscribeResponse\0228\n\013unsubscribe\022\023.u" +
+      "nsubscribeRequest\032\024.unsubscribeResponse\022" +
+      "I\n\020getNotifications\022\030.getNotificationsRe" +
+      "quest\032\031.getNotificationsResponse0\001\022I\n\020ge" +
+      "tSubscriptions\022\030.getSubscriptionsRequest" +
+      "\032\031.getSubscriptionsResponse0\001\022G\n\020seenNot" +
+      "ification\022\030.seenNotificationRequest\032\031.se" +
+      "enNotificationResponse\022E\n\020addNotificatio" +
+      "ns\022\027.addNotificationRequest\032\030.addNotific",
+      "ationResponseB\026\n\022notifications.grpcP\001b\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -161,7 +163,7 @@ public final class Notifications {
     internal_static_getNotificationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_getNotificationsResponse_descriptor,
-        new java.lang.String[] { "UserId", "ForumId", "Timestamp", "Message", "NotificationCount", });
+        new java.lang.String[] { "UserId", "ForumId", "PostId", "Timestamp", "Message", "NotificationCount", });
     internal_static_getSubscriptionsRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_getSubscriptionsRequest_fieldAccessorTable = new
@@ -179,7 +181,7 @@ public final class Notifications {
     internal_static_seenNotificationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_seenNotificationRequest_descriptor,
-        new java.lang.String[] { "UserId", "ForumId", "Timestamp", });
+        new java.lang.String[] { "UserId", "ForumId", "PostId", "Timestamp", });
     internal_static_seenNotificationResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_seenNotificationResponse_fieldAccessorTable = new
@@ -191,7 +193,7 @@ public final class Notifications {
     internal_static_addNotificationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_addNotificationRequest_descriptor,
-        new java.lang.String[] { "ForumId", });
+        new java.lang.String[] { "ForumId", "PostId", });
     internal_static_addNotificationResponse_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_addNotificationResponse_fieldAccessorTable = new

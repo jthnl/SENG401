@@ -27,10 +27,10 @@ public class MongoDBHandler {
 		setDatabase("SENG401");
 	}
 
-	public void addNotificationsForNewPost(String forum_id){
+	public void addNotificationsForNewPost(String forum_id, String post_id){
 		ArrayList<MySubscription> result = getAllSubscriptionsForForum(forum_id);
 		for (int i = 0; i < result.size(); i++)
-			addNotification(new MyNotification(result.get(i).getUser_id(), forum_id));
+			addNotification(new MyNotification(result.get(i).getUser_id(), forum_id, post_id));
 	}
 
 	private ArrayList<MySubscription> getAllSubscriptionsForForum(String forum_id) {
@@ -81,6 +81,7 @@ public class MongoDBHandler {
 					new MyNotification(
 							user_id,
 							result.get("Forum ID").toString(),
+							result.get("Post ID").toString(),
 							result.get("Timestamp").toString(),
 							"False",
 							result.get("Message").toString()
@@ -90,18 +91,14 @@ public class MongoDBHandler {
 		return allNotifications;
 	}
 
-	public void changeNotificationToSeen(String user_id, String forum_id, String timestamp){	//maybe add a timestamp here
+	public void changeNotificationToSeen(String user_id, String forum_id, String post_id, String timestamp){
 		setCollection("Notifications");
 		Document query = new Document();
 //		Document toChange = new Document();
 		query.put("User ID", user_id);
 		query.put("Forum ID", forum_id);
+		query.put("Post ID", post_id);
 		query.put("Timestamp", timestamp);
-//		toChange.put("User ID", notification.getUser_id());
-//		toChange.put("Forum ID", notification.getForum_id());
-//		toChange.put("Timestamp", notification.getTime());
-//		toChange.put("Seen", "False");
-//		toChange.put("Message", notification.getMessage());
 		collection.updateOne(query, new Document("$set", new Document("Seen", "True")));
 	}
 
@@ -137,6 +134,7 @@ public class MongoDBHandler {
 		Document toInsert = new Document();
 		toInsert.put("User ID", notification.getUser_id());
 		toInsert.put("Forum ID", notification.getForum_id());
+		toInsert.put("Post ID", notification.getPost_id());
 		toInsert.put("Timestamp", notification.getTime());
 		toInsert.put("Seen", notification.getSeenFlag());
 		toInsert.put("Message", notification.getMessage());
@@ -159,7 +157,7 @@ public class MongoDBHandler {
 	}
 	
 	private MyNotification convertQueryToNotification(Document query) {
-		return new MyNotification("1", "1");
+		return new MyNotification("1", "1", "1");
 	}
 
 	private MySubscription convertQueryToSubscription(Document query){

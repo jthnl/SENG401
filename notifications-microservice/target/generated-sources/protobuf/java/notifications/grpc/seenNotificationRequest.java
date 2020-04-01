@@ -4,10 +4,6 @@
 package notifications.grpc;
 
 /**
- * <pre>
- *add a timestamp to distinguish between multiple notifications
- * </pre>
- *
  * Protobuf type {@code seenNotificationRequest}
  */
 public  final class seenNotificationRequest extends
@@ -21,6 +17,7 @@ public  final class seenNotificationRequest extends
   private seenNotificationRequest() {
     userId_ = "";
     forumId_ = "";
+    postId_ = "";
     timestamp_ = "";
   }
 
@@ -62,6 +59,12 @@ public  final class seenNotificationRequest extends
             break;
           }
           case 26: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            postId_ = s;
+            break;
+          }
+          case 34: {
             java.lang.String s = input.readStringRequireUtf8();
 
             timestamp_ = s;
@@ -158,10 +161,44 @@ public  final class seenNotificationRequest extends
     }
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 3;
+  public static final int POST_ID_FIELD_NUMBER = 3;
+  private volatile java.lang.Object postId_;
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  public java.lang.String getPostId() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      postId_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  public com.google.protobuf.ByteString
+      getPostIdBytes() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      postId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int TIMESTAMP_FIELD_NUMBER = 4;
   private volatile java.lang.Object timestamp_;
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   public java.lang.String getTimestamp() {
     java.lang.Object ref = timestamp_;
@@ -176,7 +213,7 @@ public  final class seenNotificationRequest extends
     }
   }
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   public com.google.protobuf.ByteString
       getTimestampBytes() {
@@ -210,8 +247,11 @@ public  final class seenNotificationRequest extends
     if (!getForumIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, forumId_);
     }
+    if (!getPostIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, postId_);
+    }
     if (!getTimestampBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, timestamp_);
     }
   }
 
@@ -226,8 +266,11 @@ public  final class seenNotificationRequest extends
     if (!getForumIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, forumId_);
     }
+    if (!getPostIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, postId_);
+    }
     if (!getTimestampBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, timestamp_);
     }
     memoizedSize = size;
     return size;
@@ -249,6 +292,8 @@ public  final class seenNotificationRequest extends
         .equals(other.getUserId());
     result = result && getForumId()
         .equals(other.getForumId());
+    result = result && getPostId()
+        .equals(other.getPostId());
     result = result && getTimestamp()
         .equals(other.getTimestamp());
     return result;
@@ -265,6 +310,8 @@ public  final class seenNotificationRequest extends
     hash = (53 * hash) + getUserId().hashCode();
     hash = (37 * hash) + FORUM_ID_FIELD_NUMBER;
     hash = (53 * hash) + getForumId().hashCode();
+    hash = (37 * hash) + POST_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPostId().hashCode();
     hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
     hash = (53 * hash) + getTimestamp().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -361,10 +408,6 @@ public  final class seenNotificationRequest extends
     return builder;
   }
   /**
-   * <pre>
-   *add a timestamp to distinguish between multiple notifications
-   * </pre>
-   *
    * Protobuf type {@code seenNotificationRequest}
    */
   public static final class Builder extends
@@ -404,6 +447,8 @@ public  final class seenNotificationRequest extends
 
       forumId_ = "";
 
+      postId_ = "";
+
       timestamp_ = "";
 
       return this;
@@ -430,6 +475,7 @@ public  final class seenNotificationRequest extends
       notifications.grpc.seenNotificationRequest result = new notifications.grpc.seenNotificationRequest(this);
       result.userId_ = userId_;
       result.forumId_ = forumId_;
+      result.postId_ = postId_;
       result.timestamp_ = timestamp_;
       onBuilt();
       return result;
@@ -478,6 +524,10 @@ public  final class seenNotificationRequest extends
       }
       if (!other.getForumId().isEmpty()) {
         forumId_ = other.forumId_;
+        onChanged();
+      }
+      if (!other.getPostId().isEmpty()) {
+        postId_ = other.postId_;
         onChanged();
       }
       if (!other.getTimestamp().isEmpty()) {
@@ -648,9 +698,78 @@ public  final class seenNotificationRequest extends
       return this;
     }
 
+    private java.lang.Object postId_ = "";
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public java.lang.String getPostId() {
+      java.lang.Object ref = postId_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        postId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPostIdBytes() {
+      java.lang.Object ref = postId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        postId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder setPostId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      postId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder clearPostId() {
+      
+      postId_ = getDefaultInstance().getPostId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder setPostIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      postId_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object timestamp_ = "";
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public java.lang.String getTimestamp() {
       java.lang.Object ref = timestamp_;
@@ -665,7 +784,7 @@ public  final class seenNotificationRequest extends
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public com.google.protobuf.ByteString
         getTimestampBytes() {
@@ -681,7 +800,7 @@ public  final class seenNotificationRequest extends
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder setTimestamp(
         java.lang.String value) {
@@ -694,7 +813,7 @@ public  final class seenNotificationRequest extends
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder clearTimestamp() {
       
@@ -703,7 +822,7 @@ public  final class seenNotificationRequest extends
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder setTimestampBytes(
         com.google.protobuf.ByteString value) {

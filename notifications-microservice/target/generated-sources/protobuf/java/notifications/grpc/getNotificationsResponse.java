@@ -21,6 +21,7 @@ public  final class getNotificationsResponse extends
   private getNotificationsResponse() {
     userId_ = "";
     forumId_ = "";
+    postId_ = "";
     timestamp_ = "";
     message_ = "";
     notificationCount_ = "";
@@ -66,16 +67,22 @@ public  final class getNotificationsResponse extends
           case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            timestamp_ = s;
+            postId_ = s;
             break;
           }
           case 34: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            message_ = s;
+            timestamp_ = s;
             break;
           }
           case 42: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            message_ = s;
+            break;
+          }
+          case 50: {
             java.lang.String s = input.readStringRequireUtf8();
 
             notificationCount_ = s;
@@ -172,10 +179,44 @@ public  final class getNotificationsResponse extends
     }
   }
 
-  public static final int TIMESTAMP_FIELD_NUMBER = 3;
+  public static final int POST_ID_FIELD_NUMBER = 3;
+  private volatile java.lang.Object postId_;
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  public java.lang.String getPostId() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      postId_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  public com.google.protobuf.ByteString
+      getPostIdBytes() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      postId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int TIMESTAMP_FIELD_NUMBER = 4;
   private volatile java.lang.Object timestamp_;
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   public java.lang.String getTimestamp() {
     java.lang.Object ref = timestamp_;
@@ -190,7 +231,7 @@ public  final class getNotificationsResponse extends
     }
   }
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   public com.google.protobuf.ByteString
       getTimestampBytes() {
@@ -206,10 +247,10 @@ public  final class getNotificationsResponse extends
     }
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 4;
+  public static final int MESSAGE_FIELD_NUMBER = 5;
   private volatile java.lang.Object message_;
   /**
-   * <code>string message = 4;</code>
+   * <code>string message = 5;</code>
    */
   public java.lang.String getMessage() {
     java.lang.Object ref = message_;
@@ -224,7 +265,7 @@ public  final class getNotificationsResponse extends
     }
   }
   /**
-   * <code>string message = 4;</code>
+   * <code>string message = 5;</code>
    */
   public com.google.protobuf.ByteString
       getMessageBytes() {
@@ -240,10 +281,10 @@ public  final class getNotificationsResponse extends
     }
   }
 
-  public static final int NOTIFICATIONCOUNT_FIELD_NUMBER = 5;
+  public static final int NOTIFICATIONCOUNT_FIELD_NUMBER = 6;
   private volatile java.lang.Object notificationCount_;
   /**
-   * <code>string notificationCount = 5;</code>
+   * <code>string notificationCount = 6;</code>
    */
   public java.lang.String getNotificationCount() {
     java.lang.Object ref = notificationCount_;
@@ -258,7 +299,7 @@ public  final class getNotificationsResponse extends
     }
   }
   /**
-   * <code>string notificationCount = 5;</code>
+   * <code>string notificationCount = 6;</code>
    */
   public com.google.protobuf.ByteString
       getNotificationCountBytes() {
@@ -292,14 +333,17 @@ public  final class getNotificationsResponse extends
     if (!getForumIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, forumId_);
     }
+    if (!getPostIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, postId_);
+    }
     if (!getTimestampBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, timestamp_);
     }
     if (!getMessageBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, message_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, message_);
     }
     if (!getNotificationCountBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, notificationCount_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, notificationCount_);
     }
   }
 
@@ -314,14 +358,17 @@ public  final class getNotificationsResponse extends
     if (!getForumIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, forumId_);
     }
+    if (!getPostIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, postId_);
+    }
     if (!getTimestampBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, timestamp_);
     }
     if (!getMessageBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, message_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, message_);
     }
     if (!getNotificationCountBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, notificationCount_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, notificationCount_);
     }
     memoizedSize = size;
     return size;
@@ -343,6 +390,8 @@ public  final class getNotificationsResponse extends
         .equals(other.getUserId());
     result = result && getForumId()
         .equals(other.getForumId());
+    result = result && getPostId()
+        .equals(other.getPostId());
     result = result && getTimestamp()
         .equals(other.getTimestamp());
     result = result && getMessage()
@@ -363,6 +412,8 @@ public  final class getNotificationsResponse extends
     hash = (53 * hash) + getUserId().hashCode();
     hash = (37 * hash) + FORUM_ID_FIELD_NUMBER;
     hash = (53 * hash) + getForumId().hashCode();
+    hash = (37 * hash) + POST_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPostId().hashCode();
     hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
     hash = (53 * hash) + getTimestamp().hashCode();
     hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
@@ -506,6 +557,8 @@ public  final class getNotificationsResponse extends
 
       forumId_ = "";
 
+      postId_ = "";
+
       timestamp_ = "";
 
       message_ = "";
@@ -536,6 +589,7 @@ public  final class getNotificationsResponse extends
       notifications.grpc.getNotificationsResponse result = new notifications.grpc.getNotificationsResponse(this);
       result.userId_ = userId_;
       result.forumId_ = forumId_;
+      result.postId_ = postId_;
       result.timestamp_ = timestamp_;
       result.message_ = message_;
       result.notificationCount_ = notificationCount_;
@@ -586,6 +640,10 @@ public  final class getNotificationsResponse extends
       }
       if (!other.getForumId().isEmpty()) {
         forumId_ = other.forumId_;
+        onChanged();
+      }
+      if (!other.getPostId().isEmpty()) {
+        postId_ = other.postId_;
         onChanged();
       }
       if (!other.getTimestamp().isEmpty()) {
@@ -764,9 +822,78 @@ public  final class getNotificationsResponse extends
       return this;
     }
 
+    private java.lang.Object postId_ = "";
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public java.lang.String getPostId() {
+      java.lang.Object ref = postId_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        postId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPostIdBytes() {
+      java.lang.Object ref = postId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        postId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder setPostId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      postId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder clearPostId() {
+      
+      postId_ = getDefaultInstance().getPostId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 3;</code>
+     */
+    public Builder setPostIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      postId_ = value;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object timestamp_ = "";
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public java.lang.String getTimestamp() {
       java.lang.Object ref = timestamp_;
@@ -781,7 +908,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public com.google.protobuf.ByteString
         getTimestampBytes() {
@@ -797,7 +924,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder setTimestamp(
         java.lang.String value) {
@@ -810,7 +937,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder clearTimestamp() {
       
@@ -819,7 +946,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string timestamp = 3;</code>
+     * <code>string timestamp = 4;</code>
      */
     public Builder setTimestampBytes(
         com.google.protobuf.ByteString value) {
@@ -835,7 +962,7 @@ public  final class getNotificationsResponse extends
 
     private java.lang.Object message_ = "";
     /**
-     * <code>string message = 4;</code>
+     * <code>string message = 5;</code>
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -850,7 +977,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string message = 4;</code>
+     * <code>string message = 5;</code>
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -866,7 +993,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string message = 4;</code>
+     * <code>string message = 5;</code>
      */
     public Builder setMessage(
         java.lang.String value) {
@@ -879,7 +1006,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string message = 4;</code>
+     * <code>string message = 5;</code>
      */
     public Builder clearMessage() {
       
@@ -888,7 +1015,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string message = 4;</code>
+     * <code>string message = 5;</code>
      */
     public Builder setMessageBytes(
         com.google.protobuf.ByteString value) {
@@ -904,7 +1031,7 @@ public  final class getNotificationsResponse extends
 
     private java.lang.Object notificationCount_ = "";
     /**
-     * <code>string notificationCount = 5;</code>
+     * <code>string notificationCount = 6;</code>
      */
     public java.lang.String getNotificationCount() {
       java.lang.Object ref = notificationCount_;
@@ -919,7 +1046,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string notificationCount = 5;</code>
+     * <code>string notificationCount = 6;</code>
      */
     public com.google.protobuf.ByteString
         getNotificationCountBytes() {
@@ -935,7 +1062,7 @@ public  final class getNotificationsResponse extends
       }
     }
     /**
-     * <code>string notificationCount = 5;</code>
+     * <code>string notificationCount = 6;</code>
      */
     public Builder setNotificationCount(
         java.lang.String value) {
@@ -948,7 +1075,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string notificationCount = 5;</code>
+     * <code>string notificationCount = 6;</code>
      */
     public Builder clearNotificationCount() {
       
@@ -957,7 +1084,7 @@ public  final class getNotificationsResponse extends
       return this;
     }
     /**
-     * <code>string notificationCount = 5;</code>
+     * <code>string notificationCount = 6;</code>
      */
     public Builder setNotificationCountBytes(
         com.google.protobuf.ByteString value) {

@@ -16,6 +16,7 @@ public  final class addNotificationRequest extends
   }
   private addNotificationRequest() {
     forumId_ = "";
+    postId_ = "";
   }
 
   @java.lang.Override
@@ -47,6 +48,12 @@ public  final class addNotificationRequest extends
             java.lang.String s = input.readStringRequireUtf8();
 
             forumId_ = s;
+            break;
+          }
+          case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            postId_ = s;
             break;
           }
         }
@@ -106,6 +113,40 @@ public  final class addNotificationRequest extends
     }
   }
 
+  public static final int POST_ID_FIELD_NUMBER = 2;
+  private volatile java.lang.Object postId_;
+  /**
+   * <code>string post_id = 2;</code>
+   */
+  public java.lang.String getPostId() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      postId_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string post_id = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getPostIdBytes() {
+    java.lang.Object ref = postId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      postId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -121,6 +162,9 @@ public  final class addNotificationRequest extends
     if (!getForumIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, forumId_);
     }
+    if (!getPostIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, postId_);
+    }
   }
 
   public int getSerializedSize() {
@@ -130,6 +174,9 @@ public  final class addNotificationRequest extends
     size = 0;
     if (!getForumIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, forumId_);
+    }
+    if (!getPostIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, postId_);
     }
     memoizedSize = size;
     return size;
@@ -149,6 +196,8 @@ public  final class addNotificationRequest extends
     boolean result = true;
     result = result && getForumId()
         .equals(other.getForumId());
+    result = result && getPostId()
+        .equals(other.getPostId());
     return result;
   }
 
@@ -161,6 +210,8 @@ public  final class addNotificationRequest extends
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + FORUM_ID_FIELD_NUMBER;
     hash = (53 * hash) + getForumId().hashCode();
+    hash = (37 * hash) + POST_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPostId().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -292,6 +343,8 @@ public  final class addNotificationRequest extends
       super.clear();
       forumId_ = "";
 
+      postId_ = "";
+
       return this;
     }
 
@@ -315,6 +368,7 @@ public  final class addNotificationRequest extends
     public notifications.grpc.addNotificationRequest buildPartial() {
       notifications.grpc.addNotificationRequest result = new notifications.grpc.addNotificationRequest(this);
       result.forumId_ = forumId_;
+      result.postId_ = postId_;
       onBuilt();
       return result;
     }
@@ -358,6 +412,10 @@ public  final class addNotificationRequest extends
       if (other == notifications.grpc.addNotificationRequest.getDefaultInstance()) return this;
       if (!other.getForumId().isEmpty()) {
         forumId_ = other.forumId_;
+        onChanged();
+      }
+      if (!other.getPostId().isEmpty()) {
+        postId_ = other.postId_;
         onChanged();
       }
       onChanged();
@@ -451,6 +509,75 @@ public  final class addNotificationRequest extends
   checkByteStringIsUtf8(value);
       
       forumId_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object postId_ = "";
+    /**
+     * <code>string post_id = 2;</code>
+     */
+    public java.lang.String getPostId() {
+      java.lang.Object ref = postId_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        postId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPostIdBytes() {
+      java.lang.Object ref = postId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        postId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string post_id = 2;</code>
+     */
+    public Builder setPostId(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      postId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 2;</code>
+     */
+    public Builder clearPostId() {
+      
+      postId_ = getDefaultInstance().getPostId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string post_id = 2;</code>
+     */
+    public Builder setPostIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      postId_ = value;
       onChanged();
       return this;
     }

@@ -31,6 +31,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
             response = getNotificationsResponse.newBuilder()
                     .setForumId("")
                     .setUserId("")
+                    .setPostId("")
                     .setTimestamp("")
                     .setMessage("")
                     .setNotificationCount("0")
@@ -41,6 +42,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
                 response = getNotificationsResponse.newBuilder()
                         .setForumId(result.get(i).getForum_id())
                         .setUserId(result.get(i).getUser_id())
+                        .setPostId(result.get(i).getPost_id())
                         .setTimestamp(result.get(i).getTime())
                         .setMessage(result.get(i).getMessage())
                         .setNotificationCount(Integer.toString(result.size()))
@@ -79,7 +81,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     @Override
     public void seenNotification(seenNotificationRequest request, StreamObserver<seenNotificationResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
-        dbConnect.changeNotificationToSeen(request.getUserId(), request.getForumId(), request.getTimestamp());
+        dbConnect.changeNotificationToSeen(request.getUserId(), request.getForumId(), request.getPostId(),request.getTimestamp());
         seenNotificationResponse response = seenNotificationResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -88,7 +90,7 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
     @Override
     public void addNotifications(addNotificationRequest request, StreamObserver<addNotificationResponse> responseObserver) {
         MongoDBHandler dbConnect = new MongoDBHandler();
-        dbConnect.addNotificationsForNewPost(request.getForumId());
+        dbConnect.addNotificationsForNewPost(request.getForumId(), request.getPostId());
         addNotificationResponse response = addNotificationResponse.newBuilder().setResponse("received").build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

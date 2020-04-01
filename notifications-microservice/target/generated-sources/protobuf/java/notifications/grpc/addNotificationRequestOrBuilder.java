@@ -16,4 +16,14 @@ public interface addNotificationRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getForumIdBytes();
+
+  /**
+   * <code>string post_id = 2;</code>
+   */
+  java.lang.String getPostId();
+  /**
+   * <code>string post_id = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getPostIdBytes();
 }

@@ -28,11 +28,21 @@ public interface seenNotificationRequestOrBuilder extends
       getForumIdBytes();
 
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string post_id = 3;</code>
+   */
+  java.lang.String getPostId();
+  /**
+   * <code>string post_id = 3;</code>
+   */
+  com.google.protobuf.ByteString
+      getPostIdBytes();
+
+  /**
+   * <code>string timestamp = 4;</code>
    */
   java.lang.String getTimestamp();
   /**
-   * <code>string timestamp = 3;</code>
+   * <code>string timestamp = 4;</code>
    */
   com.google.protobuf.ByteString
       getTimestampBytes();
