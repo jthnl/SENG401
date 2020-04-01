@@ -39,7 +39,7 @@ public class NotificationController {
     }
 
     @CrossOrigin(origins = corsEnabled)
-    @PostMapping(value="/forum/subscribe")
+    @PostMapping(value="/forum/unsubscribe")
     public unsubscribeResponse unsubscribeToForum(@RequestBody SubscriptionView unsubscribeJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         unsubscribeResponse response = model.unsubscribeToForum(unsubscribeJSON.getUser_id(), unsubscribeJSON.getForum_id());
