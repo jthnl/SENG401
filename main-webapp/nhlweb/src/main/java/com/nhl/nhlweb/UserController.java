@@ -28,7 +28,7 @@ public class UserController {
         return new MessageView( false, null, true, "Account created", null );
     }
 
-    @GetMapping( value = "/user/login" )
+    @PostMapping( value = "/user/login" )
     public MessageView authenticateUser( @RequestBody LoginInfo loginJSON )
     {
         UsernameID user = null;
