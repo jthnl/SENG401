@@ -15,7 +15,10 @@ public class PostController {
 
     @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post")
-    public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = true) String selectId){
+    public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = false) String selectId){
+        if(selectId == null){
+            selectId = "0";
+        }
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
         PostListView ret = new PostListView();
         ret.setPostList(fpGrpc.getPostList(selectId));
