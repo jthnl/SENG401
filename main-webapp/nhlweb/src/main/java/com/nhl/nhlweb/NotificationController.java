@@ -1,13 +1,8 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.NotificationsGRPCModel;
-import com.nhl.view.NotificationListView;
-import com.nhl.view.SubscriptionListView;
-import com.nhl.view.SubscriptionView;
-import notifications.grpc.getNotificationsResponse;
-import notifications.grpc.getSubscriptionsResponse;
-import notifications.grpc.subscribeResponse;
-import notifications.grpc.unsubscribeResponse;
+import com.nhl.view.*;
+import notifications.grpc.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -51,7 +46,22 @@ public class NotificationController {
         return response;
     }
 
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/notification/toSeen")
+    public seenNotificationResponse changeNotificationToSeen(@RequestBody NotificationView seenNotificationJSON){
+        NotificationsGRPCModel model = new NotificationsGRPCModel();
+        seenNotificationResponse response = model.changeNotificationToSeen(
+                seenNotificationJSON.getUser_id(), seenNotificationJSON.getForum_id(),
+                seenNotificationJSON.getPost_id(), seenNotificationJSON.getTime()
+        );
+        return response;
+    }
 
-
-
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/post/addNotifications")
+    public addNotificationResponse addNotificationForNewPost(@RequestBody PostView postJSON){
+        NotificationsGRPCModel model = new NotificationsGRPCModel();
+        addNotificationResponse response = model.addNotificationForNewPost(postJSON.forum_id, postJSON.id);
+        return response;
+    }
 }
