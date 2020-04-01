@@ -4,6 +4,7 @@ import com.nhl.model.CommentsCommandGRPCModel;
 import com.nhl.view.*;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class CommentsCommandController {
     @PostMapping(value = "/comments/command/addComment")

@@ -1,0 +1,74 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "notifications.grpc";
+
+
+service notificationService{
+    rpc subscribe(subscribeRequest) returns (subscribeResponse);    //they call subscribe, pass in subscribe request, and get back subscribe response
+    rpc unsubscribe(unsubscribeRequest) returns (unsubscribeResponse);
+    rpc getNotifications (getNotificationsRequest) returns (stream getNotificationsResponse);
+    rpc getSubscriptions  (getSubscriptionsRequest) returns (stream getSubscriptionsResponse);
+    rpc seenNotification (seenNotificationRequest) returns (seenNotificationResponse);
+    rpc addNotifications (addNotificationRequest) returns (addNotificationResponse);
+}
+
+message subscribeRequest {  //this is effectively a data structure
+    string user_id = 1;
+    string forum_id = 2;
+}
+
+message subscribeResponse {
+    string response = 1;
+}
+
+message unsubscribeRequest {
+    string user_id = 1;
+    string forum_id = 2;
+}
+
+message unsubscribeResponse {
+    string response = 1;
+}
+
+message getNotificationsRequest{
+    string user_id = 1;
+}
+
+message getNotificationsResponse{   //currently I return an array of notifications
+    string user_id = 1;
+    string forum_id = 2;
+    string post_id = 3;
+    string timestamp = 4;
+    string message = 5;
+    string notificationCount = 6;
+}
+
+message getSubscriptionsRequest{
+    string user_id = 1;
+}
+
+message getSubscriptionsResponse{
+    string user_id = 1;
+    string forum_id = 2;
+    string subscriptionCount =3;
+}
+
+message seenNotificationRequest{
+    string user_id = 1;
+    string forum_id = 2;
+    string post_id = 3;
+    string timestamp = 4;
+}
+
+message seenNotificationResponse {
+    string response = 1;
+}
+
+message addNotificationRequest{
+    string forum_id = 1;
+    string post_id = 2;
+}
+
+message addNotificationResponse{
+    string response = 1;
+}

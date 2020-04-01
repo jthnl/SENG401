@@ -9,14 +9,18 @@ public class PostView implements MsgObjectView {
     public String title;
     public String content;
     public String timestamp;
+    public String upvote;
+    public String downvote;
 
-    public PostView(String id, String forum_id, String author_id, String title, String content, String timestamp){
+    public PostView(String id, String forum_id, String author_id, String title, String content, String timestamp, String upvote, String downvote){
         this.id = id;
         this.forum_id = forum_id;
         this.author_id = author_id;
         this.title = title;
         this.content = content;
         this.timestamp = timestamp;
+        this.upvote = upvote;
+        this.downvote = downvote;
     }
 
     public PostView (Post p){
@@ -26,5 +30,7 @@ public class PostView implements MsgObjectView {
         this.title = p.getTitle();
         this.content = p.getContent();
         this.timestamp = p.getTimestamp();
+        this.upvote = p.getUpvote();
+        this.downvote = p.getDownvote();
     }
 }
