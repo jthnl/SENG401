@@ -16,14 +16,14 @@ public class NotificationController {
     private final String corsEnabled = "http://localhost:4200";
 
     @CrossOrigin(origins = corsEnabled) //allows the application in the url to access this function
-    @GetMapping(value="/forum")
-    public NotificationListView getNotifications(@RequestParam(value = "test", defaultValue = "all", required = "true") String user_id){
+    @GetMapping(value="/getNotifications")
+    public NotificationListView getNotifications(@RequestParam(value = "placeholder", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         ArrayList<getNotificationsResponse> notifications = model.getNotificationsForUser(user_id);
-        NotificationListView listView = new NotificationListView();
-        listView.setNotificationList(notifications);
-
-        return null;
+        NotificationListView listView = new NotificationListView(notifications);
+        return listView;
     }
+
+
 
 }
