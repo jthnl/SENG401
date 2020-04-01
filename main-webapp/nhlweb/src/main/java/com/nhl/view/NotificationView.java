@@ -1,8 +1,5 @@
 package com.nhl.view;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 public class NotificationView implements MsgObjectView{
     private String time;
     private String user_id;
@@ -11,21 +8,12 @@ public class NotificationView implements MsgObjectView{
     private String seenFlag;
     private String message;
 
-    public NotificationView(String user_id, String forum_id, String post_id) {
+    public NotificationView(String user_id, String forum_id, String post_id, String time, String seenFlag, String message) {
         this.setUser_id(user_id);
         this.setForum_id(forum_id);
         this.setPost_id(post_id);
-        setTime(new Timestamp(new Date().getTime()).toString());
-        seenFlag = "False";
-        setMessage("There is a new post in " + forum_id + "! ");
-    }
-
-    public NotificationView(String user_id, String forum_id, String post_id, String timeStamp, String seen, String message) {
-        this.setUser_id(user_id);
-        this.setForum_id(forum_id);
-        this.setPost_id(post_id);
-        this.setTime(timeStamp);
-        this.setSeenFlag(seen);
+        this.setTime(time);
+        this.setSeenFlag(seenFlag);
         this.setMessage(message);
     }
 
