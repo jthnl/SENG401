@@ -32,11 +32,15 @@ message DownvoteCommentCommand {
 message Empty {}
 
 service QueryService {
-    rpc GetCommentsOn(GetCommentsOnRequest) returns (stream Comment);
+    rpc GetCommentsOn(GetCommentsOnRequest) returns (GetCommentsOnResponse);
 }
 
 message GetCommentsOnRequest {
     string parent_id = 1;
+}
+
+message GetCommentsOnResponse {
+    repeated Comment comments = 1;
 }
 
 message Comment {

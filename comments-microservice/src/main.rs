@@ -55,8 +55,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
             content: request.get_ref().content.clone(),
         }).map_err(|e| Status::internal(e.to_string()))?;
 
-        let reply = grpc_comments::Empty {};
-        Ok(Response::new(reply))
+        let response = grpc_comments::Empty {};
+        Ok(Response::new(response))
     }
 
     async fn remove_comment(
@@ -70,8 +70,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
                 .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
         }).map_err(|e| Status::internal(e.to_string()))?;
 
-        let reply = grpc_comments::Empty {};
-        Ok(Response::new(reply))
+        let response = grpc_comments::Empty {};
+        Ok(Response::new(response))
     }
 
     async fn upvote_comment(
@@ -85,8 +85,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
                 .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
         }).map_err(|e| Status::internal(e.to_string()))?;
 
-        let reply = grpc_comments::Empty {};
-        Ok(Response::new(reply))
+        let response = grpc_comments::Empty {};
+        Ok(Response::new(response))
     }
 
     async fn downvote_comment(
@@ -100,8 +100,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
                 .map_err(|_| Status::invalid_argument("comment_id is invalid"))?,
         }).map_err(|e| Status::internal(e.to_string()))?;
 
-        let reply = grpc_comments::Empty {};
-        Ok(Response::new(reply))
+        let response = grpc_comments::Empty {};
+        Ok(Response::new(response))
     }
 }
 
@@ -117,37 +117,36 @@ impl GrpcQueryService {
 
 #[tonic::async_trait]
 impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
-    type GetCommentsOnStream = tokio::sync::mpsc::Receiver<
-        Result<grpc_comments::Comment, Status>>;
-
     async fn get_comments_on(
         &self,
         request: Request<GetCommentsOnRequest>,
-    ) -> Result<Response<Self::GetCommentsOnStream>, Status> {
+    ) -> Result<Response<grpc_comments::GetCommentsOnResponse>, Status> {
         println!("Got a request: {:?}", request);
 
         let parent_id = Uuid::parse_str(&request.get_ref().parent_id)
             .map_err(|_| Status::invalid_argument("parent_id is invalid"))?;
+
+
         let comments = self.query.get_comments_on(&parent_id)
             .map_err(|e| Status::internal(e.to_string()))?;
 
-        let (mut tx, rx) = tokio::sync::mpsc::channel(4);
-        tokio::spawn(async move {
-            for comment in comments {
-                tx.send(Ok(grpc_comments::Comment {
-                    id: comment.id.to_string(),
-                    parent_id: comment.parent_id.to_string(),
-                    content: comment.content,
-                    timestamp: comment.timestamp.to_string(),
-                    upvotes: comment.upvotes,
-                    downvotes: comment.downvotes,
-                })).await.unwrap();
-            }
-        });
+        let grpc_comments = comments.into_iter().map(|c| grpc_comments::Comment {
+                        id: c.id.to_string(),
+                        parent_id: c.parent_id.to_string(),
+                        content: c.content,
+                        timestamp: c.timestamp.to_string(),
+                        upvotes: c.upvotes,
+                        downvotes: c.downvotes,
+                    }).collect::<Vec<_>>();
 
-        Ok(Response::new(rx))
+        let response = grpc_comments::GetCommentsOnResponse {
+            comments: grpc_comments
+        };
+
+        Ok(Response::new(response))
     }
 }
+
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
