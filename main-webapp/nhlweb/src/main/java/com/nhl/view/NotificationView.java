@@ -9,6 +9,7 @@ public class NotificationView implements MsgObjectView{
     private String forum_id;
     private String seenFlag;
     private String message;
+    private String post_id; //implement using jath's post model
 
     public NotificationView(String user_id, String forum_id) {
         this.setUser_id(user_id);

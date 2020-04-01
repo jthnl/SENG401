@@ -6,10 +6,9 @@ import com.nhl.view.SubscriptionListView;
 import com.nhl.view.SubscriptionView;
 import notifications.grpc.getNotificationsResponse;
 import notifications.grpc.getSubscriptionsResponse;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import notifications.grpc.subscribeResponse;
+import notifications.grpc.unsubscribeResponse;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -34,6 +33,22 @@ public class NotificationController {
         ArrayList<getSubscriptionsResponse> subscriptions = model.getSubscriptionsForUser(user_id);
         SubscriptionListView listView = new SubscriptionListView(subscriptions);
         return listView;
+    }
+
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/forum/subscribe")
+    public subscribeResponse subscribeToForum(@RequestBody SubscriptionView subscribeJSON){
+        NotificationsGRPCModel model = new NotificationsGRPCModel();
+        subscribeResponse response = model.subscribeToForum(subscribeJSON.getUser_id(), subscribeJSON.getForum_id());
+        return response;
+    }
+
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/forum/subscribe")
+    public unsubscribeResponse unsubscribeToForum(@RequestBody SubscriptionView unsubscribeJSON){
+        NotificationsGRPCModel model = new NotificationsGRPCModel();
+        unsubscribeResponse response = model.unsubscribeToForum(unsubscribeJSON.getUser_id(), unsubscribeJSON.getForum_id());
+        return response;
     }
 
 
