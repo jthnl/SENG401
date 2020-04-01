@@ -93,6 +93,10 @@ func (s *PostServiceServer) ReadPost(ctx context.Context, req *postpb.ReadPostRe
 }
 
 func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.PostService_ListPostsServer) error {
+	asInt, err := strconv.Atoi(req.GetForumId())
+	if(err != nil){
+		status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to INT: %v", err))
+	}
 	// read forum id reqeusted
 	forumIDHex, err := primitive.ObjectIDFromHex(req.GetForumId())
 	if(err != nil){
@@ -101,6 +105,9 @@ func (s *PostServiceServer) ListPosts(req *postpb.ListPostReq, stream postpb.Pos
 	// get all posts with forum id 
 	data := &PostItem{}
 	cursor, err := postdb.Find(context.Background(), bson.M{"_forum_id": forumIDHex})
+	if asInt == 0 {
+		cursor, err = postdb.Find(context.Background(), bson.M{})
+	}
 	if err != nil{
 		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
 	}
