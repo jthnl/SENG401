@@ -13,8 +13,8 @@ service notificationService{
 }
 
 message subscribeRequest {  //this is effectively a data structure
-    string user_id = 1;
-    string forum_id = 2;
+   string user_id = 1;
+   string forum_id = 2;
 }
 
 message subscribeResponse {
@@ -37,9 +37,10 @@ message getNotificationsRequest{
 message getNotificationsResponse{   //currently I return an array of notifications
     string user_id = 1;
     string forum_id = 2;
-    string timestamp = 3;
-    string message = 4;
-    string notificationCount = 5;
+    string post_id = 3;
+    string timestamp = 4;
+    string message = 5;
+    string notificationCount = 6;
 }
 
 message getSubscriptionsRequest{
@@ -52,10 +53,11 @@ message getSubscriptionsResponse{
     string subscriptionCount =3;
 }
 
-message seenNotificationRequest{        //add a timestamp to distinguish between multiple notifications
+message seenNotificationRequest{
     string user_id = 1;
     string forum_id = 2;
-    string timestamp = 3;
+    string post_id = 3;
+    string timestamp = 4;
 }
 
 message seenNotificationResponse {
@@ -64,6 +66,7 @@ message seenNotificationResponse {
 
 message addNotificationRequest{
     string forum_id = 1;
+    string post_id = 2;
 }
 
 message addNotificationResponse{

@@ -16,6 +16,7 @@ public class NotificationListView implements MsgObjectView {
             notificationList.add(new NotificationView(
                     response.getUserId(),
                     response.getForumId(),
+                    response.getPostId(),
                     response.getTimestamp(),
                     "False",
                     response.getMessage()

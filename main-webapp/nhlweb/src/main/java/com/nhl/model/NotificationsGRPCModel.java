@@ -30,15 +30,15 @@ public class NotificationsGRPCModel {
         return unsubscribe;
     }
 
-    public seenNotificationResponse changeNotificationToSeen(String user_id, String forum_id, String timestamp){
+    public seenNotificationResponse changeNotificationToSeen(String user_id, String forum_id, String post_id, String timestamp){
         seenNotificationResponse seen = notificationStub.seenNotification(seenNotificationRequest.newBuilder()
-                .setUserId(user_id).setForumId(forum_id).setTimestamp(timestamp).build());
+                .setUserId(user_id).setForumId(forum_id).setPostId(post_id).setTimestamp(timestamp).build());
         return seen;
     }
 
-    public addNotificationResponse addNotificationForNewPost(String forum_id){
+    public addNotificationResponse addNotificationForNewPost(String forum_id, String post_id){
         addNotificationResponse notify = notificationStub.addNotifications(addNotificationRequest.newBuilder()
-                .setForumId(forum_id).build());
+                .setForumId(forum_id).setPostId(post_id).build());
         return notify;
     }
 

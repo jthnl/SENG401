@@ -7,21 +7,23 @@ public class NotificationView implements MsgObjectView{
     private String time;
     private String user_id;
     private String forum_id;
+    private String post_id;
     private String seenFlag;
     private String message;
-    private String post_id; //implement using jath's post model
 
-    public NotificationView(String user_id, String forum_id) {
+    public NotificationView(String user_id, String forum_id, String post_id) {
         this.setUser_id(user_id);
         this.setForum_id(forum_id);
+        this.setPost_id(post_id);
         setTime(new Timestamp(new Date().getTime()).toString());
         seenFlag = "False";
         setMessage("There is a new post in " + forum_id + "! ");
     }
 
-    public NotificationView(String user_id, String forum_id, String timeStamp, String seen, String message) {
+    public NotificationView(String user_id, String forum_id, String post_id, String timeStamp, String seen, String message) {
         this.setUser_id(user_id);
         this.setForum_id(forum_id);
+        this.setPost_id(post_id);
         this.setTime(timeStamp);
         this.setSeenFlag(seen);
         this.setMessage(message);
@@ -74,4 +76,8 @@ public class NotificationView implements MsgObjectView{
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getPost_id(){return post_id;}
+
+    public void setPost_id(String post_id){this.post_id=post_id;}
 }

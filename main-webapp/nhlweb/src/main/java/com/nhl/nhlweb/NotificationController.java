@@ -28,7 +28,7 @@ public class NotificationController {
 
     @CrossOrigin(origins = corsEnabled) //allows the application in the url to access this function
     @GetMapping(value="/getSubscriptions")
-    public SubscriptionListView getSubsciptions(@RequestParam(value="placeholder", defaultValue = "all", required = true) String user_id){
+    public SubscriptionListView getSubscriptions(@RequestParam(value="placeholder", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         ArrayList<getSubscriptionsResponse> subscriptions = model.getSubscriptionsForUser(user_id);
         SubscriptionListView listView = new SubscriptionListView(subscriptions);
