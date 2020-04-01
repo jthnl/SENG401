@@ -8,12 +8,11 @@ use chrono::{DateTime, TimeZone, Utc};
 use futures::try_join;
 use mongodb::Client;
 use mongodb::options::FindOptions;
-use tokio::time::Duration;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
 use grpc_comments::command_service_server::CommandServiceServer;
-use grpc_comments::GetCommentsOnPostRequest;
+use grpc_comments::GetCommentsOnRequest;
 use grpc_comments::query_service_server::QueryServiceServer;
 
 use crate::command::{AddCommentCommand, Command, DownvoteCommentCommand, EventBackedCommandHandler, UpvoteCommentCommand, RemoveCommentCommand};
@@ -51,8 +50,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
         println!("Got a request: {:?}", request);
 
         self.command_handler.add_comment(AddCommentCommand {
-            post_id: Uuid::parse_str(&request.get_ref().post_id)
-                .map_err(|_| Status::invalid_argument("post_id is invalid"))?,
+            parent_id: Uuid::parse_str(&request.get_ref().parent_id)
+                .map_err(|_| Status::invalid_argument("parent_id is invalid"))?,
             content: request.get_ref().content.clone(),
         }).map_err(|e| Status::internal(e.to_string()))?;
 
@@ -118,18 +117,18 @@ impl GrpcQueryService {
 
 #[tonic::async_trait]
 impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
-    type GetCommentsOnPostStream = tokio::sync::mpsc::Receiver<
+    type GetCommentsOnStream = tokio::sync::mpsc::Receiver<
         Result<grpc_comments::Comment, Status>>;
 
-    async fn get_comments_on_post(
+    async fn get_comments_on(
         &self,
-        request: Request<GetCommentsOnPostRequest>,
-    ) -> Result<Response<Self::GetCommentsOnPostStream>, Status> {
+        request: Request<GetCommentsOnRequest>,
+    ) -> Result<Response<Self::GetCommentsOnStream>, Status> {
         println!("Got a request: {:?}", request);
 
-        let post_id = Uuid::parse_str(&request.get_ref().post_id)
-            .map_err(|_| Status::invalid_argument("post_id is invalid"))?;
-        let comments = self.query.get_comments_on_post(&post_id)
+        let parent_id = Uuid::parse_str(&request.get_ref().parent_id)
+            .map_err(|_| Status::invalid_argument("parent_id is invalid"))?;
+        let comments = self.query.get_comments_on(&parent_id)
             .map_err(|e| Status::internal(e.to_string()))?;
 
         let (mut tx, rx) = tokio::sync::mpsc::channel(4);
@@ -137,7 +136,7 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
             for comment in comments {
                 tx.send(Ok(grpc_comments::Comment {
                     id: comment.id.to_string(),
-                    post_id: comment.post_id.to_string(),
+                    parent_id: comment.parent_id.to_string(),
                     content: comment.content,
                     timestamp: comment.timestamp.to_string(),
                     upvotes: comment.upvotes,
@@ -153,6 +152,7 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50052".parse()?;
+    println!("Running on {}.", addr);
 
     let mongodb_client = Arc::new(Client::with_uri_str("mongodb://localhost:27017/").unwrap());
 
@@ -193,7 +193,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 Err(e) => {
                     eprintln!("Failed to retrieve cursor: {}", e);
                     // Wait briefly before checking again
-                    tokio::time::delay_for(Duration::from_secs(1)).await;
+                    tokio::time::delay_for(tokio::time::Duration::from_secs(1)).await;
                     continue;
                 }
             };
@@ -220,7 +220,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
 
             // Wait briefly before checking again
-            tokio::time::delay_for(Duration::from_secs(1)).await;
+            tokio::time::delay_for(tokio::time::Duration::from_secs(1)).await;
         }
     });
 
