@@ -1,25 +1,35 @@
-<app-navbar></app-navbar>
+<app-navbar (emitter)="searchPosts($event)"></app-navbar>
 <div class="container-fluid mt-2">
   <div class="row">
     <div class="col-sm-2">
-      <div class="container mt-5">
+      <div class="mt-5">
         <ul class="list-group list-group-flush">
           <li
             class="list-group-item"
             [ngClass]="{ selected: status == 1 }"
-            (click)="forumToggle('feed')"
+            (click)="getPosts(1)"
           >
-            <img class="logo" src="../../assets/heart.png" />My Feed
+            <img class="logo" src="../../assets/heart.png" />All 
+          </li>
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 2 }"
+            (click)="getPosts(2)"
+          >
+            <img class="logo" src="../../assets/heart.png" />Subscribed
           </li>
           <!-- <li class="list-group-item"><img class="logo" src="../../assets/hot.png">Teams</li> -->
           <!-- <li class="list-group-item"><img class="logo" src="../../assets/trophy.png">Leagues</li> -->
           <li
             class="list-group-item"
-            [ngClass]="{ selected: status == 0 }"
-            (click)="forumToggle('teams')"
+            [ngClass]="{ selected: status == 3 }"
+            (click)="getPosts(3)"
           >
             <img class="logo" src="../../assets/teams.png" />Teams
           </li>
+
+
+
         </ul>
       </div>
     </div>
@@ -39,28 +49,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
-            <!-- <li class="nav-item">
-              <span class="nav-text">Sort by</span>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Newest
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Top</a>
-                <a class="dropdown-item" href="#">Hot</a>
-              </div>
-            </li> -->
-
-
             <li class="nav-item">
               <span class="nav-text">Team</span>
             </li>
@@ -125,7 +113,7 @@
       </div>
       <div class="card bg-transparent">
         <ul class="post">
-          <li *ngFor="let game of upcomingGames">
+          <li *ngFor="let game of upcomingGames | slice: 0:5">
             <app-coming-soon [game]="game"></app-coming-soon>
           </li>
         </ul>
@@ -133,3 +121,4 @@
     </div>
   </div>
 </div>
+

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../models/contact.class';
 import { of, Observable } from 'rxjs';
 import { teams } from '../models/teams';
 import { NhlStatsService } from '../services/nhl-stats.service';
@@ -23,7 +22,6 @@ enum Page {
 
 export class HomeComponent implements OnInit {
 
-  contacts: Observable<Contact[]>;
   teams = teams;
   upcomingGames: Schedule[];
   // forums: Forum[];
@@ -38,7 +36,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.forumId = '5e77b57de3d58bd5c347a3e6';
     this.getUpcomingGames();
-    this.getPosts(this.forumId);
+    this.getPost(this.forumId);
     // this.getForums();
   }
 
@@ -58,7 +56,7 @@ export class HomeComponent implements OnInit {
   //   });
   // }
 
-  getPosts(forumId) {
+  getPost(forumId) {
     this.postService
     .getPosts(forumId)
     .subscribe((data) => {
@@ -66,11 +64,44 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  changeTeam(team: Team) {
-    this.selected_team = team;
-    this.getPosts(this.selected_team.forumId);
+
+  searchPosts(title) {
+    this.postService
+    .searchPosts(title)
+    .subscribe((data) => {
+      this.posts = data;
+    });
   }
 
+  changeTeam(team: Team) {
+    this.selected_team = team;
+    this.getPost(this.selected_team.forumId);
+  }
+
+  getAllPost() {
+
+  }
+
+  getSubscribedPost() {
+
+  }
+
+  getPosts(flag: number) {
+    if (flag === 1) {
+      console.log('Get all');
+      this.status = 1;
+      this.getAllPost();
+    } else if  (flag === 2) {
+      console.log('Get subscribed');
+      this.status = 2;
+      this.getSubscribedPost();
+    } else {
+      console.log("Get teams");
+      this.status = 3;
+      this.getPost('5e77b57de3d58bd5c347a3e2');
+      this.selected_team = teams[0];
+    }
+  }
   forumToggle(input) {
     if (Page[this.status] !== input) {
       this.status = (this.status + 1) % 2;

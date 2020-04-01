@@ -17,4 +17,15 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  like() {
+    this.commentService.like(this.comment);
+  }
+
+  dislike() {
+    this.commentService.dislike(this.comment);
+  }
+
+
 }
+

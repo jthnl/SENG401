@@ -23,3 +23,7 @@
     -webkit-transform:rotate(360deg);  
     /*-webkit-font-smoothing:antialiased;*/
 }
+
+.notification {
+    border-radius: 50%;
+}

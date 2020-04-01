@@ -1,11 +1,18 @@
 <div class="post-card box-shadow">
     <div class="row">
-        <div class="col-3">
-            <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ comment.upvotes }}</h6>
-            <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ comment.downvotes }}</h6>
+        <div class="col-10">
+            <div class="container">
+                <p class="comment-content"> {{ comment.content }} </p>
+                <p class="comment-content"> {{ comment.id }} </p>
+
+            </div>
+
         </div>
-        <div class="col-9">
-            <p class="comment-content"> {{ comment.content }} </p>
+        <div class="col-2">
+            <div class="container">
+                <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ comment.upvotes }}</h6>
+                <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ comment.downvotes }}</h6>
+            </div>
         </div>
     </div>
 </div>

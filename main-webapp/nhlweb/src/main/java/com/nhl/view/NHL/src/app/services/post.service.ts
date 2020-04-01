@@ -34,6 +34,28 @@ export class PostService {
     );
    }
 
+   searchPosts(title: string) {
+
+    const params = new HttpParams().set('s', title); // create new HttpParams
+
+    return this.httpClient.get<Post[]>(`${this.apiURL}/post/search`, {params})
+    .pipe(
+      map((data: any) => {
+        const posts: Post[] = [];
+
+        data.object.postList.forEach(element => {
+          posts.push(new Post(
+                                 element.id,
+                                 element.author_id,
+                                 element.title,
+                                 element.content,
+                                 ));
+        });
+        return posts;
+      })
+    );
+   }
+
   postPost(post: Post) {
     this.httpClient.post<any>(`${this.apiURL}/post/create`,
     post).subscribe(data => {

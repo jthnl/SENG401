@@ -5,14 +5,23 @@
     </div>
     <div class="col-6">
       <div class="container">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control" type="search" (keyup.enter)="search()" placeholder="Search" [(ngModel)]="searchQuery" aria-label="Search">
       </div>
     </div>
     <div class="col-1">
       <button class="btn btn-outline-primary my-2 my-sm-0" routerLink="/create" type="submit">Post</button>
     </div>
     <div class="col-2">
-      <button class="btn btn-outline-primary my-2 my-sm-0" routerLink="/profile" type="submit">Profile</button>
+      <!-- <ul>
+        <li *ngFor="let notification of notifications"> {{ notification.time }} </li>
+      </ul> -->
+
+
+        <!-- {{notification.message}}
+        <button class="notification btn btn-outline-danger my-2 my-sm-0">
+          <span>3</span> 
+        </button>
+        <button class="btn btn-outline-primary my-2 my-sm-0 pull-right" routerLink="/profile" type="submit">Profile</button> -->
     </div>
   </div>
 </nav>

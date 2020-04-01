@@ -37,17 +37,30 @@ export class CommentsService {
 
    postComment(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/addComment`,
-    { postId: comment.getPostId, content: comment.getContent}).subscribe(data => {
+    comment).subscribe(data => {
       console.log(data);
     });
   }
 
-  // like(forum: Forum) {
-  //   this.httpClient.post<any>(`${this.apiURL}/forum/create`,
-  //   forum).subscribe(data => {
-  //     console.log(data);
-  //   });
-  // }
+  like(comment: Comment) {
+    this.httpClient.post<any>(`${this.apiURL}/comments/command/upvoteComment`,
+    { "commentId": comment.getId() }).subscribe(data => {
+      if (data.normalMessage == "success") {
+        comment.upvote();
+      }
+      console.log(data);
+    });
+  }
+
+  dislike(comment: Comment) {
+    this.httpClient.post<any>(`${this.apiURL}/comments/command/downvoteComment`,
+    { "commentId": comment.getId() }).subscribe(data => {
+      if (data.normalMessage == "success") {
+        comment.downvote();
+      }
+      console.log(data);
+    });
+  }
 
 
 
