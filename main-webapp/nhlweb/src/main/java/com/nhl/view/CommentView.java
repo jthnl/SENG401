@@ -8,14 +8,16 @@ import java.util.List;
 public class CommentView implements MsgObjectView {
     public String id;
     public String parentId;
+    public String authorId;
     public String content;
     public int upvotes;
     public int downvotes;
     public List<CommentView> nested;
 
-    public CommentView(String id, String parentId, String content, int upvotes, int downvotes, List<CommentView> nested) {
+    public CommentView(String id, String parentId, String authorId, String content, int upvotes, int downvotes, List<CommentView> nested) {
         this.id = id;
         this.parentId = parentId;
+        this.authorId = authorId;
         this.content = content;
         this.upvotes = upvotes;
         this.downvotes = downvotes;
@@ -24,6 +26,7 @@ public class CommentView implements MsgObjectView {
     public CommentView(Comment comment) {
         this.id = comment.getId();
         this.parentId = comment.getParentId();
+        this.authorId = comment.getAuthorId();
         this.content = comment.getContent();
         this.upvotes = comment.getUpvotes();
         this.downvotes = comment.getDownvotes();

@@ -17,10 +17,11 @@ public class CommentsCommandGRPCModel {
         commandStub = CommandServiceGrpc.newBlockingStub(channel);
     }
 
-    public void addComment(String parentId, String content){
+    public void addComment(String parentId, String authorId, String content){
         AddCommentCommand request = AddCommentCommand
                 .newBuilder()
                 .setParentId(parentId)
+                .setAuthorId(authorId)
                 .setContent(content)
                 .build();
 

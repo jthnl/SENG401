@@ -13,7 +13,7 @@ public class CommentsCommandController {
     @PostMapping(value = "/comments/command/addComment")
     public MessageView addComment(@RequestBody AddCommentView addCommentView) {
         CommentsCommandGRPCModel commentsCommandGRPCModel = new CommentsCommandGRPCModel();
-        commentsCommandGRPCModel.addComment(addCommentView.parentId, addCommentView.content);
+        commentsCommandGRPCModel.addComment(addCommentView.parentId, addCommentView.authorId, addCommentView.content);
         return new MessageView(false, null, false, "success", null);
     }
 
