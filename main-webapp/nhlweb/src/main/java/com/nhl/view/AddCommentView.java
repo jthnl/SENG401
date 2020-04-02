@@ -1,11 +1,11 @@
 package com.nhl.view;
 
 public class AddCommentView implements MsgObjectView {
-    public String postId;
+    public String parentId;
     public String content;
 
-    public AddCommentView(String postId, String content){
-        this.postId = postId;
+    public AddCommentView(String parentId, String content){
+        this.parentId = parentId;
         this.content = content;
     }
 }

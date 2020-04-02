@@ -17,13 +17,16 @@ import com.mongodb.client.MongoDatabase;
 import javax.management.Notification;
 
 public class MongoDBHandler {
-	
+
+	String local = "mongodb://localhost:27017";
+	String online = "mongodb+srv://SENG401:seng401@cluster0-hcvzz.mongodb.net/test?retryWrites=true&w=majority";
+
 	MongoClient mongoClient;
 	MongoDatabase database;
 	MongoCollection<Document> collection;
 	
 	public MongoDBHandler() {
-		establishConnection();
+		establishConnection(local);
 		setDatabase("SENG401");
 	}
 
@@ -164,10 +167,8 @@ public class MongoDBHandler {
 		return new MySubscription(query.get("User ID").toString(), query.get("Forum ID").toString());
 	}
 
-	private void establishConnection() {	//this might break later have yet to test
-		mongoClient = MongoClients.create(
-				"mongodb+srv://SENG401:seng401@cluster0-hcvzz.mongodb.net/test?retryWrites=true&w=majority");
-		database = mongoClient.getDatabase("test");		
+	private void establishConnection(String type) {	//this might break later have yet to test
+		mongoClient = MongoClients.create(type);
 	}
 	
 	private void setDatabase(String db_name) {

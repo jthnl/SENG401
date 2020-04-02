@@ -1,7 +1,8 @@
 package com.nhl.model;
 
 import com.comments.commentsproto.Comment;
-import com.comments.commentsproto.GetCommentsOnPostRequest;
+import com.comments.commentsproto.GetCommentsOnRequest;
+import com.comments.commentsproto.GetCommentsOnResponse;
 import com.comments.commentsproto.QueryServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -21,12 +22,13 @@ public class CommentsQueryGRPCModel {
         queryStub = QueryServiceGrpc.newBlockingStub(channel);
     }
 
-    public Iterator<Comment> getCommentsOnPost(String postId){
-        GetCommentsOnPostRequest request = GetCommentsOnPostRequest
+    public Iterator<Comment> getCommentsOn(String parentId){
+        GetCommentsOnRequest request = GetCommentsOnRequest
                 .newBuilder()
-                .setPostId(postId)
+                .setParentId(parentId)
                 .build();
 
-        return queryStub.getCommentsOnPost(request);
+        GetCommentsOnResponse comments = queryStub.getCommentsOn(request);
+        return comments.getCommentsList().iterator();
     }
 }

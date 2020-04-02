@@ -13,10 +13,8 @@ pub trait Command {
     fn downvote_comment(&self, command: DownvoteCommentCommand) -> Result<(), Box<dyn Error>>;
 }
 
-// Todo: Add Command trait; consider using idempotency keys
-
 pub struct AddCommentCommand {
-    pub post_id: Uuid,
+    pub parent_id: Uuid,
     pub content: String,
 }
 
@@ -48,7 +46,7 @@ impl Command for EventBackedCommandHandler {
     fn add_comment(&self, command: AddCommentCommand) -> Result<(), Box<dyn Error>> {
         let comment_added = CommentAdded {
             comment_id: Uuid::new_v4(),
-            post_id: command.post_id,
+            parent_id: command.parent_id,
             content: command.content.clone(),
         };
 

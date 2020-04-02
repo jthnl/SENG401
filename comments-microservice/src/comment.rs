@@ -12,7 +12,7 @@ use crate::query::Query;
 #[derive(Clone)]
 pub struct Comment {
     pub id: Uuid,
-    pub post_id: Uuid,
+    pub parent_id: Uuid,
     pub content: String,
     pub timestamp: DateTime<Utc>,
     pub upvotes: i32,
@@ -32,13 +32,13 @@ impl InMemoryComments {
 }
 
 impl Query for InMemoryComments {
-    fn get_comments_on_post(&self, post_id: &Uuid) -> Result<Vec<Comment>, Box<dyn Error>> {
-        Ok(self.comments.read().unwrap().iter()
+    fn get_comments_on(&self, parent_id: &Uuid) -> Vec<Comment> {
+        self.comments.read().unwrap().iter()
             .map(|(_, c)| c)
-            .filter(|c| c.post_id == *post_id)
+            .filter(|c| c.parent_id == *parent_id)
             .map(|c| (*c).clone())
             .sorted_by_key(|c| c.timestamp)
-            .collect::<Vec<_>>())
+            .collect::<Vec<_>>()
     }
 }
 
@@ -48,7 +48,7 @@ impl EventMaterializer for InMemoryComments {
             EventData::CommentAdded(comment_added) => {
                 let comment = Comment {
                     id: comment_added.comment_id,
-                    post_id: comment_added.post_id,
+                    parent_id: comment_added.parent_id,
                     content: comment_added.content,
                     timestamp: event.timestamp,
                     upvotes: 0,

@@ -70,7 +70,7 @@ pub mod event_data {
     #[derive(Serialize, Deserialize, Debug)]
     pub struct CommentAdded {
         pub comment_id: Uuid,
-        pub post_id: Uuid,
+        pub parent_id: Uuid,
         pub content: String,
     }
 
