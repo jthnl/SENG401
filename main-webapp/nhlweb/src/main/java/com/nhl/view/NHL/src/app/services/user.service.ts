@@ -19,8 +19,8 @@ export class UserService {
     login(uName, pWord) {
         return this.http.get<any>(`${environment.apiUrl}/users/login`,
         {
-            username: uName,
-	        password: pWord
+            'username': uName,
+	        'password': pWord
         });
     }
 
@@ -47,8 +47,6 @@ export class UserService {
         })
         );
     }
-
-
 
     createUser(user: TempUser) {
         return this.http.post<any>(`${environment.apiUrl}/user/create`, user).subscribe(data => {

@@ -13,7 +13,6 @@ export class SubscriptionsService {
   constructor(private httpClient: HttpClient) { }
 
   getSubscriptions(userId) {
-
     const params = new HttpParams().set('uid', userId); // create new HttpParams
 
     return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
@@ -22,7 +21,7 @@ export class SubscriptionsService {
         const subscriptions: Subscription[] = [];
 
         data.object.subscriptionViews.forEach(element => {
-          subscriptions.push(new Subscription(
+          subscriptions.push(new Pos(
             element.user_id,
             element.forum_id));
         });

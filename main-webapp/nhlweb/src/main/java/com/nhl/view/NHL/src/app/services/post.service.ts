@@ -75,6 +75,29 @@ export class PostService {
     );
    }
 
+   getSubscriptions(userId) {
+    const params = new HttpParams().set('uid', userId); // create new HttpParams
+
+    return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
+    .pipe(
+      map((data: any) => {
+        const posts: Post[] = [];
+
+        data.object.subscriptionViews.forEach(element => {
+
+          posts.push(new Post(
+              element.forum.id,
+              element.forum.author_id,
+              element.forum.title,
+              element.forum.content,
+              ));
+
+        });
+        return posts;
+      })
+    );
+   }
+
   postPost(post: Post) {
     this.httpClient.post<any>(`${this.apiURL}/post/create`,
     post).subscribe(data => {

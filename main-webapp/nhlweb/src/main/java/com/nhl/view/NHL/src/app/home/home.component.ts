@@ -97,7 +97,12 @@ export class HomeComponent implements OnInit {
   }
 
   getSubscribedPost() {
-
+    const userId = 1;
+    this.postService
+    .getSubscriptions(userId)
+    .subscribe((data) => {
+      this.posts = data;
+    });
   }
 
   getPosts(flag: number) {
