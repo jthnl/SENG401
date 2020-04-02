@@ -60,19 +60,19 @@ export class PostService {
     );
   }
 
-  likePost(id, authorId) {
-    console.log(id, authorId);
-
+  likePost(id, author_id) {
+    console.log(id, author_id);
     this.httpClient.post<any>(`${this.apiURL}/post/upvote`,
-    {id, authorId}).subscribe(data => {
+    {id, author_id}).subscribe(data => {
       console.log(data);
     });
+    this.getPost(id);
   }
 
-  dislikePost(id, authorId) {
-    console.log(id, authorId);
+  dislikePost(id, author_id) {
+    console.log(id, author_id);
     this.httpClient.post<any>(`${this.apiURL}/post/downvote`,
-    {id, authorId}).subscribe(data => {
+    {id, author_id}).subscribe(data => {
       console.log(data);
     });
   }
