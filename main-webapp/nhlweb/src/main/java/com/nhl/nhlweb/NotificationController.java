@@ -26,7 +26,8 @@ public class NotificationController {
     public MessageView getSubscriptions(@RequestParam(value="uid", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         ArrayList<getSubscriptionsResponse> subscriptions = model.getSubscriptionsForUser(user_id);
-        SubscriptionListView listView = new SubscriptionListView(subscriptions);
+        ArrayList<ForumView> forumpair = ForumController.readAllForumsFromList(subscriptions);
+        SubscriptionListView listView = new SubscriptionListView(subscriptions, forumpair);
         return new MessageView(false, null, false, null, listView);
     }
 
