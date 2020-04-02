@@ -18,7 +18,9 @@ body {
 }
 
 .mat-progress-bar-fill::after {
-    background-color: blue !important;
+    background-image: linear-gradient(to right, red , yellow);
+
+    /* background-color: blue !important; */
 }
 
 .post-card {

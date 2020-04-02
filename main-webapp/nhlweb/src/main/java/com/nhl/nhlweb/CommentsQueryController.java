@@ -1,21 +1,21 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.CommentsQueryGRPCModel;
-import com.nhl.model.ForumPostGRPCModel;
-import com.nhl.nhlproto.Forum;
 import com.nhl.view.CommentsListView;
-import com.nhl.view.ForumListView;
-import com.nhl.view.ForumView;
 import com.nhl.view.MessageView;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class CommentsQueryController {
-    @GetMapping(value="/comments/query/commentsOnPost")
-    public MessageView commentsOnPost(@RequestParam("postId") String postId) {
+    @GetMapping(value="/comments/query/commentsOn")
+    public MessageView commentsOn(@RequestParam("parentId") String parentId) {
         CommentsQueryGRPCModel commentsQueryGRPCModel = new CommentsQueryGRPCModel();
         CommentsListView ret = new CommentsListView();
-        ret.setCommentsList(commentsQueryGRPCModel.getCommentsOnPost(postId));
+        ret.setCommentsList(commentsQueryGRPCModel.getCommentsOn(parentId));
         return new MessageView(false, null, false, null, ret);
     }
 }

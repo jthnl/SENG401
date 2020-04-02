@@ -16,89 +16,90 @@ import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.AccountException;
 import java.util.Iterator;
 import java.util.Date;
 import java.text.DateFormat;
+import java.util.regex.Pattern;
 
-public class UserModel
-{
+public class UserModel {
 
-	private MongoClient mongo;
-	private MongoCredential credential;
-	private MongoDatabase database;
-	private MongoCollection<Document> users;
+    private MongoClient mongo;
+    private MongoCredential credential;
+    private MongoDatabase database;
+    private MongoCollection<Document> users;
+    private MongoCollection<Document> userAuth;
 
-	public UserModel()
-	{
-		mongo = new MongoClient("localhost", 27017);
-		credential = MongoCredential.createCredential("sampleUser", "core_app", "password".toCharArray());
-		database = mongo.getDatabase("core_app");
-		users = database.getCollection("Users");
-	}
+    public UserModel() {
+        mongo = new MongoClient("localhost", 27017);
+        credential = MongoCredential.createCredential("sampleUser", "core_app", "password".toCharArray());
+        database = mongo.getDatabase("core_app");
+        users = database.getCollection("Users");
+        userAuth = database.getCollection("user_auth");
+    }
 
-	public UsernameID authenticateUser( String username, String password ) throws FailedLoginException
-	{
-		Iterator<Document> it = users.find().iterator();
+    public UsernameID authenticateUser(String username, String password) throws FailedLoginException {
+        System.out.println("TPP:" + username + " " + password);
+        Iterator<Document> userFound = users.find(new Document("username", Pattern.compile(username, Pattern.CASE_INSENSITIVE))).iterator();
 
-		while (it.hasNext())
-		{
-			Document user_doc = it.next();
-			String db_username = user_doc.get( "username" ).toString();
-			if( db_username.compareToIgnoreCase( username ) == 0 )
-			{
-				String db_password = user_doc.get( "password" ).toString();
-				if( db_password.compareTo( password ) == 0 )
-				{
-					return new UsernameID( user_doc.get("_id").toString(), db_username );
-				}
-				throw new FailedLoginException( "Incorrect Password" );
-			}
-		}
+        if (!userFound.hasNext()) {
+            System.out.println("AU_A");
+            throw new FailedLoginException("username does not exist");
+        }
+        Document user = userFound.next();
+        if(!user.get("password").toString().equals(password)){
+            System.out.println("AU_B");
 
-		throw new FailedLoginException( "Username does not exist!" );
-	}
+            System.out.println(user.get("password").toString());
+            System.out.println(password);
 
-	public void createUser( UserInfo info ) throws AccountException
-	{
-		Iterator<Document> it = users.find().iterator();
+            throw new FailedLoginException("incorrect pw");
+        }
+        System.out.println("AU_C");
 
-		while (it.hasNext())
-		{
-			String username = it.next().get( "username" ).toString();
-			if( username.compareToIgnoreCase( info.username ) == 0 )
-			{
-				throw new AccountException( "Username taken" );
-			}
-		}
+        String token = getToken(user.get("_id").toString());
+        System.out.println(token);
+        return new UsernameID(user.get("_id").toString(), user.get("username").toString(), token);
+    }
 
-		DateFormat df = DateFormat.getInstance();
-		Document document = new Document( "username", info.username )
-				.append( "password", info.password )
-				.append( "fname", info.fname )
-				.append( "lname", info.lname )
-				.append( "email", info.email )
-				.append( "joined", df.format( new Date() ) );
-		users.insertOne(document);
-	}
+    public String getToken(String userid){
+        System.out.println("Get token");
+        DateFormat df = DateFormat.getInstance();
+        Document document = new Document("userid", userid).append("authtime", df.format(new Date()));
+        userAuth.insertOne(document);
+        ObjectId id = (ObjectId)document.get( "_id" );
+        System.out.println(id.toString());
+        return id.toString();
+    }
 
-	public User getUser( String userId ) throws AccountException
-	{
-		Iterator<Document> it = users.find().iterator();
+    public void createUser(UserInfo info) throws AccountException {
+        Document userExists = users.find(new Document("username", Pattern.compile(info.username, Pattern.CASE_INSENSITIVE))).first();
+        if (userExists != null) {
+            throw new AccountException("Username taken");
+        }
+        DateFormat df = DateFormat.getInstance();
+        Document document = new Document("username", info.username)
+                .append("password", info.password)
+                .append("fname", info.fname)
+                .append("lname", info.lname)
+                .append("email", info.email)
+                .append("joined", df.format(new Date()));
+        users.insertOne(document);
+    }
 
-		while (it.hasNext())
-		{
-			Document user_doc = it.next();
-			String db_id = user_doc.get( "_id" ).toString();
-			if( db_id.compareToIgnoreCase( userId ) == 0 )
-			{
-				return new User( user_doc );
-			}
-		}
-
-		throw new AccountException( "User ID not found" );
-	}
+    public boolean getUser(String token) {
+        System.out.println("GU1");
+        Document tokenExists = userAuth.find(new Document("_id", new ObjectId(token))).first();
+        if (tokenExists.isEmpty()) {
+            System.out.println("GU2");
+            return false;
+        }
+        System.out.println("GU3");
+        //System.out.println(tokenExists.getDate("authtime"));
+        return true;
+    }
 
 }

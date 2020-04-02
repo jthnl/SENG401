@@ -12,9 +12,22 @@ export class CommentComponent implements OnInit {
 
   @Input() comment: Comment;
 
+
   constructor(private commentService: CommentsService) { }
 
 
   ngOnInit() {
   }
+
+  like() {
+    console.log(this.comment);
+    this.commentService.like(this.comment);
+  }
+
+  dislike() {
+    this.commentService.dislike(this.comment);
+  }
+
+
 }
+

@@ -6,6 +6,7 @@ option java_package = "com.nhl.nhlproto";
 option java_multiple_files = true;
 option go_package = "postpb";
 
+
 message Post {
     string id = 1;
     string forum_id = 2;
@@ -13,6 +14,8 @@ message Post {
     string title = 4;
     string content = 5;
     string timestamp = 6;
+    string upvote = 7;
+    string downvote = 8;
 }
 
 message CreatePostReq {
@@ -55,10 +58,42 @@ message ListPostRes {
     Post post = 1;
 }
 
+message UpvotePostReq {
+    string user_id = 1;
+    string post_id = 2;
+}
+
+message UpvotePostRes {
+    bool success = 1;
+    string message = 2;
+}
+
+message DownvotePostReq {
+    string user_id = 1;
+    string post_id = 2;
+}
+
+message DownvotePostRes {
+    bool success = 1;
+    string message = 2;
+}
+
+message FindPostReq{
+    string title_query = 1;
+}
+
+message FindPostRes{
+    Post post = 1;
+}
+
+
 service PostService {
     rpc CreatePost(CreatePostReq) returns (CreatePostRes);
     rpc ReadPost(ReadPostReq) returns (ReadPostRes);
     rpc UpdatePost(UpdatePostReq) returns (UpdatePostRes);
     rpc DeletePost(DeletePostReq) returns (DeletePostRes);
     rpc ListPosts(ListPostReq) returns (stream ListPostRes);
+    rpc UpvotePost(UpvotePostReq) returns (UpvotePostRes);
+    rpc DownvotePost(DownvotePostReq) returns (DownvotePostRes);
+    rpc FindPosts(FindPostReq) returns (stream FindPostRes);
 }

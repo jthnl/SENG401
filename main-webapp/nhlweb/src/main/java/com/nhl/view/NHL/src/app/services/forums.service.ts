@@ -30,6 +30,8 @@ export class ForumsService {
     );
    }
 
+
+
   postForum(forum: Forum) {
     this.httpClient.post<any>(`${this.apiURL}/forum/create`,
     forum).subscribe(data => {

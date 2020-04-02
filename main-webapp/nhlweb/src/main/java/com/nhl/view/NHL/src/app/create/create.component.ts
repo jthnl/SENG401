@@ -34,7 +34,8 @@ export class CreateComponent implements OnInit {
   }
 
   create() {
-    const post: Post = new Post(this.selected_team.forumId, this.author_id, this.title, this.content);
+    const post: Post = new Post();
+    post.creatPost(this.selected_team.forumId, this.author_id, this.title, this.content);
     console.log('Posting post: ', post);
     this.postService.postPost(post);
     this.navigateToHome();

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../models/contact.class';
 import { of, Observable } from 'rxjs';
 import { teams } from '../models/teams';
 import { NhlStatsService } from '../services/nhl-stats.service';
@@ -7,13 +6,20 @@ import { Schedule } from '../models/schedule.class';
 import { Post } from '../models/post.class';
 import { PostService } from '../services/post.service';
 import { Team } from '../models/team.class';
-// import { ForumsService } from '../services/forums.service';
-// import { Forum } from '../models/forum.class';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.class';
+import { first } from 'rxjs/operators';
+
 
 enum Page {
   teams,
   feed
 }
+
+
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -23,7 +29,6 @@ enum Page {
 
 export class HomeComponent implements OnInit {
 
-  contacts: Observable<Contact[]>;
   teams = teams;
   upcomingGames: Schedule[];
   // forums: Forum[];
@@ -31,15 +36,26 @@ export class HomeComponent implements OnInit {
   forumId;
   selected_team: Team;
   status = Page.teams;
+  loading = false;
+  users: User[];
 
 
-  constructor(private statsService: NhlStatsService, private postService: PostService) { }
+  constructor(private statsService: NhlStatsService, private postService: PostService, private userService: UserService) { }
 
   ngOnInit() {
+    this.getUser();
     this.forumId = '5e77b57de3d58bd5c347a3e6';
     this.getUpcomingGames();
-    this.getPosts(this.forumId);
+    this.getPost(this.forumId);
     // this.getForums();
+  }
+
+  getUser() {
+    this.loading = true;
+    this.userService.getAll().pipe(first()).subscribe(users => {
+        this.loading = false;
+        this.users = users;
+    });
   }
 
   getUpcomingGames() {
@@ -50,15 +66,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // getForums() {
-  //   this.forumsService
-  //   .getForums()
-  //   .subscribe((data) => {
-  //     this.forums = data;
-  //   });
-  // }
-
-  getPosts(forumId) {
+  getPost(forumId) {
     this.postService
     .getPosts(forumId)
     .subscribe((data) => {
@@ -66,11 +74,53 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  changeTeam(team: Team) {
-    this.selected_team = team;
-    this.getPosts(this.selected_team.forumId);
+
+  searchPosts(title) {
+    this.postService
+    .searchPosts(title)
+    .subscribe((data) => {
+      this.posts = data;
+    });
   }
 
+  changeTeam(team: Team) {
+    this.selected_team = team;
+    this.getPost(this.selected_team.forumId);
+  }
+
+  getAllPost() {
+    this.postService
+    .getAllPosts()
+    .subscribe((data) => {
+      this.posts = data;
+    });
+  }
+
+  getSubscribedPost() {
+    const userId = 1;
+    this.postService
+    .getSubscriptions(userId)
+    .subscribe((data) => {
+      this.posts = data;
+    });
+  }
+
+  getPosts(flag: number) {
+    if (flag === 1) {
+      console.log('Get all');
+      this.status = 1;
+      this.getAllPost();
+    } else if  (flag === 2) {
+      console.log('Get subscribed');
+      this.status = 2;
+      this.getSubscribedPost();
+    } else {
+      console.log("Get teams");
+      this.status = 3;
+      this.getPost('5e77b57de3d58bd5c347a3e2');
+      this.selected_team = teams[0];
+    }
+  }
   forumToggle(input) {
     if (Page[this.status] !== input) {
       this.status = (this.status + 1) % 2;

@@ -7,27 +7,44 @@ import { LoginComponent } from './login/login.component';
 import { PostComponent } from './post/post.component';
 
 
+
+import { AuthGuard } from './helpers/auth.guard';
+import { RegisterComponent } from './register/register.component';
+
+
+
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent },
+    component: HomeComponent,
+    canActivate: [AuthGuard] },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'create',
-    component: CreateComponent
+    component: CreateComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'post',
-    component: PostComponent
-  }
+    path: 'post/:postId',
+    component: PostComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

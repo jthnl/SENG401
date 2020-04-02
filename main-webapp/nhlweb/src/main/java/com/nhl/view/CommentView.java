@@ -2,26 +2,43 @@ package com.nhl.view;
 
 import com.comments.commentsproto.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommentView implements MsgObjectView {
     public String id;
-    public String postId;
+    public String parentId;
+    public String authorId;
     public String content;
     public int upvotes;
     public int downvotes;
+    public List<CommentView> nested;
 
-    public CommentView(String id, String postId, String content, int upvotes, int downvotes) {
+    public CommentView(String id, String parentId, String authorId, String content, int upvotes, int downvotes, List<CommentView> nested) {
         this.id = id;
-        this.postId = postId;
+        this.parentId = parentId;
+        this.authorId = authorId;
         this.content = content;
         this.upvotes = upvotes;
         this.downvotes = downvotes;
     }
 
-    public CommentView(Comment comment){
+    public CommentView(Comment comment) {
         this.id = comment.getId();
-        this.postId = comment.getPostId();
+        this.parentId = comment.getParentId();
+        this.authorId = comment.getAuthorId();
         this.content = comment.getContent();
         this.upvotes = comment.getUpvotes();
         this.downvotes = comment.getDownvotes();
+        this.nested = getNestedComments(comment);
+    }
+
+    private List<CommentView> getNestedComments(Comment comment){
+        List<CommentView> nested = new ArrayList<>(comment.getNestedCount());
+        for (Comment nestedComment : comment.getNestedList()){
+            CommentView nestedView = new CommentView(nestedComment);
+            nested.add(nestedView);
+        }
+        return nested;
     }
 }
