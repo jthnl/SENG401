@@ -43,5 +43,9 @@ public class User implements MsgObjectView
 
 	public String getId() {return id;}
 	public UserInfo getInfo() {return info;}
-	public Date getJoined() {return joined;}
+	public String getJoined()
+	{
+		DateFormat df = DateFormat.getInstance();
+		return df.format( joined );
+	}
 }
