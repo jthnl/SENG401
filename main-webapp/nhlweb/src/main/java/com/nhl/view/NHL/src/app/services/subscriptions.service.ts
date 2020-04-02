@@ -12,24 +12,23 @@ export class SubscriptionsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getSubscriptions(userId) {
+  // getSubscriptions(userId) {
+  //   const params = new HttpParams().set('uid', userId); // create new HttpParams
 
-    const params = new HttpParams().set('uid', userId); // create new HttpParams
+  //   return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
+  //   .pipe(
+  //     map((data: any) => {
+  //       const subscriptions: Subscription[] = [];
 
-    return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
-    .pipe(
-      map((data: any) => {
-        const subscriptions: Subscription[] = [];
-
-        data.object.subscriptionViews.forEach(element => {
-          subscriptions.push(new Subscription(
-            element.user_id,
-            element.forum_id));
-        });
-        return subscriptions;
-      })
-    );
-   }
+  //       data.object.subscriptionViews.forEach(element => {
+  //         subscriptions.push(new Post(
+  //           element.user_id,
+  //           element.forum_id));
+  //       });
+  //       return subscriptions;
+  //     })
+  //   );
+  //  }
 }
 
 

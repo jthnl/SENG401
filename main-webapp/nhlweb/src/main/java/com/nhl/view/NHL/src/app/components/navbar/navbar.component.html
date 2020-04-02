@@ -34,10 +34,6 @@
         <li *ngFor="let notification of notifications"> {{ notification.time }} </li>
       </ul> -->
 
-
-      
-
-
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
         <button
           class="navbar-toggler"
@@ -47,8 +43,7 @@
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
-        >
-        </button>
+        ></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
@@ -61,9 +56,11 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-              <button class="notification btn btn-outline-danger my-2 my-sm-0">
-                <span>{{ notification_count }}</span>
-              </button>
+                <button
+                  class="notification btn btn-outline-danger my-2 my-sm-0"
+                >
+                  <span>{{ notification_count }}</span>
+                </button>
               </a>
               <div
                 class="dropdown-menu scrollable-menu"
@@ -80,18 +77,20 @@
           </ul>
         </div>
 
+        <button
+          class="btn btn-outline-primary my-2 my-sm-0"
+          routerLink="/profile"
+          type="submit"
+        >
+          Profile
+        </button>
 
-      <button
-      class="btn btn-outline-primary my-2 my-sm-0 pull-right"
-      routerLink="/profile"
-      type="submit"
-    >
-      Profile
-    </button>
+        <button
+          class="btn btn-outline-primary my-2 my-sm-0"
+          (click)="logout()"
+          Logout type="submit"> Logout
+        </button>
       </nav>
-
-
-
     </div>
   </div>
 </nav>

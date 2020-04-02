@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NotificationsService } from '../../services/notifications.service';
 import { Notification } from '../../models/notification.class';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/models/user.class';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,15 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private notificationsService: NotificationsService, private router: Router) { }
+
+  currentUser: User;
+
+  constructor(private notificationsService: NotificationsService,
+              private router: Router,
+              private authenticationService: AuthenticationService) {
+
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
 
   user_id;
   notifications: Notification[];
@@ -40,7 +50,7 @@ export class NavbarComponent implements OnInit {
 
   search() {
     if (this.searchQuery !== '') {
-      console.log("Searching");
+      console.log('Searching');
       this.navigateToHome();
       this.emitter.emit(this.searchQuery);
     } else {
@@ -48,5 +58,11 @@ export class NavbarComponent implements OnInit {
     }
 
   }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
+
 
 }

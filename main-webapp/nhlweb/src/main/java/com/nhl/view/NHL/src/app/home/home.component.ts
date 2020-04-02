@@ -6,13 +6,20 @@ import { Schedule } from '../models/schedule.class';
 import { Post } from '../models/post.class';
 import { PostService } from '../services/post.service';
 import { Team } from '../models/team.class';
-// import { ForumsService } from '../services/forums.service';
-// import { Forum } from '../models/forum.class';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.class';
+import { first } from 'rxjs/operators';
+
 
 enum Page {
   teams,
   feed
 }
+
+
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -29,15 +36,26 @@ export class HomeComponent implements OnInit {
   forumId;
   selected_team: Team;
   status = Page.teams;
+  loading = false;
+  users: User[];
 
 
-  constructor(private statsService: NhlStatsService, private postService: PostService) { }
+  constructor(private statsService: NhlStatsService, private postService: PostService, private userService: UserService) { }
 
   ngOnInit() {
+    this.getUser();
     this.forumId = '5e77b57de3d58bd5c347a3e6';
     this.getUpcomingGames();
     this.getPost(this.forumId);
     // this.getForums();
+  }
+
+  getUser() {
+    this.loading = true;
+    this.userService.getAll().pipe(first()).subscribe(users => {
+        this.loading = false;
+        this.users = users;
+    });
   }
 
   getUpcomingGames() {
@@ -79,7 +97,12 @@ export class HomeComponent implements OnInit {
   }
 
   getSubscribedPost() {
-
+    const userId = 1;
+    this.postService
+    .getSubscriptions(userId)
+    .subscribe((data) => {
+      this.posts = data;
+    });
   }
 
   getPosts(flag: number) {

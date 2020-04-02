@@ -21,8 +21,8 @@ export class CommentsService {
     .pipe(
       map((data: any) => {
         const comments: Comment[] = [];
-
         data.object.commentsList.forEach(element => {
+          console.log(element);
           comments.push(new Comment(
                                     element.parentId,
                                     element.authorId,

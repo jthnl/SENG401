@@ -17,11 +17,11 @@ export class NhlStatsService {
   constructor(private httpClient: HttpClient) {}
 
   getUpcomingGames() {
-    return this.httpClient.get<Schedule[]>(`${this.apiURL}/schedule`)
+    return this.httpClient.get<any>(`${this.apiURL}/schedule`)
     .pipe(
       map((data: any) => {
         const allGames: Schedule[] = [];
-
+        console.log(data);
         data.dates[0].games.forEach(element => {
           allGames.push(new Schedule( element.gamePk,
                                         element.gameDate,

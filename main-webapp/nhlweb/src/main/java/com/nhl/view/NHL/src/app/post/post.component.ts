@@ -77,6 +77,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.commentsService
     .getComments(postId)
     .subscribe((data) => {
+      console.log(data);
       this.comments = data;
     });
   }
