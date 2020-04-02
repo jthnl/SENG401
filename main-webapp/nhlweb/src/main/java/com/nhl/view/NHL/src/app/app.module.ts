@@ -30,7 +30,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 
 // used to create fake backend
-import { fakeBackendProvider } from './helpers/fake-backend';
+// import { fakeBackendProvider } from './helpers/fake-backend';
 
 
 @NgModule({
