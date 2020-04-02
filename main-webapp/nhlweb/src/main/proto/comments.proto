@@ -12,7 +12,8 @@ service CommandService {
 }
 
 message AddCommentCommand {
-    string post_id = 1;
+    string parent_id = 1;
+    string author_id = 3;
     string content = 2;
 }
 
@@ -32,19 +33,24 @@ message DownvoteCommentCommand {
 message Empty {}
 
 service QueryService {
-    rpc GetCommentsOnPost(GetCommentsOnPostRequest) returns (stream Comment);
+    rpc GetCommentsOn(GetCommentsOnRequest) returns (GetCommentsOnResponse);
 }
 
-message GetCommentsOnPostRequest {
-    string post_id = 1;
+message GetCommentsOnRequest {
+    string parent_id = 1;
+}
+
+message GetCommentsOnResponse {
+    repeated Comment comments = 1;
 }
 
 message Comment {
     string id = 1;
-    string post_id = 2;
+    string parent_id = 2;
+    string author_id = 8;
     string content = 3;
     string timestamp = 4;
     int32 upvotes = 5;
     int32 downvotes = 6;
-
+    repeated Comment nested = 7;
 }
