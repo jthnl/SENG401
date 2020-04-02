@@ -1,7 +1,9 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.ForumPostGRPCModel;
+import com.nhl.nhlproto.DownvotePostRes;
 import com.nhl.nhlproto.Post;
+import com.nhl.nhlproto.UpvotePostRes;
 import com.nhl.view.MessageView;
 import com.nhl.view.PostListView;
 import com.nhl.view.PostView;
@@ -9,14 +11,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PostController {
+    private final String corsEnabled = "http://localhost:4200";
+
+    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post")
-    public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = true) String selectId){
+    public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = false) String selectId){
+        if(selectId == null){
+            selectId = "0";
+        }
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
         PostListView ret = new PostListView();
         ret.setPostList(fpGrpc.getPostList(selectId));
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/create")
     public MessageView createPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -25,6 +34,7 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/modify")
     public MessageView modifyPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -38,6 +48,7 @@ public class PostController {
         }
     }
 
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/delete")
     public MessageView deletePost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -52,5 +63,42 @@ public class PostController {
         } else {
             return new MessageView(true, "user did not create this post", false, null, null);
         }
+    }
+
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/post/upvote")
+    public MessageView upvotePost(@RequestBody PostView postJSON){
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        UpvotePostRes res = fpGrpc.UpvotePost(postJSON.id, postJSON.author_id);
+        boolean success = res.getSuccess();
+        String message = res.getMessage();
+        if(success) {
+            return new MessageView(false, null, true, message, null);
+        }else {
+            return new MessageView(true, message, true, null, null);
+        }
+    }
+
+    @CrossOrigin(origins = corsEnabled)
+    @PostMapping(value="/post/downvote")
+    public MessageView downvotePost(@RequestBody PostView postJSON){
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        DownvotePostRes res = fpGrpc.DownvotePost(postJSON.id, postJSON.author_id);
+        boolean success = res.getSuccess();
+        String message = res.getMessage();
+        if(success) {
+            return new MessageView(false, null, true, message, null);
+        }else {
+            return new MessageView(true, message, true, null, null);
+        }
+    }
+
+    @CrossOrigin(origins = corsEnabled)
+    @GetMapping(value="/post/search")
+    public MessageView searchPost(@RequestParam(value = "s", required = true) String selectId){
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        PostListView ret = new PostListView();
+        ret.setPostList(fpGrpc.searchPost(selectId));
+        return new MessageView(false, null, false, null, ret);
     }
 }

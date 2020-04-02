@@ -10,8 +10,10 @@
 go get -u google.golang.org/grpc
 go get -u github.com/golang/protobuf/protoc-gen-go
 go get go.mongodb.org/mongo-driver/mongo
+go get github.com/google/uuid
+
 ```
-3. Run the program: `go run server.go`
+3. Run the program: `main.go forum.go post.go `
 4. populate mongodb with data: (might have to do this manually using bloomRPC (see below), will automate this soon)
 
 

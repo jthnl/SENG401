@@ -12,6 +12,7 @@ import javax.security.auth.login.FailedLoginException;
 
 class LoginInfo { public String username; public String password; }
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserController {
 
@@ -27,7 +28,7 @@ public class UserController {
         return new MessageView( false, null, true, "Account created", null );
     }
 
-    @GetMapping( value = "/user/login" )
+    @PostMapping( value = "/user/login" )
     public MessageView authenticateUser( @RequestBody LoginInfo loginJSON )
     {
         UsernameID user = null;
