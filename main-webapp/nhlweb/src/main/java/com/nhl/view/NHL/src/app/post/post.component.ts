@@ -39,6 +39,7 @@ export class PostComponent implements OnInit {
     this.commentsService
     .getComments(postId)
     .subscribe((data) => {
+      console.log(data);
       this.comments = data;
     });
   }

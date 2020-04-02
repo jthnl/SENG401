@@ -13,16 +13,16 @@ export class CommentsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getComments(postId) {
+  getComments(parentId) {
 
-    const params = new HttpParams().set('postId', postId); // create new HttpParams
+    const params = new HttpParams().set('parentId', parentId); // create new HttpParams
 
-    return this.httpClient.get<Comment[]>(`${this.apiURL}/comments/query/commentsOnPost`, { params })
+    return this.httpClient.get<Comment[]>(`${this.apiURL}/comments/query/commentsOn`, { params })
     .pipe(
       map((data: any) => {
         const comments: Comment[] = [];
-
         data.object.commentsList.forEach(element => {
+          console.log(element);
           comments.push(new Comment(
                                     element.id,
                                     element.postId,
@@ -44,7 +44,7 @@ export class CommentsService {
 
   like(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/upvoteComment`,
-    { "commentId": comment.getId() }).subscribe(data => {
+    { "parentId": comment.getId() }).subscribe(data => {
       if (data.normalMessage == "success") {
         comment.upvote();
       }
@@ -54,7 +54,7 @@ export class CommentsService {
 
   dislike(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/downvoteComment`,
-    { "commentId": comment.getId() }).subscribe(data => {
+    { 'parentId': comment.getId() }).subscribe(data => {
       if (data.normalMessage == "success") {
         comment.downvote();
       }

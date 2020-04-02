@@ -21,7 +21,7 @@ export class NewCommentComponent implements OnInit {
   submit() {
     if (this.content !== '') {
       const comment = new Comment();
-      comment.setPostId(this.postId);
+      comment.setParentId(this.postId);
       comment.setContent(this.content);
       this.emitter.emit(comment);
     } else {

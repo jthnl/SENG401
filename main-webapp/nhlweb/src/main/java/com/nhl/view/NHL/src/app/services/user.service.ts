@@ -16,13 +16,13 @@ export class UserService {
         return this.http.get<User[]>(`${environment.apiUrl}/users`);
     }
 
-    login(uName, pWord) {
-        return this.http.get<any>(`${environment.apiUrl}/users/login`,
-        {
-            'username': uName,
-	        'password': pWord
-        });
-    }
+    // login(uName, pWord) {
+    //     return this.http.get<any>(`${environment.apiUrl}/users/login`,
+    //     {
+    //         'username': uName,
+	//         'password': pWord
+    //     });
+    // }
 
     getUser(user_id) {
 
