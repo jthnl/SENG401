@@ -71,6 +71,7 @@ pub mod event_data {
     pub struct CommentAdded {
         pub comment_id: Uuid,
         pub parent_id: Uuid,
+        pub author_id: Uuid,
         pub content: String,
     }
 

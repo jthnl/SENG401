@@ -13,6 +13,7 @@ use crate::query::Query;
 pub struct Comment {
     pub id: Uuid,
     pub parent_id: Uuid,
+    pub author_id: Uuid,
     pub content: String,
     pub timestamp: DateTime<Utc>,
     pub upvotes: i32,
@@ -49,6 +50,7 @@ impl EventMaterializer for InMemoryComments {
                 let comment = Comment {
                     id: comment_added.comment_id,
                     parent_id: comment_added.parent_id,
+                    author_id: comment_added.author_id,
                     content: comment_added.content,
                     timestamp: event.timestamp,
                     upvotes: 0,

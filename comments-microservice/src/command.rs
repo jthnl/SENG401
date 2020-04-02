@@ -15,6 +15,7 @@ pub trait Command {
 
 pub struct AddCommentCommand {
     pub parent_id: Uuid,
+    pub author_id: Uuid,
     pub content: String,
 }
 
@@ -47,6 +48,7 @@ impl Command for EventBackedCommandHandler {
         let comment_added = CommentAdded {
             comment_id: Uuid::new_v4(),
             parent_id: command.parent_id,
+            author_id: command.author_id,
             content: command.content.clone(),
         };
 

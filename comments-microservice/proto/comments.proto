@@ -13,6 +13,7 @@ service CommandService {
 
 message AddCommentCommand {
     string parent_id = 1;
+    string author_id = 3;
     string content = 2;
 }
 
@@ -46,6 +47,7 @@ message GetCommentsOnResponse {
 message Comment {
     string id = 1;
     string parent_id = 2;
+    string author_id = 8;
     string content = 3;
     string timestamp = 4;
     int32 upvotes = 5;

@@ -50,6 +50,8 @@ impl grpc_comments::command_service_server::CommandService for GrpcCommandServic
         self.command_handler.add_comment(AddCommentCommand {
             parent_id: Uuid::parse_str(&request.get_ref().parent_id)
                 .map_err(|_| Status::invalid_argument("parent_id is invalid"))?,
+            author_id: Uuid::parse_str(&request.get_ref().author_id)
+                .map_err(|_| Status::invalid_argument("author_id is invalid"))?,
             content: request.get_ref().content.clone(),
         }).map_err(|e| Status::internal(e.to_string()))?;
 
@@ -118,6 +120,7 @@ impl GrpcQueryService {
         let grpc_comments = comments.into_iter().map(|c| grpc_comments::Comment {
             id: c.id.to_string(),
             parent_id: c.parent_id.to_string(),
+            author_id: c.author_id.to_string(),
             content: c.content,
             timestamp: c.timestamp.to_string(),
             upvotes: c.upvotes,
