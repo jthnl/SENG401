@@ -23,6 +23,7 @@ import javax.security.auth.login.AccountException;
 import java.util.Iterator;
 import java.util.Date;
 import java.text.DateFormat;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class UserModel {
@@ -70,7 +71,8 @@ public class UserModel {
             throw new AccountException("Username taken");
         }
         DateFormat df = DateFormat.getInstance();
-        Document document = new Document("username", info.username)
+        Document document = new Document("_id", UUID.randomUUID().toString())
+                .append("username", info.username)
                 .append("password", info.password)
                 .append("fname", info.firstName)
                 .append("lname", info.lastName)
