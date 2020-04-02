@@ -4,7 +4,7 @@ import { Post } from '../models/post.class';
 import { PostService } from '../services/post.service';
 import { teams } from '../models/teams';
 import { Team } from '../models/team.class';
-
+import { User } from '../models/user.class';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class CreateComponent implements OnInit {
   selected_team: Team;
   constructor(private postService: PostService, private router: Router ) { }
 
+  user: User;
 
   navigateToHome() {
     this.router.navigateByUrl('/');
@@ -30,12 +31,12 @@ export class CreateComponent implements OnInit {
 
 
   ngOnInit() {
-    this.author_id = 'testauthid';
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   create() {
     const post: Post = new Post();
-    post.creatPost(this.selected_team.forumId, this.author_id, this.title, this.content);
+    post.creatPost(this.selected_team.forumId, this.user.id, this.title, this.content);
     console.log('Posting post: ', post);
     this.postService.postPost(post);
     this.navigateToHome();

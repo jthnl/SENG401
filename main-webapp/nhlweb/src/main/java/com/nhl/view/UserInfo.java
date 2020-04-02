@@ -11,16 +11,16 @@ public class UserInfo
 {
 	public String username;
 	public String password;
-	public String fname;
-	public String lname;
+	public String firstName;
+	public String lastName;
 	public String email;
 
-	public UserInfo( String username, String password, String fname, String lname, String email )
+	public UserInfo( String username, String password, String firstName, String lastName, String email )
 	{
 		this.username = username;
 		this.password = password;
-		this.fname = fname;
-		this.lname = lname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 	}
 

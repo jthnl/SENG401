@@ -5,4 +5,5 @@ export class Team {
         public apiId: number,
         public imgURL: string,
         public forumId: string) {}
+
 }

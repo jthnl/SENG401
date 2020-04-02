@@ -7,7 +7,8 @@ export class Post {
         public content?: string,
         public timestamp?: string,
         public upvote?: string,
-        public downvote?: string) {}
+        public downvote?: string,
+        public imgURL?: string) {}
 
 
     creatPost(forum_id, author_id, title, content) {
