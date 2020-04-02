@@ -1,6 +1,7 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.ForumPostGRPCModel;
+import com.nhl.model.NotificationsGRPCModel;
 import com.nhl.nhlproto.Forum;
 import com.nhl.nhlproto.ReadForumReq;
 import com.nhl.view.ForumListView;
@@ -22,7 +23,12 @@ public class ForumController {
         if(userSelect.equals("all")){
             ret.setForumList(fpGrpc.getForumList());
         }else{
-            //TODO: IMPLEMENT USER SUBSCRIPTION HERE
+            NotificationsGRPCModel model = new NotificationsGRPCModel();
+            ArrayList<getSubscriptionsResponse> subscriptions = model.getSubscriptionsForUser(userSelect);
+            ArrayList<Forum> forumPair = ForumController.readAllForumsFromList(subscriptions);
+            ForumListView listView = new ForumListView();
+            listView.setForumList(forumPair);
+            return new MessageView(false, null, false, null, listView);
         }
         return new MessageView(false, null, false, null, ret);
     }
@@ -64,11 +70,11 @@ public class ForumController {
         }
     }
 
-    public static ArrayList<ForumView> readAllForumsFromList(ArrayList<getSubscriptionsResponse> subscriptions){
+    public static ArrayList<Forum> readAllForumsFromList(ArrayList<getSubscriptionsResponse> subscriptions){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
-        ArrayList<ForumView> ret = new ArrayList<>();
+        ArrayList<Forum> ret = new ArrayList<>();
         for(getSubscriptionsResponse sub: subscriptions){
-            ret.add(new ForumView(fpGrpc.ReadForum(sub.getForumId())));
+            ret.add(fpGrpc.ReadForum(sub.getForumId()));
         }
         return ret;
     }
