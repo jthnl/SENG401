@@ -9,6 +9,7 @@ import { PostComponent } from './post/post.component';
 
 
 import { AuthGuard } from './helpers/auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -33,9 +34,13 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'post',
+    path: 'post/:postId',
     component: PostComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
 
     // otherwise redirect to home

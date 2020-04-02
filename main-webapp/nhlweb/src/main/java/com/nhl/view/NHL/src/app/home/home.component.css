@@ -82,3 +82,7 @@ li.list-group-item:hover{
     max-height: 400px;
     overflow-x: hidden;
 }
+
+li:hover {
+    cursor: pointer;
+}

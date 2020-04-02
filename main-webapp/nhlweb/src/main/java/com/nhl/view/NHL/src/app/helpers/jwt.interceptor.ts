@@ -14,8 +14,8 @@ export class JwtInterceptor implements HttpInterceptor {
         if (request.url.search(nhlstats) === -1 && request.url.search(authStr) === -1) {
             // add authorization header with jwt token if available
             let currentUser = this.authenticationService.currentUserValue;
-            console.log("PUSHTOKEN")
-            console.log(currentUser.token)
+            // console.log("PUSHTOKEN")
+            // console.log(currentUser.token)
             if (currentUser && currentUser.token) {
                 request = request.clone({
                     setHeaders: {

@@ -13,7 +13,7 @@ export class NotificationsService {
   constructor(private httpClient: HttpClient) { }
 
   getNotifications(userId) {
-
+    console.log(userId);
     const params = new HttpParams().set('uid', userId); // create new HttpParams
 
     return this.httpClient.get<Comment[]>(`${this.apiURL}/getNotifications`, { params })
@@ -22,7 +22,6 @@ export class NotificationsService {
         const notifications: Notification[] = [];
 
         data.object.notificationList.forEach(element => {
-
           notifications.push(new Notification(
             element.time,
             element.user_id,
@@ -31,7 +30,6 @@ export class NotificationsService {
             element.seenFlag,
             element.message));
         });
-        console.log(notifications);
         return notifications;
       })
     );

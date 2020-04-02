@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-2">
       <div class="custom-padding-1">
-        <span class="custom-text-1 ">User</span>
+        <span class="custom-text-1 ">Post</span>
       </div>
       <table class="post-table text-center post-card box-shadow">
         <tr>
@@ -20,14 +20,14 @@
         </tr>
         <tr>
           <td>Shares</td>
-          <td rowspan="2">Save</td>
         </tr>
         <tr>
-          <div class="container">
-            <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ post.upvote }}</h6>
-            <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ post.downvote }}</h6>
-        </div>
-
+          <td>
+            <h6><img class="thumb pr-1" src="../../../assets/like.png" (click)="like()"> {{ post.upvote }}</h6>
+          </td>
+          <td>
+            <h6><img class="thumb pr-1" src="../../../assets/dislike.png" (click)="dislike()"> {{ post.downvote }}</h6>
+          </td>
         </tr>
       </table>
     </div>

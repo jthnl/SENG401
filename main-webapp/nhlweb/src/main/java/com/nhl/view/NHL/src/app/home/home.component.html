@@ -9,7 +9,7 @@
             [ngClass]="{ selected: status == 1 }"
             (click)="getPosts(1)"
           >
-            <img class="logo" src="../../assets/heart.png" />All 
+            <img class="logo" src="../../assets/lots.png" />All 
           </li>
           <li
             class="list-group-item"
@@ -18,8 +18,6 @@
           >
             <img class="logo" src="../../assets/heart.png" />Subscribed
           </li>
-          <!-- <li class="list-group-item"><img class="logo" src="../../assets/hot.png">Teams</li> -->
-          <!-- <li class="list-group-item"><img class="logo" src="../../assets/trophy.png">Leagues</li> -->
           <li
             class="list-group-item"
             [ngClass]="{ selected: status == 3 }"
@@ -87,7 +85,7 @@
             <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
           </li>
           <ng-container *ngIf="showMore">
-            <ng-container *ngFor="let post of posts; let i = index" routerLink]="['/post', post.id]">
+            <ng-container *ngFor="let post of posts; let i = index" [routerLink]="['/post', post.id]">
               <li *ngIf="i >= 5">
                 <app-thread [post]="post"></app-thread>
               </li>

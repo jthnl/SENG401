@@ -39,3 +39,7 @@
 .thumb {
     width: 24px;
 }
+
+.thumb:hover {
+    cursor: pointer;
+}

@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
 
+  username;
+  password;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -46,12 +49,12 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
+    // if (this.loginForm.invalid) {
+    //   return;
+    // }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    this.authenticationService.login(this.username, this.password)
       .pipe(first())
       .subscribe(
         data => {
@@ -61,6 +64,19 @@ export class LoginComponent implements OnInit {
           this.error = error;
           this.loading = false;
         });
+
+
+        // this.loading = true;
+        // this.authenticationService.login(this.f.username.value, this.f.password.value)
+        //   .pipe(first())
+        //   .subscribe(
+        //     data => {
+        //       this.router.navigate([this.returnUrl]);
+        //     },
+        //     error => {
+        //       this.error = error;
+        //       this.loading = false;
+        //     });
   }
 
 }

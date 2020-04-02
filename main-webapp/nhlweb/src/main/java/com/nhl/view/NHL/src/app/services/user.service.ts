@@ -32,6 +32,21 @@ export class UserService {
         return this.http.get<any>(`${environment.apiUrl}/user`, { params })
             .pipe(
                 map((data: any) => {
+
+                    console.log(data);
+                    // return new User(
+                    //     data.object.
+                    //     user_id,
+                    //     element.username,
+                    //     element.password,
+                    //     element.fname,
+                    //     element.lname,
+                    //     element.email,
+                    // );
+
+
+
+
                     const users: TempUser[] = [];
                     user_id = data.object.id;
                     data.object.info.forEach(element => {
@@ -49,7 +64,7 @@ export class UserService {
             );
     }
 
-    createUser(user: TempUser) {
+    createUser(user: User) {
         return this.http.post<any>(`${environment.apiUrl}/user/create`, user).subscribe(data => {
             console.log(data);
         });

@@ -57,7 +57,17 @@ export class PostService {
   }
 
   likePost(id, authorId) {
+    console.log(id, authorId);
+
     this.httpClient.post<any>(`${this.apiURL}/post/upvote`,
+    {id, authorId}).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  dislikePost(id, authorId) {
+    console.log(id, authorId);
+    this.httpClient.post<any>(`${this.apiURL}/post/downvote`,
     {id, authorId}).subscribe(data => {
       console.log(data);
     });
@@ -111,12 +121,13 @@ export class PostService {
 
    getSubscriptions(userId) {
     const params = new HttpParams().set('uid', userId); // create new HttpParams
+    console.log(userId);
 
     return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
     .pipe(
       map((data: any) => {
         const posts: Post[] = [];
-
+        console.log(posts);
         data.object.subscriptionViews.forEach(element => {
 
           posts.push(new Post(

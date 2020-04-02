@@ -6,6 +6,7 @@ import { Schedule } from '../models/schedule.class';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '../models/post.class';
 import { PostService } from '../services/post.service';
+import { User } from '../models/user.class';
 
 
 @Component({
@@ -29,15 +30,16 @@ export class PostComponent implements OnInit, OnDestroy {
   addingComment = false;
   post: Post;
   rating = 0;
-
+  user: User;
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    // console.log(JSON.parse(localStorage.getItem('currentUser')));
 
     this.sub = this.route.params.subscribe(params => {
       this.postId = params['postId']; // (+) converts string 'id' to a number
       this.getPost(this.postId);
    });
-
     this.getComments(this.postId);
     this.getUpcomingGames();
   }
@@ -52,7 +54,11 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   like() {
-    this.postsService.likePost(this.postId, this.post.author_id);
+    this.postsService.likePost(this.postId, this.user.id);
+  }
+
+  dislike() {
+    this.postsService.dislikePost(this.postId, this.user.id);
   }
 
   getPost(postId) {

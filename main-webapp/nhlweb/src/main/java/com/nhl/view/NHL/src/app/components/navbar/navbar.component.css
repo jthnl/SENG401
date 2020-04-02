@@ -35,3 +35,8 @@
 .navbar-expand-lg .navbar-nav .nav-link {
     padding: 0 30px;
 }
+
+.logo-small {
+    width: 30px;
+    cursor: pointer;
+}
