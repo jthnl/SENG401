@@ -2,10 +2,11 @@ package com.nhl.nhlweb;
 
 import com.nhl.view.MessageView;
 import com.nhl.view.UserInfo;
-import com.nhl.view.User;
 import com.nhl.view.UsernameID;
 import com.nhl.model.UserModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.AccountException;
@@ -20,11 +21,13 @@ class LoginInfo {
 @CrossOrigin(origins = "*")
 @RestController
 public class UserController {
-
+    Logger log = LoggerFactory.getLogger(UserController.class);
     private static UserModel model = new UserModel();
 
     @PostMapping(value = "/user/create")
     public MessageView createUser(@RequestBody UserInfo infoJSON) {
+        System.out.println("createUser - " + infoJSON.username + " " + infoJSON.password
+                + " " + infoJSON.email + " " + infoJSON.firstName + " " + infoJSON.lastName);
         try {
             model.createUser(infoJSON);
         } catch (AccountException e) {

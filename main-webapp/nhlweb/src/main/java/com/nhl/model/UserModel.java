@@ -83,8 +83,8 @@ public class UserModel {
         DateFormat df = DateFormat.getInstance();
         Document document = new Document("username", info.username)
                 .append("password", info.password)
-                .append("fname", info.fname)
-                .append("lname", info.lname)
+                .append("fname", info.firstName)
+                .append("lname", info.lastName)
                 .append("email", info.email)
                 .append("joined", df.format(new Date()));
         users.insertOne(document);

@@ -16,57 +16,45 @@ export class UserService {
         return this.http.get<User[]>(`${environment.apiUrl}/users`);
     }
 
-    login(uName: string, pWord: string) {
+    login(uName:string, pWord:string) {
         console.log('running login');
         return this.http.post<any>(`${environment.apiUrl}/user/login`,
-            {
-                'username': uName,
-                'password': pWord
-            });
+        {
+            username: uName,
+	        password: pWord
+        });
     }
 
     getUser(user_id) {
-
+        console.log('running getUser');
+        console.log(user_id);
         const params = new HttpParams().set('is', user_id); // create new HttpParams
 
-        return this.http.get<any>(`${environment.apiUrl}/user`, { params })
-            .pipe(
-                map((data: any) => {
-
-                    console.log(data);
-                    // return new User(
-                    //     data.object.
-                    //     user_id,
-                    //     element.username,
-                    //     element.password,
-                    //     element.fname,
-                    //     element.lname,
-                    //     element.email,
-                    // );
-
-
-
-
-                    const users: TempUser[] = [];
-                    user_id = data.object.id;
-                    data.object.info.forEach(element => {
-                        users.push(new TempUser(
-                            user_id,
-                            element.username,
-                            element.password,
-                            element.fname,
-                            element.lname,
-                            element.email,
-                        ));
-                    });
-                    return users;
-                })
-            );
+        return this.http.get<any>(`${environment.apiUrl}/user`, {params})
+        .pipe(
+        map((data: any) => {
+            const users: TempUser[] = [];
+            user_id = data.object.id;
+            data.object.info.forEach(element => {
+            users.push(new TempUser(
+                                    user_id,
+                                    element.username,
+                                    element.password,
+                                    element.fname,
+                                    element.lname,
+                                    element.email,
+                                    ));
+            });
+            return users;
+        })
+        );
     }
+
+
 
     createUser(user: User) {
         return this.http.post<any>(`${environment.apiUrl}/user/create`, user).subscribe(data => {
             console.log(data);
-        });
+          });
     }
 }
