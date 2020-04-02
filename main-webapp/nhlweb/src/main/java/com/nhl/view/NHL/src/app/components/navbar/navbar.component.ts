@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   user_id;
   notifications: Notification[];
   searchQuery;
+  notification_count = 0;
 
   @Output() emitter = new EventEmitter();
 
@@ -29,6 +30,7 @@ export class NavbarComponent implements OnInit {
     .subscribe((data) => {
       console.log(data);
       this.notifications = data;
+      this.notification_count = data.length;
     });
   }
 

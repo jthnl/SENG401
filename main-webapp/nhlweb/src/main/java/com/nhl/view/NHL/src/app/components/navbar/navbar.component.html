@@ -1,15 +1,33 @@
 <nav class="container-fluid bg-white py-2">
   <div class="row">
-    <div class="col-2">    
-      <img class="logo" routerLink="" src="../../../assets/NHL-logo.png" alt="">  
+    <div class="col-2">
+      <img
+        class="logo"
+        routerLink=""
+        src="../../../assets/NHL-logo.png"
+        alt=""
+      />
     </div>
     <div class="col-6">
       <div class="container">
-        <input class="form-control" type="search" (keyup.enter)="search()" placeholder="Search" [(ngModel)]="searchQuery" aria-label="Search">
+        <input
+          class="form-control"
+          type="search"
+          (keyup.enter)="search()"
+          placeholder="Search"
+          [(ngModel)]="searchQuery"
+          aria-label="Search"
+        />
       </div>
     </div>
     <div class="col-1">
-      <button class="btn btn-outline-primary my-2 my-sm-0" routerLink="/create" type="submit">Post</button>
+      <button
+        class="btn btn-outline-primary my-2 my-sm-0"
+        routerLink="/create"
+        type="submit"
+      >
+        Post
+      </button>
     </div>
     <div class="col-2">
       <!-- <ul>
@@ -17,11 +35,63 @@
       </ul> -->
 
 
-        <!-- {{notification.message}}
-        <button class="notification btn btn-outline-danger my-2 my-sm-0">
-          <span>3</span> 
+      
+
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
         </button>
-        <button class="btn btn-outline-primary my-2 my-sm-0 pull-right" routerLink="/profile" type="submit">Profile</button> -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+              <button class="notification btn btn-outline-danger my-2 my-sm-0">
+                <span>{{ notification_count }}</span>
+              </button>
+              </a>
+              <div
+                class="dropdown-menu scrollable-menu"
+                aria-labelledby="navbarDropdown"
+              >
+                <a
+                  *ngFor="let notification of notifications"
+                  (click)="changeTeam(team)"
+                  class="dropdown-item"
+                  >{{ notification.message }}</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+
+
+      <button
+      class="btn btn-outline-primary my-2 my-sm-0 pull-right"
+      routerLink="/profile"
+      type="submit"
+    >
+      Profile
+    </button>
+      </nav>
+
+
+
     </div>
   </div>
 </nav>

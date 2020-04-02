@@ -48,14 +48,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // getForums() {
-  //   this.forumsService
-  //   .getForums()
-  //   .subscribe((data) => {
-  //     this.forums = data;
-  //   });
-  // }
-
   getPost(forumId) {
     this.postService
     .getPosts(forumId)
@@ -79,7 +71,11 @@ export class HomeComponent implements OnInit {
   }
 
   getAllPost() {
-
+    this.postService
+    .getAllPosts()
+    .subscribe((data) => {
+      this.posts = data;
+    });
   }
 
   getSubscribedPost() {

@@ -27,3 +27,12 @@
 .notification {
     border-radius: 50%;
 }
+
+.navbar {
+    padding: 0;
+    padding-left: 70%;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding: 0 30px;
+}
