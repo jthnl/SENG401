@@ -84,10 +84,10 @@
       <div class="card bg-transparent">
         <ul class="post">
           <li *ngFor="let post of posts | slice: 0:5" >
-            <app-thread [post]="post" [routerLink]="['/post', post.forum_id]"></app-thread>
+            <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
           </li>
           <ng-container *ngIf="showMore">
-            <ng-container *ngFor="let post of posts; let i = index" routerLink="/post">
+            <ng-container *ngFor="let post of posts; let i = index" routerLink]="['/post', post.id]">
               <li *ngIf="i >= 5">
                 <app-thread [post]="post"></app-thread>
               </li>

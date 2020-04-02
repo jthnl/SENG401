@@ -23,36 +23,45 @@ export class PostService {
         data.object.postList.forEach(element => {
           posts.push(new Post(
                                  element.id,
+                                 element.forum_id,
                                  element.author_id,
                                  element.title,
                                  element.content,
-                                 ));
+                                 element.timestamp,
+                                 element.upvote,
+                                 element.downvote));
         });
         return posts;
       })
     );
    }
 
-  // getPost(postId) {
-  //   const params = new HttpParams().set('postId', postId); // create new HttpParams
+  getPost(postId) {
+    const params = new HttpParams().set('p', postId); // create new HttpParams
+    return this.httpClient.get<Post>(`${this.apiURL}/post/getOne`, {params})
+    .pipe(
+      map((data: any) => {
+        const post = new Post(
+          data.object.id,
+          data.object.forum_id,
+          data.object.author_id,
+          data.object.title,
+          data.object.content,
+          data.object.timestamp,
+          data.object.upvote,
+          data.object.downvote);
+        return post;
 
-  //   return this.httpClient.get<Post[]>(`${this.apiURL}/post`, {params})
-  //   .pipe(
-  //     map((data: any) => {
-  //       const posts: Post[] = [];
+      })
+    );
+  }
 
-  //       data.object.postList.forEach(element => {
-  //         posts.push(new Post(
-  //                                element.id,
-  //                                element.author_id,
-  //                                element.title,
-  //                                element.content,
-  //                                ));
-  //       });
-  //       return posts;
-  //     })
-  //   );
-  // }
+  likePost(id, authorId) {
+    this.httpClient.post<any>(`${this.apiURL}/post/upvote`,
+    {id, authorId}).subscribe(data => {
+      console.log(data);
+    });
+  }
 
    getAllPosts() {
     return this.httpClient.get<Post[]>(`${this.apiURL}/post`)
@@ -62,11 +71,14 @@ export class PostService {
         console.log(data);
         data.object.postList.forEach(element => {
           posts.push(new Post(
-                                 element.id,
-                                 element.author_id,
-                                 element.title,
-                                 element.content,
-                                 ));
+            element.id,
+            element.forum_id,
+            element.author_id,
+            element.title,
+            element.content,
+            element.timestamp,
+            element.upvote,
+            element.downvote));
         });
         return posts;
       })
@@ -83,11 +95,14 @@ export class PostService {
 
         data.object.postList.forEach(element => {
           posts.push(new Post(
-                                 element.id,
-                                 element.author_id,
-                                 element.title,
-                                 element.content,
-                                 ));
+            element.id,
+            element.forum_id,
+            element.author_id,
+            element.title,
+            element.content,
+            element.timestamp,
+            element.upvote,
+            element.downvote));
         });
         return posts;
       })

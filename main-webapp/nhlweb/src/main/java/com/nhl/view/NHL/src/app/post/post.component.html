@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container-fluid mt-2">
+<div class="container-fluid mt-2" *ngIf="post">
   <div class="row">
     <div class="col-sm-2">
       <div class="custom-padding-1">
@@ -23,7 +23,11 @@
           <td rowspan="2">Save</td>
         </tr>
         <tr>
-          <td>Comments</td>
+          <div class="container">
+            <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ post.upvote }}</h6>
+            <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ post.downvote }}</h6>
+        </div>
+
         </tr>
       </table>
     </div>
@@ -38,14 +42,17 @@
             <mat-progress-bar
               mode="qudeterminateery"
               color=""
-              value="40"
+              value="{{rating}}"
             ></mat-progress-bar>
-            <h2 class="post-title text-center">Title</h2>
+            <h2 class="post-title text-center">{{ post.title }}</h2>
             <p class="post-content">
-              Just witnessed the most epic save. Just witnessed the most epic
-              save. Just witnessed the Just witnessed the most epic save.ost
-              epic save. Just witnes …
+              {{ post.content }}
+              {{ rating }}
             </p>
+
+
+
+      
           </div>
         </div>
 

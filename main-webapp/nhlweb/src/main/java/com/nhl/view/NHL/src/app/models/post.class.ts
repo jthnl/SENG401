@@ -1,11 +1,21 @@
 export class Post {
     constructor(
-        private forum_id: string,
-        private author_id: string,
-        private title: string,
-        private content: string) {}
+        public id?: string,
+        public forum_id?: string,
+        public author_id?: string,
+        public title?: string,
+        public content?: string,
+        public timestamp?: string,
+        public upvote?: string,
+        public downvote?: string) {}
 
-    getForumId() {
-        return this.forum_id;
+
+    creatPost(forum_id, author_id, title, content) {
+        this.forum_id = forum_id;
+        this.author_id = author_id;
+        this.title = title;
+        this.content = content;
     }
 }
+
+

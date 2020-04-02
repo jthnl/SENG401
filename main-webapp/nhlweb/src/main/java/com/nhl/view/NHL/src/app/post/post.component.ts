@@ -28,19 +28,31 @@ export class PostComponent implements OnInit, OnDestroy {
   upcomingGames: Schedule[];
   addingComment = false;
   post: Post;
+  rating = 0;
 
 
   ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
-      this.postId = params['id']; // (+) converts string 'id' to a number
+      this.postId = params['postId']; // (+) converts string 'id' to a number
       this.getPost(this.postId);
    });
 
-
-    // this.postId = '1d7cdb76-3095-41b0-b393-f0bc25878fa0';
     this.getComments(this.postId);
     this.getUpcomingGames();
+  }
+
+  calcRating() {
+    const sum = +this.post.upvote + +this.post.downvote;
+    if (sum !== 0) {
+      this.rating = (+this.post.upvote / sum) * 100;
+    } else {
+      this.rating = 0;
+    }
+  }
+
+  like() {
+    this.postsService.likePost(this.postId, this.post.author_id);
   }
 
   getPost(postId) {
@@ -48,6 +60,7 @@ export class PostComponent implements OnInit, OnDestroy {
     .getPost(postId)
     .subscribe((data) => {
       this.post = data;
+      this.calcRating();
     });
   }
 
