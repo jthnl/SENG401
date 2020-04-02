@@ -1,13 +1,13 @@
 export class Comment {
     constructor(
-        private id?: string,
-        private postId?: string,
+        private parentId?: string,
+        private authorId?: string,
         private content?: string,
         private upvotes?: number,
         private downvotes?: number) {}
 
-        setPostId(postId: string) {
-            this.postId = postId;
+        setParentId(parentId: string) {
+            this.parentId = parentId;
         }
 
         setContent(content: string) {
@@ -23,10 +23,10 @@ export class Comment {
         }
 
         getId() {
-            return this.id;
+            return this.parentId;
         }
         getPostId() {
-            return this.postId;
+            return this.parentId;
         }
 
         getContent() {

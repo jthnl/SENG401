@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { AuthenticationModule } from './authentication/authentication.module';
 import { HomeComponent } from './home/home.component';
 import { ThreadComponent } from './components/thread/thread.component';
 import { PostComponent } from './post/post.component';
