@@ -26,6 +26,14 @@ public class PostController {
     }
 
     @CrossOrigin(origins = corsEnabled)
+    @GetMapping(value="/post/getOne")
+    public MessageView getOnePost(@RequestParam(value = "p", required = true) String selectId){
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        PostView ret = new PostView(fpGrpc.ReadPost(selectId));
+        return new MessageView(false, null, false, null, ret);
+    }
+
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/create")
     public MessageView createPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
