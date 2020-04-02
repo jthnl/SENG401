@@ -1,6 +1,7 @@
 package com.nhl.nhlweb;
 
 import com.nhl.model.NotificationsGRPCModel;
+import com.nhl.nhlproto.Forum;
 import com.nhl.view.*;
 import notifications.grpc.*;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,9 @@ public class NotificationController {
     public MessageView getSubscriptions(@RequestParam(value="uid", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         ArrayList<getSubscriptionsResponse> subscriptions = model.getSubscriptionsForUser(user_id);
-        ArrayList<ForumView> forumpair = ForumController.readAllForumsFromList(subscriptions);
-        SubscriptionListView listView = new SubscriptionListView(subscriptions, forumpair);
+        ArrayList<Forum> forumPair = ForumController.readAllForumsFromList(subscriptions);
+        ForumListView listView = new ForumListView();
+        listView.setForumList(forumPair);
         return new MessageView(false, null, false, null, listView);
     }
 

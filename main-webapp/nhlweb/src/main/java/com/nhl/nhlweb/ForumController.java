@@ -64,11 +64,11 @@ public class ForumController {
         }
     }
 
-    public static ArrayList<ForumView> readAllForumsFromList(ArrayList<getSubscriptionsResponse> subscriptions){
+    public static ArrayList<Forum> readAllForumsFromList(ArrayList<getSubscriptionsResponse> subscriptions){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
-        ArrayList<ForumView> ret = new ArrayList<>();
+        ArrayList<Forum> ret = new ArrayList<>();
         for(getSubscriptionsResponse sub: subscriptions){
-            ret.add(new ForumView(fpGrpc.ReadForum(sub.getForumId())));
+            ret.add(fpGrpc.ReadForum(sub.getForumId()));
         }
         return ret;
     }
