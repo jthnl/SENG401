@@ -18,9 +18,9 @@
   
       <!-- Login Form -->
       <form>
-        <input type="text" id="login" class="fadeIn second" name="login" placeholder="username">
-        <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-        <input type="submit" class="fadeIn fourth" routerLink="/" value="Log In">
+        <input type="text" id="login" class="fadeIn second" [(ngModel)]="username" name="login" placeholder="username">
+        <input type="text" id="password" class="fadeIn third" [(ngModel)]="password" name="login" placeholder="password">
+        <input type="submit" class="fadeIn fourth" (click)="login()" value="Log In">
       </form>
   
       <!-- Remind Passowrd -->

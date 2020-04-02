@@ -12,6 +12,7 @@ export class CommentComponent implements OnInit {
 
   @Input() comment: Comment;
 
+
   constructor(private commentService: CommentsService) { }
 
 
@@ -19,6 +20,7 @@ export class CommentComponent implements OnInit {
   }
 
   like() {
+    console.log(this.comment);
     this.commentService.like(this.comment);
   }
 

@@ -13,7 +13,6 @@ export class PostService {
 
 
   getPosts(forumId) {
-
     const params = new HttpParams().set('s', forumId); // create new HttpParams
 
     return this.httpClient.get<Post[]>(`${this.apiURL}/post`, {params})
@@ -34,6 +33,26 @@ export class PostService {
     );
    }
 
+  // getPost(postId) {
+  //   const params = new HttpParams().set('postId', postId); // create new HttpParams
+
+  //   return this.httpClient.get<Post[]>(`${this.apiURL}/post`, {params})
+  //   .pipe(
+  //     map((data: any) => {
+  //       const posts: Post[] = [];
+
+  //       data.object.postList.forEach(element => {
+  //         posts.push(new Post(
+  //                                element.id,
+  //                                element.author_id,
+  //                                element.title,
+  //                                element.content,
+  //                                ));
+  //       });
+  //       return posts;
+  //     })
+  //   );
+  // }
 
    getAllPosts() {
     return this.httpClient.get<Post[]>(`${this.apiURL}/post`)

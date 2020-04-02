@@ -83,8 +83,8 @@
       </nav>
       <div class="card bg-transparent">
         <ul class="post">
-          <li *ngFor="let post of posts | slice: 0:5" [routerLink]="['/post']">
-            <app-thread [post]="post"></app-thread>
+          <li *ngFor="let post of posts | slice: 0:5" >
+            <app-thread [post]="post" [routerLink]="['/post', post.forum_id]"></app-thread>
           </li>
           <ng-container *ngIf="showMore">
             <ng-container *ngFor="let post of posts; let i = index" routerLink="/post">
@@ -121,6 +121,5 @@
     </div>
   </div>
 </div>
-
 
 

@@ -13,19 +13,19 @@ export class CommentsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getComments(postId) {
+  getComments(parentId) {
 
-    const params = new HttpParams().set('postId', postId); // create new HttpParams
+    const params = new HttpParams().set('parentId', parentId); // create new HttpParams
 
-    return this.httpClient.get<Comment[]>(`${this.apiURL}/comments/query/commentsOnPost`, { params })
+    return this.httpClient.get<Comment[]>(`${this.apiURL}/comments/query/commentsOn`, { params })
     .pipe(
       map((data: any) => {
         const comments: Comment[] = [];
 
         data.object.commentsList.forEach(element => {
           comments.push(new Comment(
-                                    element.id,
-                                    element.postId,
+                                    element.parentId,
+                                    element.authorId,
                                     element.content,
                                     element.upvotes,
                                     element.downvotes));
@@ -36,16 +36,29 @@ export class CommentsService {
    }
 
    postComment(comment: Comment) {
+     console.log(comment);
+     comment.authorId = "1d7cdb76-3095-41b0-b393-f0bc25878fa0";
     this.httpClient.post<any>(`${this.apiURL}/comments/command/addComment`,
     comment).subscribe(data => {
       console.log(data);
     });
   }
 
+  // postComment(comment: Comment) {
+  //   this.httpClient.post<any>(`${this.apiURL}/comments/command/addComment`,
+  //   {
+  //     parentId: comment.parentId,
+  //     authorId: comment.authorId,
+  //     content: comment.content
+  //   }).subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
+
   like(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/upvoteComment`,
-    { "commentId": comment.getId() }).subscribe(data => {
-      if (data.normalMessage == "success") {
+    { commentId: comment.parentId }).subscribe(data => {
+      if (data.normalMessage === 'success') {
         comment.upvote();
       }
       console.log(data);
@@ -54,8 +67,8 @@ export class CommentsService {
 
   dislike(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/downvoteComment`,
-    { "commentId": comment.getId() }).subscribe(data => {
-      if (data.normalMessage == "success") {
+    { commentId: comment.parentId }).subscribe(data => {
+      if (data.normalMessage === 'success') {
         comment.downvote();
       }
       console.log(data);

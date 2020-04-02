@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   @Output() emitter = new EventEmitter();
 
   ngOnInit() {
-    this.user_id = 2;
+    this.user_id = '1d7cdb76-3095-41b0-b393-f0bc25878fa0';
     this.getNotifications(this.user_id);
   }
 
