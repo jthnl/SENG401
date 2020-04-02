@@ -13,8 +13,6 @@ pub trait Command {
     fn downvote_comment(&self, command: DownvoteCommentCommand) -> Result<(), Box<dyn Error>>;
 }
 
-// Todo: Add Command trait; consider using idempotency keys
-
 pub struct AddCommentCommand {
     pub parent_id: Uuid,
     pub content: String,

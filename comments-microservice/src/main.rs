@@ -3,11 +3,8 @@ extern crate mongodb;
 
 use std::sync::Arc;
 
-use bson::doc;
-use chrono::{DateTime, TimeZone, Utc};
 use futures::try_join;
 use mongodb::Client;
-use mongodb::options::FindOptions;
 use tonic::{Request, Response, Status, transport::Server};
 use uuid::Uuid;
 
@@ -15,10 +12,10 @@ use grpc_comments::command_service_server::CommandServiceServer;
 use grpc_comments::GetCommentsOnRequest;
 use grpc_comments::query_service_server::QueryServiceServer;
 
-use crate::command::{AddCommentCommand, Command, DownvoteCommentCommand, EventBackedCommandHandler, UpvoteCommentCommand, RemoveCommentCommand};
+use crate::command::{AddCommentCommand, Command, DownvoteCommentCommand, EventBackedCommandHandler, RemoveCommentCommand, UpvoteCommentCommand};
 use crate::comment::InMemoryComments;
 use crate::event::MongoDbEventStore;
-use crate::event_processor::{BsonEventProcessor, EventProcessor};
+use crate::event_processor::BsonEventProcessor;
 use crate::query::Query;
 
 pub mod comment;
@@ -26,6 +23,7 @@ pub mod command;
 pub mod query;
 pub mod event;
 pub mod event_processor;
+pub mod query_update;
 
 pub mod grpc_comments {
     tonic::include_proto!("comments");
@@ -170,63 +168,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
 
     let event_processor = BsonEventProcessor::new(in_memory_comments.clone());
-    let update_task = tokio::spawn(async move {
-        // Todo: Move this code elsewhere
-
-        let mut last_timestamp: Option<DateTime<Utc>> = None;
-
-        loop {
-            let db = mongodb_client.database("local");
-            let coll = db.collection("events");
-
-            // Sort
-            let find_options = FindOptions::builder().sort(doc! {"timestamp": 1}).build();
-
-            let filter = match last_timestamp {
-                Some(timestamp) => doc! {"timestamp": doc! {"$gt": timestamp.timestamp_millis()}},
-                None => bson::Document::new()
-            };
-
-            let cursor = match coll.find(filter, find_options) {
-                Ok(cursor) => cursor,
-                Err(e) => {
-                    eprintln!("Failed to retrieve cursor: {}", e);
-                    // Wait briefly before checking again
-                    tokio::time::delay_for(tokio::time::Duration::from_secs(1)).await;
-                    continue;
-                }
-            };
-
-            for event_doc in cursor {
-                let event_doc = match event_doc {
-                    Ok(doc) => doc,
-                    Err(e) => {
-                        eprintln!("Failed to retrieve event from cursor: {}", e);
-                        break;
-                    }
-                };
-
-                let timestamp = event_doc
-                    .get_i64("timestamp")
-                    .ok()
-                    .map(|t| timestamp_mills_to_utc(t));
-
-                if timestamp.is_some() { last_timestamp = timestamp; }
-
-                if let Err(e) = event_processor.process_event(event_doc) {
-                    eprintln!("Failed to process event: {}", e);
-                }
-            }
-
-            // Wait briefly before checking again
-            tokio::time::delay_for(tokio::time::Duration::from_secs(1)).await;
-        }
-    });
+    let update_task = tokio::spawn(query_update::update_loop(mongodb_client, event_processor));
 
     try_join!(grpc_task, update_task)?;
     Ok(())
 }
 
-fn timestamp_mills_to_utc(mills: i64) -> DateTime<Utc> {
-    Utc.timestamp(mills / 1000, ((mills % 1000) * 1_000_000) as u32)
-}
+
