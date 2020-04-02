@@ -19,9 +19,8 @@ export class ProfileComponent implements OnInit {
   }
   getProfile() {
     this.profileService.getProfile("5e7bd87e05854a05cc0f6898").subscribe(
-      profile => this.profile = profile,
-    );
-    console.log( this.profile );
+      profile => { this.profile = profile; console.log( this.profile ); } );
+
   }
 
 }
