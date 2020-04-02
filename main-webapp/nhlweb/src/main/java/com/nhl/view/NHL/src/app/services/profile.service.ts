@@ -12,24 +12,23 @@ export class ProfileService {
   constructor(private httpClient: HttpClient) { }
 
   getProfile(userId: string) {
-    const params = new HttpParams().set('id', userId); // create new HttpParams
-    console.log( "created params" );
-    return this.httpClient.get<Profile>(`${this.apiURL}/user`, {params});
-    /*.pipe(
+    let params = new HttpParams().set("id", userId);
+    console.log( "executing HTTP get" );
+    //return this.httpClient.get<any>( "http://localhost:8080/user", { params: params });
+
+    return this.httpClient.get("http://localhost:8080/user", { params: params })
+    .pipe(
       map((data: any) => {
-        console.log("inside map()" );
         const profile: Profile = new Profile( data.object.id,
-                               data.object.info.username,
-                               data.object.info.password,
-                               data.object.info.fname,
-                               data.object.info.lname,
-                               data.object.info.email,
+                               data.object.username,
+                               data.object.password,
+                               data.object.fname,
+                               data.object.lname,
+                               data.object.email,
                                data.object.joined );
-        console.log( "created profile from return data" );
         return profile;
       })
     );
-    */
    }
 
 }

@@ -79,7 +79,7 @@ public class UserModel {
         users.insertOne(document);
     }
 
-    public boolean getUser(String token) {
+    public boolean getUsers(String token) {
         Document tokenExists = userAuth.find(new Document("_id", new ObjectId(token))).first();
         if (tokenExists.isEmpty()) {
             return false;
@@ -88,4 +88,19 @@ public class UserModel {
         return true;
     }
 
-}
+    public User getUser( String userId ) throws AccountException
+    {
+        Iterator<Document> it = users.find().iterator();
+        while (it.hasNext())
+        {
+            Document user_doc = it.next();
+            String db_id = user_doc.get( "_id" ).toString();
+            if( db_id.compareToIgnoreCase( userId ) == 0 )
+            {
+                return new User( user_doc );
+            }
+        }
+      throw new AccountException( "User ID not found" );
+    }
+ 
+ }

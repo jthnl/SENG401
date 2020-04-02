@@ -30,27 +30,26 @@ export class UserService {
         console.log(user_id);
         const params = new HttpParams().set('is', user_id); // create new HttpParams
 
-        return this.http.get<any>(`${environment.apiUrl}/user`, {params})
-        .pipe(
-        map((data: any) => {
-            const users: TempUser[] = [];
-            user_id = data.object.id;
-            data.object.info.forEach(element => {
-            users.push(new TempUser(
-                                    user_id,
-                                    element.username,
-                                    element.password,
-                                    element.fname,
-                                    element.lname,
-                                    element.email,
-                                    ));
-            });
-            return users;
-        })
-        );
+        return this.http.get<any>(`${environment.apiUrl}/user`, { params })
+            .pipe(
+                map((data: any) => {
+                    console.log("Hello");
+                    const users: TempUser[] = [];
+                    user_id = data.object.id;
+                    data.object.info.forEach(element => {
+                        users.push(new TempUser(
+                            user_id,
+                            element.username,
+                            element.password,
+                            element.fname,
+                            element.lname,
+                            element.email,
+                        ));
+                    });
+                    return users;
+                })
+            );
     }
-
-
 
     createUser(user: User) {
         return this.http.post<any>(`${environment.apiUrl}/user/create`, user).subscribe(data => {
