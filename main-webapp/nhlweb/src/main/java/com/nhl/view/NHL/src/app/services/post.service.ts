@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Post } from '../models/post.class';
 
+import { teams } from '../models/teams';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +21,7 @@ export class PostService {
     .pipe(
       map((data: any) => {
         const posts: Post[] = [];
-
+        
         data.object.postList.forEach(element => {
           posts.push(new Post(
                                  element.id,
@@ -29,7 +31,8 @@ export class PostService {
                                  element.content,
                                  element.timestamp,
                                  element.upvote,
-                                 element.downvote));
+                                 element.downvote,
+                                 teams.find(t => t.forumId === element.forum_id).imgURL));
         });
         return posts;
       })
@@ -49,7 +52,8 @@ export class PostService {
           data.object.content,
           data.object.timestamp,
           data.object.upvote,
-          data.object.downvote);
+          data.object.downvote,
+          teams.find(t => t.forumId === data.object.forum_id).imgURL);
         return post;
 
       })
@@ -88,7 +92,8 @@ export class PostService {
             element.content,
             element.timestamp,
             element.upvote,
-            element.downvote));
+            element.downvote,
+            teams.find(t => t.forumId === element.forum_id).imgURL));
         });
         return posts;
       })
