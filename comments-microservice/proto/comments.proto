@@ -50,5 +50,5 @@ message Comment {
     string timestamp = 4;
     int32 upvotes = 5;
     int32 downvotes = 6;
-
+    repeated Comment nested = 7;
 }

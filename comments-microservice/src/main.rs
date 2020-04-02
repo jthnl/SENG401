@@ -113,6 +113,22 @@ impl GrpcQueryService {
     pub fn new(query: Arc<dyn Query + Send + Sync>) -> GrpcQueryService {
         GrpcQueryService { query }
     }
+
+    fn get_populated_comments_on(&self, parent_id: Uuid) -> Vec<grpc_comments::Comment> {
+        let comments = self.query.get_comments_on(&parent_id);
+
+        let grpc_comments = comments.into_iter().map(|c| grpc_comments::Comment {
+            id: c.id.to_string(),
+            parent_id: c.parent_id.to_string(),
+            content: c.content,
+            timestamp: c.timestamp.to_string(),
+            upvotes: c.upvotes,
+            downvotes: c.downvotes,
+            nested: self.get_populated_comments_on(c.id),
+        }).collect::<Vec<_>>();
+
+        grpc_comments
+    }
 }
 
 #[tonic::async_trait]
@@ -126,27 +142,11 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
         let parent_id = Uuid::parse_str(&request.get_ref().parent_id)
             .map_err(|_| Status::invalid_argument("parent_id is invalid"))?;
 
-
-        let comments = self.query.get_comments_on(&parent_id)
-            .map_err(|e| Status::internal(e.to_string()))?;
-
-        let grpc_comments = comments.into_iter().map(|c| grpc_comments::Comment {
-                        id: c.id.to_string(),
-                        parent_id: c.parent_id.to_string(),
-                        content: c.content,
-                        timestamp: c.timestamp.to_string(),
-                        upvotes: c.upvotes,
-                        downvotes: c.downvotes,
-                    }).collect::<Vec<_>>();
-
-        let response = grpc_comments::GetCommentsOnResponse {
-            comments: grpc_comments
-        };
-
+        let comments = self.get_populated_comments_on(parent_id);
+        let response = grpc_comments::GetCommentsOnResponse { comments };
         Ok(Response::new(response))
     }
 }
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

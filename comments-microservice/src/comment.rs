@@ -32,13 +32,13 @@ impl InMemoryComments {
 }
 
 impl Query for InMemoryComments {
-    fn get_comments_on(&self, parent_id: &Uuid) -> Result<Vec<Comment>, Box<dyn Error>> {
-        Ok(self.comments.read().unwrap().iter()
+    fn get_comments_on(&self, parent_id: &Uuid) -> Vec<Comment> {
+        self.comments.read().unwrap().iter()
             .map(|(_, c)| c)
             .filter(|c| c.parent_id == *parent_id)
             .map(|c| (*c).clone())
             .sorted_by_key(|c| c.timestamp)
-            .collect::<Vec<_>>())
+            .collect::<Vec<_>>()
     }
 }
 
