@@ -33,11 +33,12 @@ public class runNotifications {
 		//System.out.println(new Timestamp(new Date().getTime()));
 		//System.out.println(new Timestamp(new Date().getTime()).toString());
 
-		dbConnect.addSubscription("1","1");
+		//dbConnect.addSubscription("1","1");
 		//dbConnect.addNotificationsForNewPost( "5");
 		//dbConnect.removeSubscription(new MySubscription("7", "5"));
 		//dbConnect.getAllSubscriptionsForUser("2");
 		//dbConnect.changeNotificationToSeen(new MyNotification("7","5"));
+		//System.out.println(dbConnect.isSubscribedToForum("1", "7"));
 
 		System.out.println("End of Main. ");
 	}

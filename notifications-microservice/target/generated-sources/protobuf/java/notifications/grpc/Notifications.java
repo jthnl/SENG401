@@ -74,6 +74,16 @@ public final class Notifications {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_addNotificationResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_isSubscribedRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_isSubscribedRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_isSubscribedResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_isSubscribedResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -102,19 +112,23 @@ public final class Notifications {
       "nNotificationResponse\022\020\n\010response\030\001 \001(\t\"" +
       ";\n\026addNotificationRequest\022\020\n\010forum_id\030\001 " +
       "\001(\t\022\017\n\007post_id\030\002 \001(\t\"+\n\027addNotificationR" +
-      "esponse\022\020\n\010response\030\001 \001(\t2\251\003\n\023notificati",
-      "onService\0222\n\tsubscribe\022\021.subscribeReques" +
-      "t\032\022.subscribeResponse\0228\n\013unsubscribe\022\023.u" +
-      "nsubscribeRequest\032\024.unsubscribeResponse\022" +
-      "I\n\020getNotifications\022\030.getNotificationsRe" +
-      "quest\032\031.getNotificationsResponse0\001\022I\n\020ge" +
-      "tSubscriptions\022\030.getSubscriptionsRequest" +
-      "\032\031.getSubscriptionsResponse0\001\022G\n\020seenNot" +
-      "ification\022\030.seenNotificationRequest\032\031.se" +
-      "enNotificationResponse\022E\n\020addNotificatio" +
-      "ns\022\027.addNotificationRequest\032\030.addNotific",
-      "ationResponseB\026\n\022notifications.grpcP\001b\006p" +
-      "roto3"
+      "esponse\022\020\n\010response\030\001 \001(\t\"8\n\023isSubscribe",
+      "dRequest\022\017\n\007user_id\030\001 \001(\t\022\020\n\010forum_id\030\002 " +
+      "\001(\t\"(\n\024isSubscribedResponse\022\020\n\010response\030" +
+      "\001 \001(\t2\346\003\n\023notificationService\0222\n\tsubscri" +
+      "be\022\021.subscribeRequest\032\022.subscribeRespons" +
+      "e\0228\n\013unsubscribe\022\023.unsubscribeRequest\032\024." +
+      "unsubscribeResponse\022I\n\020getNotifications\022" +
+      "\030.getNotificationsRequest\032\031.getNotificat" +
+      "ionsResponse0\001\022I\n\020getSubscriptions\022\030.get" +
+      "SubscriptionsRequest\032\031.getSubscriptionsR" +
+      "esponse0\001\022G\n\020seenNotification\022\030.seenNoti",
+      "ficationRequest\032\031.seenNotificationRespon" +
+      "se\022E\n\020addNotifications\022\027.addNotification" +
+      "Request\032\030.addNotificationResponse\022;\n\014isS" +
+      "ubscribed\022\024.isSubscribedRequest\032\025.isSubs" +
+      "cribedResponseB\026\n\022notifications.grpcP\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -199,6 +213,18 @@ public final class Notifications {
     internal_static_addNotificationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_addNotificationResponse_descriptor,
+        new java.lang.String[] { "Response", });
+    internal_static_isSubscribedRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_isSubscribedRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_isSubscribedRequest_descriptor,
+        new java.lang.String[] { "UserId", "ForumId", });
+    internal_static_isSubscribedResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_isSubscribedResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_isSubscribedResponse_descriptor,
         new java.lang.String[] { "Response", });
   }
 

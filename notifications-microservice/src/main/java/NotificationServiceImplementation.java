@@ -95,4 +95,13 @@ public class NotificationServiceImplementation extends notificationServiceGrpc.n
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void isSubscribed(isSubscribedRequest request, StreamObserver<isSubscribedResponse> responseObserver) {
+        MongoDBHandler dbConnect = new MongoDBHandler();
+        String alreadySubscribed = dbConnect.isSubscribedToForum(request.getUserId(), request.getForumId());
+        isSubscribedResponse response = isSubscribedResponse.newBuilder().setResponse(alreadySubscribed).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }
