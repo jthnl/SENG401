@@ -43,35 +43,24 @@ public class UserModel {
 
     public UsernameID authenticateUser(String username, String password) throws FailedLoginException {
         System.out.println("TPP:" + username + " " + password);
-        Iterator<Document> userFound = users.find(new Document("username", Pattern.compile(username, Pattern.CASE_INSENSITIVE))).iterator();
+        Iterator<Document> userFound = users.find(new Document("username", username)).iterator();
 
         if (!userFound.hasNext()) {
-            System.out.println("AU_A");
             throw new FailedLoginException("username does not exist");
         }
         Document user = userFound.next();
         if(!user.get("password").toString().equals(password)){
-            System.out.println("AU_B");
-
-            System.out.println(user.get("password").toString());
-            System.out.println(password);
-
             throw new FailedLoginException("incorrect pw");
         }
-        System.out.println("AU_C");
-
         String token = getToken(user.get("_id").toString());
-        System.out.println(token);
         return new UsernameID(user.get("_id").toString(), user.get("username").toString(), token);
     }
 
     public String getToken(String userid){
-        System.out.println("Get token");
         DateFormat df = DateFormat.getInstance();
         Document document = new Document("userid", userid).append("authtime", df.format(new Date()));
         userAuth.insertOne(document);
         ObjectId id = (ObjectId)document.get( "_id" );
-        System.out.println(id.toString());
         return id.toString();
     }
 
@@ -91,13 +80,10 @@ public class UserModel {
     }
 
     public boolean getUser(String token) {
-        System.out.println("GU1");
         Document tokenExists = userAuth.find(new Document("_id", new ObjectId(token))).first();
         if (tokenExists.isEmpty()) {
-            System.out.println("GU2");
             return false;
         }
-        System.out.println("GU3");
         //System.out.println(tokenExists.getDate("authtime"));
         return true;
     }
