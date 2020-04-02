@@ -52,6 +52,17 @@ public class MongoDBHandler {
 		return allSubscriptions;
 	}
 
+	public String isSubscribedToForum(String user_id, String forum_id){
+		setCollection("Subscriptions");
+		Document query = new Document();
+		query.put("Forum ID", forum_id);
+		FindIterable<Document> cursor = collection.find(query);
+		if (cursor.first() != null) {    //this means there is something there
+			return "True";
+		}
+		return "False";
+	}
+
 	public ArrayList<MySubscription> getAllSubscriptionsForUser(String user_id){
 		setCollection("Subscriptions");
 		Document query = new Document();

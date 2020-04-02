@@ -37,26 +37,31 @@ export class HomeComponent implements OnInit {
   selected_team: Team;
   status = Page.teams;
   loading = false;
-  users: User[];
+  user: User;
+
+  isSubscribed = false;
 
 
   constructor(private statsService: NhlStatsService, private postService: PostService, private userService: UserService) { }
 
   ngOnInit() {
-    this.getUser();
+    // this.getUser();
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
     this.forumId = '5e77b57de3d58bd5c347a3e6';
     this.getUpcomingGames();
     this.getPost(this.forumId);
     // this.getForums();
   }
 
-  getUser() {
-    this.loading = true;
-    this.userService.getAll().pipe(first()).subscribe(users => {
-        this.loading = false;
-        this.users = users;
-    });
-  }
+  // getUser() {
+  //   this.loading = true;
+  //   this.userService.getAll().pipe(first()).subscribe(users => {
+  //       this.loading = false;
+  //       this.user = user;
+  //   });
+
+  // }
 
   getUpcomingGames() {
     this.statsService
@@ -64,6 +69,16 @@ export class HomeComponent implements OnInit {
     .subscribe((data) => {
       this.upcomingGames = data;
     });
+  }
+
+  subscription() {
+    if (this.isSubscribed) {
+      this.postService.unSubscribe(this.user.id, this.selected_team.forumId);
+      this.isSubscribed = false;
+    } else {
+      this.postService.newSubscription(this.user.id, this.selected_team.forumId);
+      this.isSubscribed = true;
+    }
   }
 
   getPost(forumId) {
@@ -97,9 +112,8 @@ export class HomeComponent implements OnInit {
   }
 
   getSubscribedPost() {
-    const userId = 1;
     this.postService
-    .getSubscriptions(userId)
+    .getSubscriptions(this.user.id)
     .subscribe((data) => {
       this.posts = data;
     });

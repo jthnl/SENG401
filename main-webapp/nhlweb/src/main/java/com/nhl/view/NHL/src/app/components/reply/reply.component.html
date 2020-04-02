@@ -18,29 +18,31 @@
         <div class="col-2">
             <button
             class="btn btn-outline-primary my-2 my-auto"
-            (click)="addingComment=true"
+            (click)="addComment()"
             type="submit"> Reply
           </button>
         </div>
     </div>
 </div>
 
-  <!-- <ng-container *ngIf="addingComment">
-      <app-reply [postId]="postId" (emitter)="addComment($event)"></app-reply>
- </ng-container> -->
-  <!-- <ng-container *ngIf="addingComment">
-      <app-reply> </app-reply>
- </ng-container> -->
+<div class="text-center" *ngIf="!addingComment">
+    <button
+      class="btn btn-outline-primary my-2 my-sm-0"
+      (click)="addingComment=true"
+      type="submit"
+    >
+      Add comment
+    </button>
+  </div>
 
- <ng-container *ngIf="addingComment">
-    <app-new-comment [postId]="comment.id" (emitter)="addComment($event)"></app-new-comment>
-</ng-container>
- 
- 
+  <ng-container *ngIf="addingComment">
+      <app-new-comment [postId]="postId" (emitter)="addComment($event)"></app-new-comment>
+ </ng-container>
 
 
-<div *ngIf="comments">
+<!-- 
+<div *ngIf="comments.length > 0 ">
     <li *ngFor="let comment of comments">
         <app-comment [comment]=comment></app-comment>
       </li>
-</div>
+</div> -->

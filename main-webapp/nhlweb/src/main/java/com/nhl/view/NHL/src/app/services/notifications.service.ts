@@ -14,13 +14,14 @@ export class NotificationsService {
 
   getNotifications(userId) {
     console.log(userId);
+
     const params = new HttpParams().set('uid', userId); // create new HttpParams
 
-    return this.httpClient.get<Comment[]>(`${this.apiURL}/getNotifications`, { params })
+    return this.httpClient.get<any>(`${this.apiURL}/getNotifications`, { params })
     .pipe(
       map((data: any) => {
         const notifications: Notification[] = [];
-
+        console.log(data);
         data.object.notificationList.forEach(element => {
           notifications.push(new Notification(
             element.time,

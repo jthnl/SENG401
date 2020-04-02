@@ -28,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
 // other
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ReplyComponent } from './components/reply/reply.component';
 
 
 
@@ -48,7 +49,8 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
     CreateComponent,
     ProfileComponent,
     NewCommentComponent,
-    RegisterComponent
+    RegisterComponent,
+    ReplyComponent
   ],
   imports: [
     BrowserModule,

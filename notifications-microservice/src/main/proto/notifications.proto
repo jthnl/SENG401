@@ -10,6 +10,7 @@ service notificationService{
     rpc getSubscriptions  (getSubscriptionsRequest) returns (stream getSubscriptionsResponse);
     rpc seenNotification (seenNotificationRequest) returns (seenNotificationResponse);
     rpc addNotifications (addNotificationRequest) returns (addNotificationResponse);
+    rpc isSubscribed (isSubscribedRequest) returns (isSubscribedResponse);
 }
 
 message subscribeRequest {  //this is effectively a data structure
@@ -70,5 +71,14 @@ message addNotificationRequest{
 }
 
 message addNotificationResponse{
+    string response = 1;
+}
+
+message isSubscribedRequest{
+    string user_id = 1;
+    string forum_id = 2;
+}
+
+message isSubscribedResponse{
     string response = 1;
 }

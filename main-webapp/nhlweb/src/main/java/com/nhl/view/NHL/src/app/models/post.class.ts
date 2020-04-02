@@ -11,7 +11,7 @@ export class Post {
         public imgURL?: string) {}
 
 
-    creatPost(forum_id, author_id, title, content) {
+    createPost(forum_id, author_id, title, content) {
         this.forum_id = forum_id;
         this.author_id = author_id;
         this.title = title;

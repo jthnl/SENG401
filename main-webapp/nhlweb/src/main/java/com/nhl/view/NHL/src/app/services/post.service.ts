@@ -124,6 +124,14 @@ export class PostService {
     );
    }
 
+   newSubscription(user_id, forum_id) {
+    return this.httpClient.post<any>(`${this.apiURL}/forum/subscribe`, { user_id, forum_id });
+   }
+
+   unSubscribe(user_id, forum_id) {
+    return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id });
+   }
+
    getSubscriptions(userId) {
     const params = new HttpParams().set('uid', userId); // create new HttpParams
     console.log(userId);
@@ -134,7 +142,7 @@ export class PostService {
         const posts: Post[] = [];
         console.log(posts);
         data.object.subscriptionViews.forEach(element => {
-
+          console.log(element)
           posts.push(new Post(
               element.forum.id,
               element.forum.author_id,
@@ -148,10 +156,20 @@ export class PostService {
     );
    }
 
+
+
   postPost(post: Post) {
     this.httpClient.post<any>(`${this.apiURL}/post/create`,
     post).subscribe(data => {
       console.log(data);
+      const newPost = post;
+      newPost.id = data.object.id;
+
+      this.httpClient.post<any>(`${this.apiURL}/post/addNotifications`,
+      post).subscribe(data => {
+        console.log(data);
+      });
+
     });
   }
 }

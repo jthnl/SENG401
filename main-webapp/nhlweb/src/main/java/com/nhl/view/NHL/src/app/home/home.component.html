@@ -47,6 +47,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
+            <li *ngIf="selected_team">
+              <button
+              class="btn btn-outline-primary my-2 my-sm-0"
+              (click)="subscription()"
+              type="submit"
+              >
+              <span *ngIf="isSubscribed">Unsubscribe</span>
+              <span *ngIf="!isSubscribed">Subscribe</span>
+            </button>
+            </li>
             <li class="nav-item">
               <span class="nav-text">Team</span>
             </li>
@@ -61,7 +71,9 @@
                 aria-expanded="false"
               >
                 
-                <span *ngIf="selected_team; else elseBlock">{{ selected_team.name }}</span>
+                <span *ngIf="selected_team; else elseBlock">
+                  {{ selected_team.name }}
+                </span>
                 <ng-template #elseBlock>Select</ng-template>
               </a>
               <div
@@ -85,9 +97,9 @@
             <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
           </li>
           <ng-container *ngIf="showMore">
-            <ng-container *ngFor="let post of posts; let i = index" [routerLink]="['/post', post.id]">
+            <ng-container *ngFor="let post of posts; let i = index">
               <li *ngIf="i >= 5">
-                <app-thread [post]="post"></app-thread>
+                <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
               </li>
             </ng-container>
           </ng-container>

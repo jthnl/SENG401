@@ -24,6 +24,7 @@ export class CommentsService {
         data.object.commentsList.forEach(element => {
           console.log(element);
           comments.push(new Comment(
+                                    element.id,
                                     element.parentId,
                                     element.authorId,
                                     element.content,
@@ -37,7 +38,8 @@ export class CommentsService {
 
    postComment(comment: Comment) {
      console.log(comment);
-     comment.authorId = "1d7cdb76-3095-41b0-b393-f0bc25878fa0";
+    //  if(authorId == null);
+
     this.httpClient.post<any>(`${this.apiURL}/comments/command/addComment`,
     comment).subscribe(data => {
       console.log(data);
@@ -57,7 +59,7 @@ export class CommentsService {
 
   like(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/upvoteComment`,
-    { commentId: comment.parentId }).subscribe(data => {
+    { commentId: comment.id }).subscribe(data => {
       if (data.normalMessage === 'success') {
         comment.upvote();
       }
@@ -67,7 +69,7 @@ export class CommentsService {
 
   dislike(comment: Comment) {
     this.httpClient.post<any>(`${this.apiURL}/comments/command/downvoteComment`,
-    { commentId: comment.parentId }).subscribe(data => {
+    { commentId: comment.id }).subscribe(data => {
       if (data.normalMessage === 'success') {
         comment.downvote();
       }

@@ -40,6 +40,7 @@ export class PostComponent implements OnInit, OnDestroy {
       this.postId = params['postId']; // (+) converts string 'id' to a number
       this.getPost(this.postId);
    });
+
     this.getComments(this.postId);
     this.getUpcomingGames();
   }
@@ -89,6 +90,8 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   postComment(comment: Comment) {
+    comment.authorId = this.user.id;
+
     this.commentsService
     .postComment(comment);
   }

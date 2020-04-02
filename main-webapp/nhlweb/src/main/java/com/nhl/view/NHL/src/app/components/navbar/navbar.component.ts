@@ -22,19 +22,21 @@ export class NavbarComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  user_id;
+  
   notifications: Notification[];
   searchQuery;
   notification_count = 0;
-
+  user: User;
   @Output() emitter = new EventEmitter();
 
   ngOnInit() {
-    this.user_id = '1d7cdb76-3095-41b0-b393-f0bc25878fa0';
-    this.getNotifications(this.user_id);
+
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.getNotifications(this.user.id);
   }
 
-  getNotifications(user_id: string) {
+  getNotifications(user_id) {
     this.notificationsService
     .getNotifications(user_id)
     .subscribe((data) => {
