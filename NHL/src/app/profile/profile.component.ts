@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
-import { UserService } from '../services/user.service';
 import { Profile } from '../models/profile.class';
 import { User } from '../models/user.class';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -11,14 +11,26 @@ import { User } from '../models/user.class';
 })
 export class ProfileComponent implements OnInit {
 
-  profile: Profile;
+  private currentUserSubject: BehaviorSubject<User>;
+  private userId: string;
+  public profile: Profile;
+
   constructor(private profileService: ProfileService) {
   }
+
   ngOnInit() {
+    this.getUserId();
     this.getProfile();
   }
+
+  getUserId() {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.userId = this.currentUserSubject.value.id;
+    console.log( "userId from local storage: ", this.userId )
+  }
+
   getProfile() {
-    this.profileService.getProfile("5e7bd87e05854a05cc0f6898").subscribe(
+    this.profileService.getProfile( this.userId ).subscribe(
       profile => { this.profile = profile; console.log( this.profile ); } );
 
   }
