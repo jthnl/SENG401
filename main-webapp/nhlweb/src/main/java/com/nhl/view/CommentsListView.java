@@ -13,8 +13,16 @@ public class CommentsListView implements MsgObjectView {
         commentsList = new ArrayList<>();
     }
 
-    public void setCommentsList(Iterator<Comment> comments){
-        comments.forEachRemaining(comment -> commentsList.add(new CommentView(comment)));
+    public void setCommentsList(Iterator<Comment> comments) {
+        commentsList = new ArrayList<>();
+        comments.forEachRemaining(comment -> addWithNested(comment, commentsList, 0));
+    }
+
+    private static void addWithNested(Comment comment, ArrayList<CommentView> list, int indentation) {
+        list.add(new CommentView(comment, indentation));
+        for (Comment nested : comment.getNestedList()) {
+            addWithNested(nested, list, indentation + 1);
+        }
     }
 
     public ArrayList<CommentView> getCommentsList() {
