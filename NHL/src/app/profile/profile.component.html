@@ -19,10 +19,10 @@
       <div class="row">
         <div class="col-md-4 profile-head">
           <h5>
-            FlamesFan12
+            {{ profile.username }}
           </h5>
           <h6>
-            Jedediah Heal
+            {{ profile.fname }}
           </h6>
         </div>
         <div class="col-md-4">
@@ -37,7 +37,7 @@
                 <label>User Id</label>
               </div>
               <div class="col-md-6">
-                <p>FlamesFan12</p>
+                <p>{{ profile.username }}</p>
               </div>
             </div>
             <div class="row">
@@ -45,7 +45,7 @@
                 <label>Name</label>
               </div>
               <div class="col-md-6">
-                <p>Jedediah Heal</p>
+                <p>{{ profile.fname }} {{ profile.lname }}</p>
               </div>
             </div>
             <div class="row">
@@ -53,7 +53,7 @@
                 <label>Email</label>
               </div>
               <div class="col-md-6">
-                <p>jedediah.heal@gmail.com</p>
+                <p>{{ profile.email }}</p>
               </div>
             </div>
             <div class="row">
@@ -61,7 +61,7 @@
                 <label>Date Joined</label>
               </div>
               <div class="col-md-6">
-                <p>March 21, 2020</p>
+                <p>{{ profile.joined }}</p>
               </div>
             </div>
           </div>
