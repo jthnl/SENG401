@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   posts: Post[];
   forumId;
   selected_team: Team;
-  status = Page.teams;
+  status = 1;
   loading = false;
   user: User;
 
@@ -48,20 +48,12 @@ export class HomeComponent implements OnInit {
     // this.getUser();
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
-    this.forumId = '5e77b57de3d58bd5c347a3e6';
+    // this.forumId = '5e77b57de3d58bd5c347a3e6';
     this.getUpcomingGames();
-    this.getPost(this.forumId);
+    // this.getPost(this.forumId);
+    this.getPost(this.status);
     // this.getForums();
   }
-
-  // getUser() {
-  //   this.loading = true;
-  //   this.userService.getAll().pipe(first()).subscribe(users => {
-  //       this.loading = false;
-  //       this.user = user;
-  //   });
-
-  // }
 
   getUpcomingGames() {
     this.statsService
@@ -72,10 +64,12 @@ export class HomeComponent implements OnInit {
   }
 
   subscription() {
+    console.log(this.isSubscribed);
     if (this.isSubscribed) {
       this.postService.unSubscribe(this.user.id, this.selected_team.forumId);
       this.isSubscribed = false;
     } else {
+      console.log("subscribing");
       this.postService.newSubscription(this.user.id, this.selected_team.forumId);
       this.isSubscribed = true;
     }
@@ -100,7 +94,10 @@ export class HomeComponent implements OnInit {
 
   changeTeam(team: Team) {
     this.selected_team = team;
+    this.checkSubscribed();
     this.getPost(this.selected_team.forumId);
+
+
   }
 
   getAllPost() {
@@ -119,6 +116,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  checkSubscribed() {
+    this.postService
+    .isSubscribe(this.user.id, this.selected_team.forumId)
+    .subscribe((data) => {
+      this.isSubscribed = this.convertToBoolean(data.object.subscriptionStatus);
+    });
+  }
+
   getPosts(flag: number) {
     if (flag === 1) {
       console.log('Get all');
@@ -129,16 +134,25 @@ export class HomeComponent implements OnInit {
       this.status = 2;
       this.getSubscribedPost();
     } else {
-      console.log("Get teams");
+      console.log('Get teams');
       this.status = 3;
       this.getPost('5e77b57de3d58bd5c347a3e2');
       this.selected_team = teams[0];
     }
   }
+
   forumToggle(input) {
     if (Page[this.status] !== input) {
       this.status = (this.status + 1) % 2;
       this.getUpcomingGames();
+    }
+  }
+
+  convertToBoolean(input: string) {
+    if (input === 'True') {
+      return true;
+    } else {
+      return false;
     }
   }
 }

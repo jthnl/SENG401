@@ -17,19 +17,16 @@
                     <td rowspan="2">Save</td>
                 </tr>
                 <tr>
-                    <td>Comments</td>
+                    <td>{{rating}}</td>
                 </tr>
             </table>
         </div>
         <div class="col-9">
-            <mat-progress-bar mode="qudeterminateery" color="" value="40"></mat-progress-bar>
+            <mat-progress-bar mode="qudeterminateery" color="" value="{{rating}}"></mat-progress-bar>
             <h4 class="post-title">{{ post.title }}</h4>
             <p class="post-description"> {{ post.content }} </p>
         </div>
     </div>
 </div>
-
-<h4 class="post-title">{{ post.id }}</h4>
-<h4 class="post-title">{{ post.author_id }}</h4>
 
 

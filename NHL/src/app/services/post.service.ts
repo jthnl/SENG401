@@ -21,7 +21,7 @@ export class PostService {
     .pipe(
       map((data: any) => {
         const posts: Post[] = [];
-        
+
         data.object.postList.forEach(element => {
           posts.push(new Post(
                                  element.id,
@@ -125,33 +125,43 @@ export class PostService {
    }
 
    newSubscription(user_id, forum_id) {
-    return this.httpClient.post<any>(`${this.apiURL}/forum/subscribe`, { user_id, forum_id });
+     return this.httpClient.post<any>(`${this.apiURL}/forum/subscribe`, { user_id, forum_id }).subscribe();
    }
 
    unSubscribe(user_id, forum_id) {
-    return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id });
+
+    return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id }).subscribe();
    }
 
-  //  isSubscribe(user_id, forum_id) {
-  //   return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id });
-  //  }
+   isSubscribe(user_id, forum_id) {
+    const params = new HttpParams().set('uid', user_id).set('fid', forum_id); // create new HttpParams
+
+    return this.httpClient.get<any>(`${this.apiURL}/forum/isSubscribed`, { params });
+   }
+
    getSubscriptions(userId) {
-    const params = new HttpParams().set('uid', userId); // create new HttpParams
     console.log(userId);
+
+    const params = new HttpParams().set('uid', userId); // create new HttpParams
 
     return this.httpClient.get<any>(`${this.apiURL}/getSubscriptions`, { params })
     .pipe(
       map((data: any) => {
+
+        console.log(data);
         const posts: Post[] = [];
         console.log(posts);
-        data.object.subscriptionViews.forEach(element => {
-          console.log(element)
+        data.object.postList.forEach(element => {
+          console.log(element);
           posts.push(new Post(
-              element.forum.id,
-              element.forum.author_id,
-              element.forum.title,
-              element.forum.content,
-              ));
+            element.id,
+            element.forum_id,
+            element.author_id,
+            element.title,
+            element.content,
+            element.timestamp,
+            element.upvote,
+            element.downvote));
 
         });
         return posts;

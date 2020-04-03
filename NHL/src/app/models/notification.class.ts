@@ -1,10 +1,15 @@
+// import { Teams } from '../models/teams';
+
 export class Notification {
     constructor(
-        private time: string,
-        private user_id: string,
-        private forum_id: string,
-        private post_id: string,
-        private seenFlag: string,
-        private message: string) { }
+        public time: string,
+        public user_id: string,
+        public forum_id: string,
+        public post_id: string,
+        public seenFlag: string,
+        public message: string) {
+            this.message = message.substring(0, 22);
+            // this.message += Teams.
+        }
 }
 
