@@ -53,4 +53,5 @@ message Comment {
     int32 upvotes = 5;
     int32 downvotes = 6;
     repeated Comment nested = 7;
+    bool is_nested = 9;
 }
