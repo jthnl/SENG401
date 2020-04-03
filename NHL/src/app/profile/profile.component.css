@@ -1,13 +1,16 @@
-body{
+/* body{
     background: -webkit-linear-gradient(left, #3931af, #00c6ff);
-}
+} */
+
+
 .user-profile{
     padding: 2%;
-    margin-top: 2%;
+    margin-top: 10%;
     margin-bottom: 2%;
     border-radius: 0.5rem;
-    background: #DDDDDD;
+    background: white;
 }
+
 .profile-img{
     text-align: center;
 }
@@ -48,8 +51,9 @@ body{
     margin: auto;
     margin-top: 22px;
     font-weight: 600;
-    color: #6c757d;
+    color: white;
     cursor: pointer;
+    background-color: #888888;
 }
 .profile-info label{
     font-weight: 600;

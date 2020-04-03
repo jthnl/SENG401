@@ -21,7 +21,6 @@ export class NhlStatsService {
     .pipe(
       map((data: any) => {
         const allGames: Schedule[] = [];
-        console.log(data);
         data.dates[0].games.forEach(element => {
           allGames.push(new Schedule( element.gamePk,
                                         element.gameDate,

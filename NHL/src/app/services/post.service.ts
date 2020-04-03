@@ -107,7 +107,7 @@ export class PostService {
     .pipe(
       map((data: any) => {
         const posts: Post[] = [];
-
+        console.log(data);
         data.object.postList.forEach(element => {
           posts.push(new Post(
             element.id,
@@ -148,9 +148,7 @@ export class PostService {
     .pipe(
       map((data: any) => {
 
-        console.log(data);
         const posts: Post[] = [];
-        console.log(posts);
         data.object.postList.forEach(element => {
           console.log(element);
           posts.push(new Post(

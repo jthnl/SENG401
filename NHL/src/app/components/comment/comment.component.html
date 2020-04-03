@@ -1,28 +1,40 @@
-<div class="post-card box-shadow">
-    <div class="row">
+<div class="post-card box-shadow" id="comment-wrapper" [style.margin-left.px]="comment.indentation*20">
+
+    <div class="container-fluid">
+        <p class="comment-content"> {{ comment.content }} </p>
+    </div>
+    <hr>
+    <div class="row mt-2">
         <div class="col-2">
             <div class="container">
                 <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ comment.upvotes }}</h6>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="container">
                 <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ comment.downvotes }}</h6>
             </div>
         </div>
-        <div class="col-8">
-            <div class="container">
-                <p class="comment-content"> {{ comment.content }} </p>
-                <p class="comment-content"> {{ comment.id }} </p>
+        <div class="col-5">
+            <!-- <div *ngIf="author">
+                replying too 
 
-            </div>
-
+                {{author.firstName}}
+            </div> -->
         </div>
-        
-        <div class="col-2">
-            <button
-            class="btn btn-outline-primary my-2 my-auto"
-            (click)="addingComment=true"
-            type="submit"> Reply
-          </button>
+        <div class="col-3">
+            <div class="container">
+                <button
+                    class="btn btn-sm btn-outline-primary"
+                    (click)="addingComment=true"
+                    type="submit"> Reply
+                </button>
+            </div>
         </div>
     </div>
+
+
+  
 </div>
 
   <!-- <ng-container *ngIf="addingComment">

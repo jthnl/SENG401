@@ -3,10 +3,11 @@ import { CommentsService } from '../services/comments.service';
 import { Comment } from '../models/comment.class';
 import { NhlStatsService } from '../services/nhl-stats.service';
 import { Schedule } from '../models/schedule.class';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../models/post.class';
 import { PostService } from '../services/post.service';
 import { User } from '../models/user.class';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { User } from '../models/user.class';
 export class PostComponent implements OnInit, OnDestroy {
 
   constructor(private commentsService: CommentsService,
+              private userService: UserService,
               private postsService: PostService,
               private statsService: NhlStatsService,
               private route: ActivatedRoute) { }
@@ -31,6 +33,8 @@ export class PostComponent implements OnInit, OnDestroy {
   post: Post;
   rating = 0;
   user: User;
+  author: User;
+
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -54,6 +58,15 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
+  getAuthor() {
+    this.userService.getUser(this.post.author_id).subscribe((data) => {
+      this.author = data;
+      console.log(data);
+    });
+
+    this.calcRating();
+  }
+
   like() {
     this.postsService.likePost(this.postId, this.user.id);
   }
@@ -68,6 +81,8 @@ export class PostComponent implements OnInit, OnDestroy {
     .subscribe((data) => {
       this.post = data;
       this.calcRating();
+      this.getAuthor();
+
     });
   }
 
@@ -91,15 +106,12 @@ export class PostComponent implements OnInit, OnDestroy {
 
   postComment(comment: Comment) {
     comment.authorId = this.user.id;
-
     this.commentsService
     .postComment(comment);
   }
 
   addComment(comment) {
-    this.addingComment = false;
     console.log(comment);
-
     if (comment != null) {
       this.postComment(comment);
     }

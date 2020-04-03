@@ -17,7 +17,6 @@ export class UserService {
     }
 
     login(uName:string, pWord:string) {
-        console.log('running login');
         return this.http.post<any>(`${environment.apiUrl}/user/login`,
         {
             username: uName,
@@ -58,7 +57,6 @@ export class UserService {
         return this.http.get<any>(`${environment.apiUrl}/user`, { params })
             .pipe(
                 map((data: any) => {
-                    console.log(data);
                     const user = new User();
                     user.getUser(
                         data.object.userId,
@@ -75,7 +73,6 @@ export class UserService {
 
     createUser(user: User) {
         return this.http.post<any>(`${environment.apiUrl}/user/create`, user).subscribe(data => {
-            console.log(data);
           });
     }
 }

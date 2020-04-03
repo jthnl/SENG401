@@ -23,7 +23,6 @@ export class NewCommentComponent implements OnInit {
       const comment = new Comment();
       comment.parentId = this.postId;
       comment.content = this.content;
-      console.log(comment);
       this.emitter.emit(comment);
     } else {
       this.emitter.emit(null);

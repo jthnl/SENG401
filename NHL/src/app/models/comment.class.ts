@@ -5,15 +5,9 @@ export class Comment {
         public authorId?: string,
         public content?: string,
         public upvotes?: number,
-        public downvotes?: number) {}
+        public downvotes?: number,
+        public indentation?: number) {}
 
-        // setPostId(authorId: string) {
-        //     this.postId = postId;
-        // }
-
-        // setContent(content: string) {
-        //     this.content = content;
-        // }
 
         upvote() {
             this.upvotes++;
@@ -23,12 +17,6 @@ export class Comment {
             this.downvotes++;
         }
 
-        // getId() {
-        //     return this.id;
-        // }
-        // getPostId() {
-        //     return this.postId;
-        // }
 
         getContent() {
             return this.content;

@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
       this.isSubscribed = true;
     }
   }
-
+  // gets array of posts from a forum id
   getPost(forumId) {
     this.postService
     .getPosts(forumId)
@@ -83,10 +83,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
-  searchPosts(title) {
+  // search post by keyword
+  searchPosts(keyword) {
     this.postService
-    .searchPosts(title)
+    .searchPosts(keyword)
     .subscribe((data) => {
       this.posts = data;
     });
@@ -96,8 +96,6 @@ export class HomeComponent implements OnInit {
     this.selected_team = team;
     this.checkSubscribed();
     this.getPost(this.selected_team.forumId);
-
-
   }
 
   getAllPost() {
@@ -124,6 +122,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // changes home page depending forum type
   getPosts(flag: number) {
     if (flag === 1) {
       console.log('Get all');

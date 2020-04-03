@@ -4,7 +4,7 @@
       <img
         class="logo"
         routerLink=""
-        src="../../../assets/NHL-logo.png"
+        src="../../../assets/nhl.png"
       />
     </div>
     <div class="col-6">
@@ -67,7 +67,7 @@
               >
                 <a
                   *ngFor="let notification of notifications"
-                  (click)="changeTeam(team)"
+                  [routerLink]="['/post', notification.post_id]"
                   class="dropdown-item"
                   >{{ notification.message }}</a
                 >
@@ -77,7 +77,7 @@
         </div>
 
         <button
-          class="btn btn-outline-primary my-2 my-sm-0"
+          class="btn btn-sm btn-outline-primary my-2 my-sm-0"
           routerLink="/profile"
           type="submit"
         >
@@ -85,7 +85,7 @@
         </button>
 
         <button
-          class="btn btn-outline-primary my-2 my-sm-0"
+          class="btn btn-sm btn-outline-primary my-2 ml-2 my-sm-0"
           (click)="logout()"
           type="submit"> Logout
         </button>

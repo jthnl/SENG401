@@ -14,7 +14,7 @@ export class CommentsService {
   constructor(private httpClient: HttpClient) { }
 
   getComments(parentId) {
-
+    console.log("Parent id", parentId);
     const params = new HttpParams().set('parentId', parentId); // create new HttpParams
 
     return this.httpClient.get<Comment[]>(`${this.apiURL}/comments/query/commentsOn`, { params })
@@ -22,14 +22,15 @@ export class CommentsService {
       map((data: any) => {
         const comments: Comment[] = [];
         data.object.commentsList.forEach(element => {
-          console.log(element);
+          console.log("Adding commenet", element);
           comments.push(new Comment(
                                     element.id,
                                     element.parentId,
                                     element.authorId,
                                     element.content,
                                     element.upvotes,
-                                    element.downvotes));
+                                    element.downvotes,
+                                    element.indentation));
         });
         return comments;
       })
@@ -76,15 +77,6 @@ export class CommentsService {
       console.log(data);
     });
   }
-
-
-
-
-
-
-
-
-
 }
 
 

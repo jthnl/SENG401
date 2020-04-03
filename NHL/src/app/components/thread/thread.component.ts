@@ -21,7 +21,6 @@ export class ThreadComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log("post recieved:", this.post);
     this.getAuthor();
   }
 
@@ -37,7 +36,6 @@ export class ThreadComponent implements OnInit, OnChanges {
   getAuthor() {
     this.userService.getUser(this.post.author_id).subscribe((data) => {
       this.author = data;
-      console.log(data);
     });
 
     this.calcRating();

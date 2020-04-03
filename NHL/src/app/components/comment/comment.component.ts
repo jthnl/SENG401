@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Comment } from '../../models/comment.class';
 import { CommentsService } from 'src/app/services/comments.service';
 import { User } from 'src/app/models/user.class';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -9,15 +10,16 @@ import { User } from 'src/app/models/user.class';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css']
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, OnChanges {
 
   @Input() comment: Comment;
   comments: Comment[];
-
+  // indendation = 10;
   addingComment = false;
-  constructor(private commentService: CommentsService) { }
+  constructor(private commentService: CommentsService, private userService: UserService) { }
 
   user: User;
+  author: User;
 
   ngOnInit() {
     console.log("this commmentkidbhcaisubhcwoireubwr: ", this.comment);
@@ -26,12 +28,17 @@ export class CommentComponent implements OnInit {
     this.getComments();
   }
 
+  ngOnChanges() {
+    // console.log(this.comment);
+    // document.getElementById('comment-wrapper').style.marginLeft = (this.comment.indentation* 10)+"px";
+  }
+
   getComments() {
     this.commentService.getComments(this.comment.id).subscribe((data) => {
       this.comments = data;
-
     });
   }
+
   like() {
     console.log(this.comment);
     this.commentService.like(this.comment);
@@ -49,8 +56,6 @@ export class CommentComponent implements OnInit {
   addComment(comment: Comment) {
     this.addingComment = false;
     comment.authorId = this.user.id;
-    console.log(comment);
-
     if (comment != null) {
       this.postComment(comment);
     }
