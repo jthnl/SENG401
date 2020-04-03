@@ -31,6 +31,16 @@ public class NotificationController {
     }
 
     @CrossOrigin(origins = corsEnabled)
+    @GetMapping(value="/forum/isSubscribed")
+    public MessageView isSubscribedToForum (@RequestParam(value = "uid", required = true) String user_id,
+                                            @RequestParam(value = "fid", required = true) String forum_id){
+        NotificationsGRPCModel model = new NotificationsGRPCModel();
+        isSubscribedResponse response = model.isSubscribedToForum(user_id, forum_id);
+        IsSubscribedView isv = new IsSubscribedView(response.getResponse());
+        return new MessageView(false, null, false, null, isv);
+    }
+
+    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/subscribe")
     public MessageView subscribeToForum(@RequestBody SubscriptionView subscribeJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
