@@ -66,4 +66,10 @@ public class NotificationsGRPCModel {
         return result;
     }
 
+    public isSubscribedResponse isSubscribedToForum (String user_id, String forum_id){
+        isSubscribedResponse subscriptionStatus = notificationStub.isSubscribed(isSubscribedRequest.newBuilder()
+                .setUserId(user_id).setForumId(forum_id).build());
+        return subscriptionStatus;
+    }
+
 }
