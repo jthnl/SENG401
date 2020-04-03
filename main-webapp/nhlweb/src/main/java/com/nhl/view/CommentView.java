@@ -12,19 +12,15 @@ public class CommentView implements MsgObjectView {
     public String content;
     public int upvotes;
     public int downvotes;
-    public List<CommentView> nested;
-    public boolean isNested;
     public int indentation;
 
-    public CommentView(String id, String parentId, String authorId, String content, int upvotes, int downvotes, List<CommentView> nested, boolean isNested, int indentation) {
+    public CommentView(String id, String parentId, String authorId, String content, int upvotes, int downvotes, int indentation) {
         this.id = id;
         this.parentId = parentId;
         this.authorId = authorId;
         this.content = content;
         this.upvotes = upvotes;
         this.downvotes = downvotes;
-        this.nested = nested;
-        this.isNested = isNested;
         this.indentation = indentation;
     }
 
@@ -39,8 +35,6 @@ public class CommentView implements MsgObjectView {
         this.content = comment.getContent();
         this.upvotes = comment.getUpvotes();
         this.downvotes = comment.getDownvotes();
-        this.nested = getNestedComments(comment, indentation);
-        this.isNested = comment.getIsNested();
         this.indentation = indentation;
     }
 
