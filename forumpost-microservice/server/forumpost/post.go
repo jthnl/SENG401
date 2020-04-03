@@ -351,14 +351,17 @@ func (s *PostServiceServer) FindPosts(req *postpb.FindPostReq, stream postpb.Pos
 	titleQuery:= req.GetTitleQuery()
 
 	// set filter for text search based on title
+	//regex := `^.*` + titleQuery + `.*$`
 	filter := bson.M{"$text": bson.M{"$search": titleQuery}}
 	findOptions := options.Find()
 	findOptions.SetLimit(100)
 	findOptions.SetProjection(bson.M{
 	  "id":         1,
-	  "forum_id":   1,
+	  "_forum_id":   1,
+	  "author_id":	1,
 	  "title": 		1,
 	  "content" : 	1,
+	  "timestamp" : 1,
 	  "score":       bson.M{"$meta": "textScore"},
 	})
 	findOptions.SetSort(bson.M{"score": bson.M{"$meta": "textScore"}})
@@ -377,6 +380,9 @@ func (s *PostServiceServer) FindPosts(req *postpb.FindPostReq, stream postpb.Pos
 		if err != nil {
 			return status.Errorf(codes.Unavailable, fmt.Sprintf("Could not decode data: %v", err))
 		}
+
+		//fmt.Println(data.ForumID)
+		//fmt.Println(data.ForumID.Hex())
 		upVote, downVote := GetPostVote(data.ID)
 		stream.Send(&postpb.FindPostRes{
 			Post: &postpb.Post{
