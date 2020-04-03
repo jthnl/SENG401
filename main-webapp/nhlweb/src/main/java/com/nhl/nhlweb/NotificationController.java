@@ -21,7 +21,7 @@ public class NotificationController {
         NotificationListView listView = new NotificationListView(notifications);
         ForumPostGRPCModel forumModel = new ForumPostGRPCModel();
         for (NotificationView n: listView.getNotificationList()) {
-            n.setMessage("There is a new post in " + forumModel.ReadForum(n.getForum_id()) + ". ");
+            n.setMessage("There is a new post in " + forumModel.ReadForum(n.getForum_id()).getTitle() + ". ");
         }
         //editNotificationMessage(listView.getNotificationList());
         return new MessageView(false, null, false, null, listView);
