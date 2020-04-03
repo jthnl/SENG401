@@ -20,8 +20,20 @@ public class NotificationController {
         NotificationsGRPCModel model = new NotificationsGRPCModel();
         ArrayList<getNotificationsResponse> notifications = model.getNotificationsForUser(user_id);
         NotificationListView listView = new NotificationListView(notifications);
+        ForumPostGRPCModel forumModel = new ForumPostGRPCModel();
+        for (NotificationView n: listView.getNotificationList()) {
+            n.setMessage("There is a new post in " + forumModel.ReadForum(n.getForum_id()) + ". ");
+        }
+        //editNotificationMessage(listView.getNotificationList());
         return new MessageView(false, null, false, null, listView);
     }
+
+//    private static void editNotificationMessage(ArrayList<NotificationView> notifications) {
+//        ForumPostGRPCModel forumModel = new ForumPostGRPCModel();
+//        for (NotificationView n: notifications) {
+//            n.setMessage("There is a new post in " + forumModel.ReadForum(n.getForum_id()) + ". ");
+//        }
+//    }
 
     @CrossOrigin(origins = corsEnabled) //allows the application in the url to access this function
     @GetMapping(value="/getSubscriptions")
