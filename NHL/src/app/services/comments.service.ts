@@ -38,7 +38,7 @@ export class CommentsService {
 
    postComment(comment: Comment) {
      console.log(comment);
-    //  if(authorId == null);
+    // if(authorId == null);
 
     this.httpClient.post<any>(`${this.apiURL}/comments/command/addComment`,
     comment).subscribe(data => {

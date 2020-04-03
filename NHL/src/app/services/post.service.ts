@@ -132,6 +132,9 @@ export class PostService {
     return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id });
    }
 
+  //  isSubscribe(user_id, forum_id) {
+  //   return this.httpClient.post<any>(`${this.apiURL}/forum/unsubscribe`, { user_id, forum_id });
+  //  }
    getSubscriptions(userId) {
     const params = new HttpParams().set('uid', userId); // create new HttpParams
     console.log(userId);

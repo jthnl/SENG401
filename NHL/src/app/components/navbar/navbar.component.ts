@@ -41,8 +41,10 @@ export class NavbarComponent implements OnInit {
     .getNotifications(user_id)
     .subscribe((data) => {
       console.log(data);
-      this.notifications = data;
-      this.notification_count = data.length;
+      if (!data.time === "") {
+        this.notifications = data;
+        this.notification_count = data.length;
+      }
     });
   }
 

@@ -7,15 +7,29 @@ export class User {
         public firstName?: string,
         public lastName?: string,
         public email?: string,
+        public joined?: string,
+
     ) {
     }
 
-    createUser(username, password, firstName, lastName, email) {
+
+
+    createUser(username, password, firstName, lastName, email, joined?) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.joined = joined;
+    }
+
+    getUser(userId, password, fname, lname, email, joined) {
+        this.id = userId;
+        this.password = password;
+        this.firstName = fname;
+        this.lastName = lname;
+        this.email = email;
+        this.joined = joined;
     }
 }
 

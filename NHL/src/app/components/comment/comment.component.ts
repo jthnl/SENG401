@@ -23,6 +23,7 @@ export class CommentComponent implements OnInit {
     console.log("this commmentkidbhcaisubhcwoireubwr: ", this.comment);
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
+    this.getComments();
   }
 
   getComments() {

@@ -7,10 +7,10 @@
                     <td class="font-weight-bold">Post</td>
                 </tr>
                 <tr>
-                    <td class="small">Name</td>
+                    <td class="small">{{author.firstName}}</td>
                 </tr>
                 <tr>
-                    <td class="small font-weight-light">Time stamp</td>
+                    <td class="small font-weight-light">{{post.timestamp}}</td>
                 </tr>
                 <tr>
                     <td>Shares</td>
@@ -28,3 +28,8 @@
         </div>
     </div>
 </div>
+
+<h4 class="post-title">{{ post.id }}</h4>
+<h4 class="post-title">{{ post.author_id }}</h4>
+
+
