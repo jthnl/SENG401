@@ -1,4 +1,5 @@
 <app-navbar (emitter)="searchPosts($event)"></app-navbar>
+
 <div class="container-fluid mt-2">
   <div class="row">
     <div class="col-sm-2">
@@ -34,6 +35,7 @@
     <div class="col-sm-7">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
         <span class="navbar-brand">Forum</span>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -45,16 +47,23 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
+
+        <div class="ml-auto" *ngIf="status == 3">
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
+
+
+          <ul class="navbar-nav ">
             <li *ngIf="selected_team">
               <button
               class="btn btn-outline-primary my-2 my-sm-0"
               (click)="subscription()"
               type="submit"
               >
-              <span *ngIf="isSubscribed">Unsubscribe</span>
-              <span *ngIf="!isSubscribed">Subscribe</span>
+              <div *ngIf="isSubscribed; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock>Unsubscribe</ng-template>
+              <ng-template #elseBlock>Subscribe</ng-template>
             </button>
             </li>
             <li class="nav-item">
@@ -88,8 +97,14 @@
                 >
               </div>
             </li>
+
           </ul>
+
         </div>
+      </div>
+
+
+
       </nav>
       <div class="card bg-transparent">
         <ul class="post">

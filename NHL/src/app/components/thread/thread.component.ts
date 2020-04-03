@@ -39,25 +39,8 @@ export class ThreadComponent implements OnInit, OnChanges {
       this.author = data;
       console.log(data);
     });
+
+    this.calcRating();
   }
-
-
-  // getPost(postId) {
-  //   this.postsService
-  //   .getPost(postId)
-  //   .subscribe((data) => {
-  //     this.post = data;
-  //     this.calcRating();
-  //   });
-  // }
-
-  // uncomment after jath updates
-
-  // getUser(userId) {
-  //   this.userService.getUser(userId)
-  //     .subscribe(data => {
-  //       // this.user = data;
-  //   });
-  // }
 
 }
