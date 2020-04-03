@@ -1,5 +1,6 @@
 package com.nhl.nhlweb;
 
+import com.nhl.model.ForumPostGRPCModel;
 import com.nhl.model.NotificationsGRPCModel;
 import com.nhl.nhlproto.Forum;
 import com.nhl.view.*;
@@ -30,7 +31,13 @@ public class NotificationController {
         ArrayList<Forum> forumPair = ForumController.readAllForumsFromList(subscriptions);
         ForumListView listView = new ForumListView();
         listView.setForumList(forumPair);
-        return new MessageView(false, null, false, null, listView);
+        // get posts in forums
+        ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
+        PostListView ret = new PostListView();
+        for(ForumView f: listView.getForumList()) {
+            ret.setPostList(fpGrpc.getPostList(f.id));
+        }
+        return new MessageView(false, null, false, null, ret);
     }
 
     @CrossOrigin(origins = corsEnabled)
