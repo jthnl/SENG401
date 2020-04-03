@@ -114,7 +114,7 @@ impl GrpcQueryService {
         GrpcQueryService { query }
     }
 
-    fn get_populated_comments_on(&self, parent_id: Uuid) -> Vec<grpc_comments::Comment> {
+    fn get_populated_comments_on(&self, parent_id: Uuid, nested: bool) -> Vec<grpc_comments::Comment> {
         let comments = self.query.get_comments_on(&parent_id);
 
         let grpc_comments = comments.into_iter().map(|c| grpc_comments::Comment {
@@ -125,7 +125,8 @@ impl GrpcQueryService {
             timestamp: c.timestamp.to_string(),
             upvotes: c.upvotes,
             downvotes: c.downvotes,
-            nested: self.get_populated_comments_on(c.id),
+            is_nested: nested,
+            nested: self.get_populated_comments_on(c.id, true),
         }).collect::<Vec<_>>();
 
         grpc_comments
@@ -143,7 +144,7 @@ impl grpc_comments::query_service_server::QueryService for GrpcQueryService {
         let parent_id = Uuid::parse_str(&request.get_ref().parent_id)
             .map_err(|_| Status::invalid_argument("parent_id is invalid"))?;
 
-        let comments = self.get_populated_comments_on(parent_id);
+        let comments = self.get_populated_comments_on(parent_id, false);
         let response = grpc_comments::GetCommentsOnResponse { comments };
         Ok(Response::new(response))
     }
