@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package forum;
+
+option java_package = "com.nhl.nhlproto";
+option java_multiple_files = true;
+option go_package = "forumpb";
+
+message Forum {
+    string id = 1;
+    string author_id = 2;
+    string title = 3;
+    string content = 4;
+}
+
+message CreateForumReq {
+    Forum forum = 1;
+}
+
+message CreateForumRes {
+    Forum forum = 1;
+}
+
+message ReadForumReq {
+    string id = 1;
+}
+
+message ReadForumRes {
+    Forum forum = 1;
+}
+
+message UpdateForumReq{
+    Forum forum = 1;
+}
+
+message UpdateForumRes{
+    Forum forum = 1;
+}
+
+message DeleteForumReq {
+    string id = 1;
+}
+
+message DeleteForumRes {
+    bool success = 1;
+}
+
+message ListForumReq {}
+
+message ListForumRes {
+    Forum forum = 1;
+}
+
+service ForumService {
+    rpc CreateForum(CreateForumReq) returns (CreateForumRes);
+    rpc ReadForum(ReadForumReq) returns (ReadForumRes);
+    rpc UpdateForum(UpdateForumReq) returns (UpdateForumRes);
+    rpc DeleteForum(DeleteForumReq) returns (DeleteForumRes);
+    rpc ListForums(ListForumReq) returns (stream ListForumRes);
+}

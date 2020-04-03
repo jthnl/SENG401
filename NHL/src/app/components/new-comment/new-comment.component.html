@@ -1,0 +1,15 @@
+<div class="post-card box-shadow">
+    <div class="form-group">
+        <h6>Add your thoughts!</h6>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="content"></textarea>
+    </div>
+    <div class="text-center">
+        <button
+          class="btn btn-outline-primary my-2 my-sm-0"
+          (click)="submit()"
+          type="submit"
+        >
+          Comment
+        </button>
+      </div>
+</div>

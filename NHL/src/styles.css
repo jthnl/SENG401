@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+    font-family: 'futura';
+    height: 100%; 
+}
+
+body { 
+    margin: 0; 
+    font-family: Arial, Helvetica, sans-serif; 
+    background-color: rgb(233, 236, 239);
+}
+
+.box-shadow {
+    -webkit-box-shadow: 2px 2px 4px -2px rgba(0,0,0,0.83);
+    -moz-box-shadow: 2px 2px 4px -2px rgba(0,0,0,0.83);
+    box-shadow: 2px 2px 4px -2px rgba(0,0,0,0.83);
+}
+
+.mat-progress-bar-fill::after {
+    background-image: linear-gradient(to right, red , yellow);
+
+    /* background-color: blue !important; */
+}
+
+.post-card {
+    width: 100%;
+    background-color: white;
+    padding: 5px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+}

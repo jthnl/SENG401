@@ -1,0 +1,105 @@
+<nav class="container-fluid bg-white py-2">
+  <div class="row">
+    <div class="col-2">
+      <img
+        class="logo"
+        routerLink=""
+        src="../../../assets/nhl.png"
+      />
+    </div>
+    <div class="col-6">
+      <div class="container">
+        <input
+          class="form-control"
+          type="search"
+          (keyup.enter)="search()"
+          placeholder="Search"
+          [(ngModel)]="searchQuery"
+          aria-label="Search"
+        />
+      </div>
+    </div>
+    <div class="col-1">
+      <button
+        class="btn btn-outline-primary my-2 my-sm-0"
+        routerLink="/create"
+        type="submit"
+      >
+        Post
+      </button>
+    </div>
+    <div class="col-2">
+      <!-- <ul>
+        <li *ngFor="let notification of notifications"> {{ notification.time }} </li>
+      </ul> -->
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        ></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <button
+                  class="notification btn btn-outline-danger my-2 my-sm-0"
+                >
+                  <span>{{ notification_count }}</span>
+                </button>
+              </a>
+              <div
+                class="dropdown-menu scrollable-menu"
+                aria-labelledby="navbarDropdown"
+              >
+                <a
+                  *ngFor="let notification of notifications"
+                  [routerLink]="['/post', notification.post_id]"
+                  class="dropdown-item"
+                  >{{ notification.message }}</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          class="btn btn-sm btn-outline-primary my-2 my-sm-0"
+          routerLink="/profile"
+          type="submit"
+        >
+          Profile
+        </button>
+
+        <button
+          class="btn btn-sm btn-outline-primary my-2 ml-2 my-sm-0"
+          (click)="logout()"
+          type="submit"> Logout
+        </button>
+
+        
+<!-- 
+        <img class="logo-small" 
+        routerLink="/profile"
+        src="../../../assets/user.png">
+
+  <img class="logo-small" 
+  src="../../../assets/logout.png"
+            (click)="logout()"> -->
+      </nav>
+    </div>
+  </div>
+</nav>

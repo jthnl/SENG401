@@ -1,0 +1,30 @@
+<div *ngIf="post && author" class="post-card box-shadow">
+    <div class="row">
+        <div class="col-3">
+            <table class="post-table text-center">
+                <tr>
+                    <td rowspan="3"><img class="logo" src="../../../assets/teamlogo/{{ post.imgURL }}"></td>
+                    <td class="font-weight-bold">{{post.forumName}}</td>
+                </tr>
+                <tr>
+                    <td class="small font-weight-light">{{author.firstName}}</td>
+                </tr>
+                <tr>
+                    <td class="small font-weight-light">{{author.lastName}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="small font-weight-light">Posted: {{post.timestamp}}</td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+        </div>
+        <div class="col-9">
+            <mat-progress-bar mode="qudeterminateery" color="" value="{{rating}}"></mat-progress-bar>
+            <h4 class="post-title">{{ post.title }}</h4>
+            <p class="post-description"> {{ post.content }} </p>
+        </div>
+    </div>
+</div>
+
+

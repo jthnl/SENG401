@@ -1,0 +1,45 @@
+
+.logo {
+    padding: 5px;
+    width: 80px;
+}
+
+.post-card {
+    width: 100%;
+    background-color: white;
+    padding: 5px;
+    margin: 10px 0;
+    border: none;
+}
+
+.comment {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* table, td, tr {
+    border: 1px solid black;
+} */
+
+.post-table {
+    width: 100%;
+}
+
+.post-title {
+    font-family: 'futura';
+    padding: 10px 0;
+}
+
+.post-content {
+    color: black;
+    font-size: 18px;
+}
+
+.thumb {
+    width: 24px;
+}
+
+.thumb:hover {
+    cursor: pointer;
+}

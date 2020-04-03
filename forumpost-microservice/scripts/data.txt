@@ -1,0 +1,31 @@
+5e77b57de3d58bd5c347a3e2,001,Anaheim Ducks,team forum
+5e77b57de3d58bd5c347a3e3,001,Arizona Coyote,team forum
+5e77b57de3d58bd5c347a3e4,001,Boston Bruins,team forum
+5e77b57de3d58bd5c347a3e5,001,Buffalo Sabres,team forum
+5e77b57de3d58bd5c347a3e6,001,Calgary Flames,team forum
+5e77b57de3d58bd5c347a3e7,001,Carolina Hurricanes,team forum
+5e77b57de3d58bd5c347a3e8,001,Chicago Blackhawks,team forum
+5e77b57de3d58bd5c347a3e9,001,Colorado Avalanche,team forum
+5e77b57de3d58bd5c347a3ea,001,Columbus Blue Jackets,team forum
+5e77b57de3d58bd5c347a3eb,001,Dallas Stars,team forum
+5e77b57de3d58bd5c347a3ec,001,Detroit Red Wings,team forum
+5e77b57de3d58bd5c347a3ed,001,Edmonton Oilers,team forum
+5e77b57de3d58bd5c347a3ee,001,Florida Panthers,team forum
+5e77b57de3d58bd5c347a3f0,001,Los Angeles Kings,team forum
+5e77b57de3d58bd5c347a3f1,001,Minnesota Wild,team forum
+5e77b57de3d58bd5c347a3f2,001,Montreal Canadiens,team forum
+5e77b57de3d58bd5c347a3f3,001,Nashville Predators,team forum
+5e77b57de3d58bd5c347a3f4,001,New Jersey Devils,team forum
+5e77b57de3d58bd5c347a3f5,001,New York Islanders,team forum
+5e77b57de3d58bd5c347a3f6,001,New York Rangers,team forum
+5e77b57de3d58bd5c347a3f7,001,Ottawa Senators,team forum
+5e77b57de3d58bd5c347a3f8,001,Philadelphia Flyers,team forum
+5e77b57de3d58bd5c347a3f9,001,Pittsburgh Penguins,team forum
+5e77b57de3d58bd5c347a3fa,001,San Jose Sharks,team forum
+5e77b57de3d58bd5c347a3fb,001,St. Louis Blues,team forum
+5e77b57de3d58bd5c347a3fc,001,Tampa Bay Lightning,team forum
+5e77b57de3d58bd5c347a3fd,001,Toronto Maple Leafs,team forum
+5e77b57de3d58bd5c347a3fe,001,Vancouver Canucks,team forum
+5e77b57de3d58bd5c347a3ff,001,Vegas Golden Knights,team forum
+5e77b57de3d58bd5c347a401,001,Washington Capitals,team forum
+5e77b57de3d58bd5c347a402,001,Winnipeg Jets,team forum

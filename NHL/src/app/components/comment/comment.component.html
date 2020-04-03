@@ -1,0 +1,58 @@
+<div class="post-card box-shadow" id="comment-wrapper" [style.margin-left.px]="comment.indentation*20">
+
+    <div class="container-fluid">
+        <p class="comment-content"> {{ comment.content }} </p>
+    </div>
+    <hr>
+    <div class="row mt-2">
+        <div class="col-2">
+            <div class="container">
+                <h6><img class="thumb" src="../../../assets/like.png" (click)="like()"> {{ comment.upvotes }}</h6>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="container">
+                <h6><img class="thumb" src="../../../assets/dislike.png" (click)="dislike()"> {{ comment.downvotes }}</h6>
+            </div>
+        </div>
+        <div class="col-5">
+            <!-- <div *ngIf="author">
+                replying too 
+
+                {{author.firstName}}
+            </div> -->
+        </div>
+        <div class="col-3">
+            <div class="container">
+                <button
+                    class="btn btn-sm btn-outline-primary"
+                    (click)="addingComment=true"
+                    type="submit"> Reply
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+  
+</div>
+
+  <!-- <ng-container *ngIf="addingComment">
+      <app-reply [postId]="postId" (emitter)="addComment($event)"></app-reply>
+ </ng-container> -->
+  <!-- <ng-container *ngIf="addingComment">
+      <app-reply> </app-reply>
+ </ng-container> -->
+
+ <ng-container *ngIf="addingComment">
+    <app-new-comment [postId]="comment.id" (emitter)="addComment($event)"></app-new-comment>
+</ng-container>
+ 
+ 
+
+
+<div *ngIf="comments">
+    <li *ngFor="let comment of comments">
+        <app-comment [comment]=comment></app-comment>
+      </li>
+</div>

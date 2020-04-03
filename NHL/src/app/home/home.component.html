@@ -1,0 +1,152 @@
+<app-navbar (emitter)="searchPosts($event)"></app-navbar>
+
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="mt-5">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 1 }"
+            (click)="getPosts(1)"
+          >
+            <img class="logo" src="../../assets/lots.png" />All 
+          </li>
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 2 }"
+            (click)="getPosts(2)"
+          >
+            <img class="logo" src="../../assets/heart.png" />Subscribed
+          </li>
+          <li
+            class="list-group-item"
+            [ngClass]="{ selected: status == 3 }"
+            (click)="getPosts(3)"
+          >
+            <img class="logo" src="../../assets/teams.png" />Teams
+          </li>
+
+
+
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <span class="navbar-brand">Forum</span>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="ml-auto" *ngIf="status == 3">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+          <ul class="navbar-nav ">
+            <li *ngIf="selected_team">
+              <button
+              class="btn btn-outline-primary my-2 my-sm-0"
+              (click)="subscription()"
+              type="submit"
+              >
+              <div *ngIf="isSubscribed; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock>Unsubscribe</ng-template>
+              <ng-template #elseBlock>Subscribe</ng-template>
+            </button>
+            </li>
+            <li class="nav-item">
+              <span class="nav-text">Team</span>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                
+                <span *ngIf="selected_team; else elseBlock">
+                  {{ selected_team.name }}
+                </span>
+                <ng-template #elseBlock>Select</ng-template>
+              </a>
+              <div
+                class="dropdown-menu scrollable-menu"
+                aria-labelledby="navbarDropdown"
+              >
+                <a
+                  *ngFor="let team of teams"
+                  (click)="changeTeam(team)"
+                  class="dropdown-item"
+                  >{{ team.name }}</a
+                >
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+
+
+
+      </nav>
+      <div class="card bg-transparent">
+        <ul class="post">
+          <li *ngFor="let post of posts | slice: 0:5" >
+            <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
+          </li>
+          <ng-container *ngIf="showMore">
+            <ng-container *ngFor="let post of posts; let i = index">
+              <li *ngIf="i >= 5">
+                <app-thread [post]="post" [routerLink]="['/post', post.id]"></app-thread>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </div>
+      <ng-container *ngIf="!showMore && posts && posts.length > 5">
+        <div class="text-center">
+          <button
+            class="btn btn-outline-primary my-2 my-sm-0"
+            (click)="showMore = true"
+            type="submit"
+          >
+            Show more
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-sm-3">
+
+      <div class="custom-padding-1">
+        <span class="custom-text-1 ">Coming soon</span>
+      </div>
+      <div class="card bg-transparent">
+        <ul class="post">
+          <li *ngFor="let game of upcomingGames | slice: 0:5">
+            <app-coming-soon [game]="game"></app-coming-soon>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+

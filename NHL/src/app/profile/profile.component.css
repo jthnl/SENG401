@@ -1,0 +1,60 @@
+/* body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+} */
+
+
+.user-profile{
+    padding: 2%;
+    margin-top: 10%;
+    margin-bottom: 2%;
+    border-radius: 0.5rem;
+    background: white;
+}
+
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
+.profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+}
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.profile-head h5{
+    color: #333;
+    font-size: 32px;
+}
+.profile-head h6{
+    color: #777777;
+    font-size: 22px;
+}
+.profile-edit-btn{
+    display: block;
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    margin: auto;
+    margin-top: 22px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    background-color: #888888;
+}
+.profile-info label{
+    font-weight: 600;
+}
