@@ -11,10 +11,9 @@ import java.util.ArrayList;
 
 @RestController
 
+@CrossOrigin(origins = "*")
 public class NotificationController {
-    private final String corsEnabled = "http://localhost:4200";
 
-    @CrossOrigin(origins = corsEnabled) //allows the application in the url to access this function
     @GetMapping(value="/getNotifications")
     public MessageView getNotifications(@RequestParam(value = "uid", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
@@ -35,7 +34,6 @@ public class NotificationController {
 //        }
 //    }
 
-    @CrossOrigin(origins = corsEnabled) //allows the application in the url to access this function
     @GetMapping(value="/getSubscriptions")
     public MessageView getSubscriptions(@RequestParam(value="uid", defaultValue = "all", required = true) String user_id){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
@@ -52,7 +50,6 @@ public class NotificationController {
         return new MessageView(false, null, false, null, ret);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/forum/isSubscribed")
     public MessageView isSubscribedToForum (@RequestParam(value = "uid", required = true) String user_id,
                                             @RequestParam(value = "fid", required = true) String forum_id){
@@ -62,7 +59,6 @@ public class NotificationController {
         return new MessageView(false, null, false, null, isv);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/subscribe")
     public MessageView subscribeToForum(@RequestBody SubscriptionView subscribeJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
@@ -71,7 +67,6 @@ public class NotificationController {
         return new MessageView(false, null, false, null, nrv);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/forum/unsubscribe")
     public MessageView unsubscribeToForum(@RequestBody SubscriptionView unsubscribeJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
@@ -80,7 +75,6 @@ public class NotificationController {
         return new MessageView(false, null, false, null, nrv);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/notification/toSeen")
     public MessageView changeNotificationToSeen(@RequestBody NotificationView seenNotificationJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();
@@ -92,7 +86,6 @@ public class NotificationController {
         return new MessageView(false, null, false, null, nrv);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/addNotifications")
     public MessageView addNotificationForNewPost(@RequestBody PostView postJSON){
         NotificationsGRPCModel model = new NotificationsGRPCModel();

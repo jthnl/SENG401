@@ -10,10 +10,9 @@ import com.nhl.view.PostView;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class PostController {
-    private final String corsEnabled = "http://localhost:4200";
 
-    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post")
     public MessageView getPosts(@RequestParam(value = "s", defaultValue = "all", required = false) String selectId){
         if(selectId == null){
@@ -25,7 +24,6 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post/getOne")
     public MessageView getOnePost(@RequestParam(value = "p", required = true) String selectId){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -33,7 +31,6 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/create")
     public MessageView createPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -42,7 +39,6 @@ public class PostController {
         return new MessageView(false, null, false, null, ret);
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/modify")
     public MessageView modifyPost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -56,7 +52,6 @@ public class PostController {
         }
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/delete")
     public MessageView deletePost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -73,7 +68,6 @@ public class PostController {
         }
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/upvote")
     public MessageView upvotePost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -87,7 +81,6 @@ public class PostController {
         }
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @PostMapping(value="/post/downvote")
     public MessageView downvotePost(@RequestBody PostView postJSON){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
@@ -101,7 +94,6 @@ public class PostController {
         }
     }
 
-    @CrossOrigin(origins = corsEnabled)
     @GetMapping(value="/post/search")
     public MessageView searchPost(@RequestParam(value = "s", required = true) String selectId){
         ForumPostGRPCModel fpGrpc = new ForumPostGRPCModel();
